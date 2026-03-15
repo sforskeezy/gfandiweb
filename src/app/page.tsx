@@ -1,65 +1,48 @@
-import Image from "next/image";
+import Navbar from "@/components/Navbar";
+import HeroSection from "@/components/HeroSection";
+import ScrollText from "@/components/ScrollText";
+import HowWeWork from "@/components/HowWeWork";
+import PricingSection from "@/components/PricingSection";
+import ContactSection from "@/components/ContactSection";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="relative min-h-screen">
+      {/* Global background color washes */}
+      <div className="pointer-events-none fixed inset-0 z-0">
+        {/* Soft sage wash — top area */}
+        <div className="absolute top-0 left-0 h-[60%] w-[50%] rounded-full" style={{ background: "#9AAF8C", filter: "blur(180px)", opacity: 0.06 }} />
+        {/* Warm peach — mid right */}
+        <div className="absolute top-[40%] right-0 h-[40%] w-[45%] rounded-full" style={{ background: "#E8A782", filter: "blur(160px)", opacity: 0.05 }} />
+        {/* Blue slate — lower area */}
+        <div className="absolute bottom-[10%] left-[20%] h-[35%] w-[40%] rounded-full" style={{ background: "#96AAC8", filter: "blur(160px)", opacity: 0.05 }} />
+        {/* Warm glow at very bottom */}
+        <div className="absolute bottom-0 left-0 right-0 h-[30%] bg-[radial-gradient(ellipse_80%_50%_at_50%_100%,rgba(123,140,111,0.08),transparent_70%)]" />
+      </div>
+
+      <div className="relative z-10">
+        <Navbar />
+        <HeroSection />
+        <ScrollText />
+        <HowWeWork />
+
+        {/* Color wash between How We Work and Pricing */}
+        <div className="pointer-events-none relative h-0">
+          <div className="absolute -top-40 left-[10%] h-[300px] w-[300px] rounded-full sm:h-[400px] sm:w-[400px]" style={{ background: "#E8A782", filter: "blur(120px)", opacity: 0.08 }} />
+          <div className="absolute -top-20 right-[5%] h-[250px] w-[250px] rounded-full sm:h-[350px] sm:w-[350px]" style={{ background: "#9AAF8C", filter: "blur(110px)", opacity: 0.07 }} />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <PricingSection />
+
+        {/* Color wash between Pricing and CTA */}
+        <div className="pointer-events-none relative h-0">
+          <div className="absolute -top-32 left-[30%] h-[300px] w-[350px] rounded-full" style={{ background: "#96AAC8", filter: "blur(120px)", opacity: 0.06 }} />
         </div>
-      </main>
+
+        <ContactSection />
+        <Footer />
+      </div>
     </div>
   );
 }
