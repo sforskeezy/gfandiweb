@@ -18,7 +18,7 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const { id, path, referrer, ua, sw, sh, sid } = body;
+    const { id, path, referrer, ua, sw, sh, sid, us, um, uc, ut, uco } = body;
 
     if (!id || !path) {
       return NextResponse.json(
@@ -35,6 +35,11 @@ export async function POST(req: Request) {
       screenWidth: sw ? Number(sw) : undefined,
       screenHeight: sh ? Number(sh) : undefined,
       sessionId: sid || undefined,
+      utmSource: us || undefined,
+      utmMedium: um || undefined,
+      utmCampaign: uc || undefined,
+      utmTerm: ut || undefined,
+      utmContent: uco || undefined,
     });
 
     return NextResponse.json({ ok: true }, { headers: corsHeaders });

@@ -10,6 +10,11 @@ export const recordPageView = mutation({
     screenWidth: v.optional(v.number()),
     screenHeight: v.optional(v.number()),
     sessionId: v.optional(v.string()),
+    utmSource: v.optional(v.string()),
+    utmMedium: v.optional(v.string()),
+    utmCampaign: v.optional(v.string()),
+    utmTerm: v.optional(v.string()),
+    utmContent: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const website = await ctx.db
@@ -29,6 +34,11 @@ export const recordPageView = mutation({
       screenHeight: args.screenHeight,
       timestamp: Date.now(),
       sessionId: args.sessionId,
+      utmSource: args.utmSource,
+      utmMedium: args.utmMedium,
+      utmCampaign: args.utmCampaign,
+      utmTerm: args.utmTerm,
+      utmContent: args.utmContent,
     });
 
     return { success: true };

@@ -37,8 +37,23 @@ export default defineSchema({
     screenHeight: v.optional(v.number()),
     timestamp: v.number(),
     sessionId: v.optional(v.string()),
+    utmSource: v.optional(v.string()),
+    utmMedium: v.optional(v.string()),
+    utmCampaign: v.optional(v.string()),
+    utmTerm: v.optional(v.string()),
+    utmContent: v.optional(v.string()),
   })
     .index("by_websiteId", ["websiteId"])
     .index("by_trackingId", ["trackingId"])
     .index("by_timestamp", ["websiteId", "timestamp"]),
+
+  adAccounts: defineTable({
+    websiteId: v.id("websites"),
+    platform: v.string(),
+    accountName: v.string(),
+    accountId: v.string(),
+    isActive: v.boolean(),
+    createdAt: v.number(),
+  })
+    .index("by_websiteId", ["websiteId"]),
 });

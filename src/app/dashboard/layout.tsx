@@ -2,7 +2,7 @@
 
 import { useState, useEffect, createContext, useContext, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { LogOut, LayoutDashboard, Shield, ChevronRight } from "lucide-react";
+import { LogOut, LayoutDashboard, Shield, ChevronRight, Megaphone, Settings } from "lucide-react";
 
 type User = {
   id: string;
@@ -54,6 +54,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   };
 
   const isOnDashboard = pathname === "/dashboard";
+  const isOnAds = pathname === "/dashboard/ads";
+  const isOnSettings = pathname === "/dashboard/settings";
 
   if (loading) {
     return (
@@ -107,6 +109,28 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               >
                 <LayoutDashboard className="h-3.5 w-3.5" />
                 Dashboard
+              </a>
+              <a
+                href="/dashboard/ads"
+                className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-[0.8rem] font-medium transition-colors"
+                style={{
+                  backgroundColor: isOnAds ? "rgba(92,122,138,0.08)" : "transparent",
+                  color: isOnAds ? "#4a6a7a" : "#999",
+                }}
+              >
+                <Megaphone className="h-3.5 w-3.5" />
+                Ads
+              </a>
+              <a
+                href="/dashboard/settings"
+                className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-[0.8rem] font-medium transition-colors"
+                style={{
+                  backgroundColor: isOnSettings ? "rgba(139,115,85,0.08)" : "transparent",
+                  color: isOnSettings ? "#7a6448" : "#999",
+                }}
+              >
+                <Settings className="h-3.5 w-3.5" />
+                Settings
               </a>
               {user?.isAdmin && (
                 <a
