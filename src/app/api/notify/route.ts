@@ -47,8 +47,12 @@ export async function POST(req: NextRequest) {
         ? `New Booking Request from ${fullName}`
         : `New Application from ${fullName}`,
       html: `
+        <style>@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&display=swap');</style>
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px;">
-          <div style="border: 2px solid #7B8C6F; border-radius: 16px; overflow: hidden;">
+          <div style="margin-bottom: 20px;">
+            <h1 style="margin: 0; font-size: 24px; font-weight: 600; color: #1A1A1A; letter-spacing: -0.03em;">6POINT <span style="font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-weight: 600;">Solutions</span></h1>
+          </div>
+          <div style="border: 5px solid #7B8C6F; border-radius: 16px; overflow: hidden;">
             <div style="background: #1A1A1A; padding: 32px; color: white;">
               <h1 style="margin: 0; font-size: 20px; font-weight: 600;">
                 ${isBooking ? "📞 New Booking Request" : "📋 New Application"}
@@ -106,10 +110,11 @@ export async function POST(req: NextRequest) {
         ? "Your call is booked — 6POINT Solutions"
         : "We got your application — 6POINT Solutions",
       html: `
+        <style>@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&display=swap');</style>
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px;">
-          <div style="border: 2px solid #7B8C6F; border-radius: 16px; padding: 32px;">
+          <div style="border: 5px solid #7B8C6F; border-radius: 16px; padding: 32px;">
             <div style="margin-bottom: 24px;">
-              <h1 style="margin: 0; font-size: 28px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.02em;">6POINT</h1>
+              <h1 style="margin: 0; font-size: 28px; font-weight: 600; color: #1A1A1A; letter-spacing: -0.03em;">6POINT <span style="font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-weight: 600;">Solutions</span></h1>
             </div>
 
             <h2 style="margin: 0 0 8px; font-size: 22px; font-weight: 600; color: #1A1A1A;">

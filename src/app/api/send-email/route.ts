@@ -29,10 +29,11 @@ export async function POST(req: NextRequest) {
       to,
       subject,
       html: `
+        <style>@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&display=swap');</style>
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px;">
-          <div style="border: 2px solid #7B8C6F; border-radius: 16px; padding: 32px;">
+          <div style="border: 5px solid #7B8C6F; border-radius: 16px; padding: 32px;">
             <div style="margin-bottom: 24px;">
-              <h1 style="margin: 0; font-size: 28px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.02em;">6POINT</h1>
+              <h1 style="margin: 0; font-size: 28px; font-weight: 600; color: #1A1A1A; letter-spacing: -0.03em;">6POINT <span style="font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-weight: 600;">Solutions</span></h1>
             </div>
 
             ${firstName ? `<p style="margin: 0 0 16px; font-size: 15px; color: #1A1A1A;">Hey ${firstName},</p>` : ""}
