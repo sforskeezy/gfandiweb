@@ -5,7 +5,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
 import { useAdminSession } from "./layout";
-import { UserPlus, Globe, Trash2, Eye, Users, Settings, ExternalLink } from "lucide-react";
+import { UserPlus, Globe, Trash2, Eye } from "lucide-react";
 
 export default function AdminPage() {
   const { token } = useAdminSession();
@@ -70,116 +70,55 @@ export default function AdminPage() {
   };
 
   const inputClass =
-    "w-full rounded-2xl border-2 border-[#EEECEA] bg-[#FAF9F7] px-5 py-3.5 text-[0.85rem] font-medium text-[#1A1A1A] outline-none transition-all placeholder:font-normal placeholder:text-[#D0D0D0] focus:border-[#7B8C6F] focus:bg-white focus:shadow-[0_0_0_4px_rgba(123,140,111,0.06)]";
+    "w-full rounded-xl border border-[#E5E5E5] bg-white px-4 py-3 text-[0.85rem] text-[#111] outline-none transition-colors placeholder:text-[#CCC] focus:border-[#111]";
 
   return (
     <div>
-      {/* Header */}
-      <div className="mb-10">
-        <div className="mb-4 flex items-center gap-2">
-          <div className="h-2 w-2 rounded-full bg-[#7B8C6F]" />
-          <p className="text-[0.72rem] font-bold uppercase tracking-[0.12em] text-[#B0ADA8]">
-            Administration
-          </p>
-        </div>
-        <h1 className="text-[clamp(1.6rem,3.5vw,2.2rem)] font-bold tracking-[-0.04em] text-[#1A1A1A]">
+      <div className="mb-8">
+        <h1 className="text-[1.75rem] font-semibold tracking-[-0.03em] text-[#111]">
           Admin Panel
         </h1>
-        <p className="mt-2 text-[0.88rem] text-[#A5A29D]">
-          Manage users and websites from one place.
+        <p className="mt-1 text-[0.88rem] text-[#999]">
+          Manage users and websites.
         </p>
       </div>
 
-      {/* Quick stats */}
-      <div className="mb-8 flex gap-4">
-        <div
-          className="flex items-center gap-3 rounded-2xl bg-white px-5 py-3.5"
-          style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 1px 4px rgba(0,0,0,0.03)" }}
-        >
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(123,140,111,0.08)" }}>
-            <Users className="h-4 w-4 text-[#7B8C6F]" />
-          </div>
-          <div>
-            <p className="text-[0.62rem] font-bold uppercase tracking-[0.08em] text-[#C5C2BC]">Users</p>
-            <p className="text-[1.1rem] font-bold text-[#1A1A1A]">{users?.length ?? 0}</p>
-          </div>
-        </div>
-        <div
-          className="flex items-center gap-3 rounded-2xl bg-white px-5 py-3.5"
-          style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 1px 4px rgba(0,0,0,0.03)" }}
-        >
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(92,122,138,0.08)" }}>
-            <Globe className="h-4 w-4 text-[#5C7A8A]" />
-          </div>
-          <div>
-            <p className="text-[0.62rem] font-bold uppercase tracking-[0.08em] text-[#C5C2BC]">Websites</p>
-            <p className="text-[1.1rem] font-bold text-[#1A1A1A]">{allWebsites?.length ?? 0}</p>
-          </div>
-        </div>
-      </div>
-
       {/* Forms */}
-      <div className="grid gap-6 lg:grid-cols-2">
-        {/* Create User */}
-        <div
-          className="overflow-hidden rounded-[24px] bg-white"
-          style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}
-        >
-          <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(0,0,0,0.04)" }}>
-            <div className="flex h-10 w-10 items-center justify-center rounded-[14px]" style={{ backgroundColor: "rgba(123,140,111,0.08)" }}>
-              <UserPlus className="h-[18px] w-[18px] text-[#7B8C6F]" />
-            </div>
-            <div>
-              <h2 className="text-[0.95rem] font-bold text-[#1A1A1A]">Create User</h2>
-              <p className="text-[0.7rem] text-[#B0ADA8]">Add a new client account</p>
-            </div>
+      <div className="grid gap-4 lg:grid-cols-2">
+        <div className="rounded-2xl border border-[#E5E5E5] bg-white">
+          <div className="border-b border-[#F0F0F0] px-6 py-4">
+            <h2 className="text-[0.88rem] font-semibold text-[#111]">Create User</h2>
+            <p className="text-[0.72rem] text-[#999]">Add a new client account</p>
           </div>
-
           <div className="p-6">
             {userMsg && (
-              <div className="mb-5 rounded-2xl px-4 py-3 text-[0.8rem] font-semibold" style={{ backgroundColor: "rgba(123,140,111,0.06)", color: "#5a6d50" }}>
+              <div className="mb-4 rounded-xl border border-green-100 bg-green-50 px-4 py-2.5 text-[0.8rem] font-medium text-green-700">
                 {userMsg}
               </div>
             )}
-
-            <form onSubmit={handleCreateUser} className="space-y-4">
+            <form onSubmit={handleCreateUser} className="space-y-3">
               <input className={inputClass} placeholder="Display Name" value={newUser.name} onChange={(e) => setNewUser({ ...newUser, name: e.target.value })} required />
               <input className={inputClass} placeholder="Username" value={newUser.username} onChange={(e) => setNewUser({ ...newUser, username: e.target.value })} required />
               <input className={inputClass} type="password" placeholder="Password" value={newUser.password} onChange={(e) => setNewUser({ ...newUser, password: e.target.value })} required />
-              <button
-                type="submit"
-                className="w-full rounded-2xl py-3.5 text-[0.85rem] font-semibold text-white transition-all hover:brightness-105 active:scale-[0.98]"
-                style={{ background: "linear-gradient(135deg, #7B8C6F, #6A7A5F)", boxShadow: "0 4px 14px rgba(123,140,111,0.25)" }}
-              >
+              <button type="submit" className="w-full rounded-xl bg-[#111] py-3 text-[0.85rem] font-medium text-white transition-opacity hover:opacity-90">
                 Create User
               </button>
             </form>
           </div>
         </div>
 
-        {/* Add Website */}
-        <div
-          className="overflow-hidden rounded-[24px] bg-white"
-          style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}
-        >
-          <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(0,0,0,0.04)" }}>
-            <div className="flex h-10 w-10 items-center justify-center rounded-[14px]" style={{ backgroundColor: "rgba(92,122,138,0.08)" }}>
-              <Globe className="h-[18px] w-[18px] text-[#5C7A8A]" />
-            </div>
-            <div>
-              <h2 className="text-[0.95rem] font-bold text-[#1A1A1A]">Add Website</h2>
-              <p className="text-[0.7rem] text-[#B0ADA8]">Assign a website to a client</p>
-            </div>
+        <div className="rounded-2xl border border-[#E5E5E5] bg-white">
+          <div className="border-b border-[#F0F0F0] px-6 py-4">
+            <h2 className="text-[0.88rem] font-semibold text-[#111]">Add Website</h2>
+            <p className="text-[0.72rem] text-[#999]">Assign a website to a client</p>
           </div>
-
           <div className="p-6">
             {siteMsg && (
-              <div className="mb-5 rounded-2xl px-4 py-3 text-[0.8rem] font-semibold" style={{ backgroundColor: "rgba(92,122,138,0.06)", color: "#4a6a7a" }}>
+              <div className="mb-4 rounded-xl border border-blue-100 bg-blue-50 px-4 py-2.5 text-[0.8rem] font-medium text-blue-700">
                 {siteMsg}
               </div>
             )}
-
-            <form onSubmit={handleAddWebsite} className="space-y-4">
+            <form onSubmit={handleAddWebsite} className="space-y-3">
               <select className={inputClass} value={newSite.userId} onChange={(e) => setNewSite({ ...newSite, userId: e.target.value })} required>
                 <option value="">Select a user</option>
                 {users?.filter((u) => !u.isAdmin).map((u) => (
@@ -188,11 +127,7 @@ export default function AdminPage() {
               </select>
               <input className={inputClass} placeholder="Website Name" value={newSite.name} onChange={(e) => setNewSite({ ...newSite, name: e.target.value })} required />
               <input className={inputClass} placeholder="Website URL (https://...)" value={newSite.url} onChange={(e) => setNewSite({ ...newSite, url: e.target.value })} required />
-              <button
-                type="submit"
-                className="w-full rounded-2xl py-3.5 text-[0.85rem] font-semibold text-white transition-all hover:brightness-105 active:scale-[0.98]"
-                style={{ background: "linear-gradient(135deg, #5C7A8A, #4a6878)", boxShadow: "0 4px 14px rgba(92,122,138,0.25)" }}
-              >
+              <button type="submit" className="w-full rounded-xl bg-[#111] py-3 text-[0.85rem] font-medium text-white transition-opacity hover:opacity-90">
                 Add Website
               </button>
             </form>
@@ -200,125 +135,76 @@ export default function AdminPage() {
         </div>
       </div>
 
-      {/* Users list */}
-      <div
-        className="mt-8 overflow-hidden rounded-[24px] bg-white"
-        style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}
-      >
-        <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(0,0,0,0.04)" }}>
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(123,140,111,0.08)" }}>
-            <Users className="h-4 w-4 text-[#7B8C6F]" />
-          </div>
-          <h2 className="text-[0.9rem] font-bold text-[#1A1A1A]">All Users</h2>
-          <span className="ml-auto rounded-lg px-2.5 py-1 text-[0.68rem] font-bold text-[#B0ADA8]" style={{ backgroundColor: "#F4F1EC" }}>
-            {users?.length ?? 0}
-          </span>
+      {/* Users */}
+      <div className="mt-6 rounded-2xl border border-[#E5E5E5] bg-white">
+        <div className="flex items-center justify-between border-b border-[#F0F0F0] px-6 py-4">
+          <h2 className="text-[0.88rem] font-semibold text-[#111]">All Users</h2>
+          <span className="text-[0.75rem] text-[#999]">{users?.length ?? 0}</span>
         </div>
-        <div className="p-3">
+        <div className="divide-y divide-[#F5F5F5]">
           {users && users.length > 0 ? (
-            <div className="space-y-1">
-              {users.map((u) => (
-                <div
-                  key={u._id}
-                  className="flex items-center justify-between rounded-2xl px-5 py-4 transition-colors hover:bg-[#FAF9F7]"
-                >
-                  <div className="flex items-center gap-3">
-                    <div
-                      className="flex h-9 w-9 items-center justify-center rounded-full text-[0.65rem] font-bold text-white"
-                      style={{ background: u.isAdmin ? "linear-gradient(135deg, #9AAF8C, #7B8C6F)" : "linear-gradient(135deg, #B0ADA8, #999)" }}
-                    >
-                      {u.name.charAt(0).toUpperCase()}
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-[0.88rem] font-semibold text-[#1A1A1A]">{u.name}</span>
-                        {u.isAdmin && (
-                          <span className="rounded-md px-2 py-0.5 text-[0.6rem] font-bold uppercase tracking-[0.04em]" style={{ backgroundColor: "rgba(123,140,111,0.08)", color: "#7B8C6F" }}>
-                            Admin
-                          </span>
-                        )}
-                      </div>
-                      <span className="text-[0.75rem] text-[#B0ADA8]">@{u.username}</span>
-                    </div>
+            users.map((u) => (
+              <div key={u._id} className="flex items-center justify-between px-6 py-3.5">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[0.85rem] font-medium text-[#111]">{u.name}</span>
+                    <span className="text-[0.78rem] text-[#999]">@{u.username}</span>
+                    {u.isAdmin && (
+                      <span className="rounded bg-[#F0F0F0] px-1.5 py-0.5 text-[0.6rem] font-semibold uppercase text-[#666]">
+                        Admin
+                      </span>
+                    )}
                   </div>
-                  {!u.isAdmin && (
-                    <button
-                      onClick={() => handleDeleteUser(u._id as Id<"users">)}
-                      className="rounded-xl p-2.5 text-[#D0D0D0] transition-all hover:bg-red-50 hover:text-red-400"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  )}
                 </div>
-              ))}
-            </div>
+                {!u.isAdmin && (
+                  <button
+                    onClick={() => handleDeleteUser(u._id as Id<"users">)}
+                    className="p-1.5 text-[#CCC] transition-colors hover:text-red-500"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
+            ))
           ) : (
-            <p className="py-8 text-center text-[0.85rem] text-[#C5C2BC]">No users yet</p>
+            <p className="px-6 py-8 text-center text-[0.82rem] text-[#CCC]">No users yet</p>
           )}
         </div>
       </div>
 
-      {/* Websites list */}
-      <div
-        className="mt-6 overflow-hidden rounded-[24px] bg-white"
-        style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}
-      >
-        <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(0,0,0,0.04)" }}>
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(92,122,138,0.08)" }}>
-            <Globe className="h-4 w-4 text-[#5C7A8A]" />
-          </div>
-          <h2 className="text-[0.9rem] font-bold text-[#1A1A1A]">All Websites</h2>
-          <span className="ml-auto rounded-lg px-2.5 py-1 text-[0.68rem] font-bold text-[#B0ADA8]" style={{ backgroundColor: "#F4F1EC" }}>
-            {allWebsites?.length ?? 0}
-          </span>
+      {/* Websites */}
+      <div className="mt-4 rounded-2xl border border-[#E5E5E5] bg-white">
+        <div className="flex items-center justify-between border-b border-[#F0F0F0] px-6 py-4">
+          <h2 className="text-[0.88rem] font-semibold text-[#111]">All Websites</h2>
+          <span className="text-[0.75rem] text-[#999]">{allWebsites?.length ?? 0}</span>
         </div>
-        <div className="p-3">
+        <div className="divide-y divide-[#F5F5F5]">
           {allWebsites && allWebsites.length > 0 ? (
-            <div className="space-y-1">
-              {allWebsites.map((w) => (
-                <div
-                  key={w._id}
-                  className="flex items-center justify-between rounded-2xl px-5 py-4 transition-colors hover:bg-[#FAF9F7]"
-                >
-                  <div className="flex items-center gap-3.5 min-w-0">
-                    <div
-                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[14px]"
-                      style={{ backgroundColor: "rgba(92,122,138,0.08)" }}
-                    >
-                      <Globe className="h-[18px] w-[18px] text-[#5C7A8A]" />
-                    </div>
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2">
-                        <span className="text-[0.88rem] font-semibold text-[#1A1A1A]">{w.name}</span>
-                        <span className="rounded-md px-2 py-0.5 text-[0.62rem] font-semibold text-[#B0ADA8]" style={{ backgroundColor: "#F4F1EC" }}>
-                          {w.ownerName}
-                        </span>
-                      </div>
-                      <p className="truncate text-[0.75rem] text-[#B0ADA8]">{w.url}</p>
-                      <p className="font-mono text-[0.65rem] text-[#D0D0D0]">{w.trackingId}</p>
-                    </div>
+            allWebsites.map((w) => (
+              <div key={w._id} className="flex items-center justify-between px-6 py-3.5">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[0.85rem] font-medium text-[#111]">{w.name}</span>
+                    <span className="text-[0.72rem] text-[#999]">{w.ownerName}</span>
                   </div>
-                  <div className="ml-4 flex shrink-0 items-center gap-1">
-                    <a
-                      href={`/dashboard/site/${w._id}`}
-                      className="rounded-xl p-2.5 text-[#C5C2BC] transition-all hover:bg-[#F4F1EC] hover:text-[#7B8C6F]"
-                      title="View analytics"
-                    >
-                      <Eye className="h-4 w-4" />
-                    </a>
-                    <button
-                      onClick={() => handleDeleteWebsite(w._id as Id<"websites">)}
-                      className="rounded-xl p-2.5 text-[#D0D0D0] transition-all hover:bg-red-50 hover:text-red-400"
-                      title="Delete website"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </div>
+                  <p className="truncate text-[0.75rem] text-[#999]">{w.url}</p>
+                  <p className="font-mono text-[0.65rem] text-[#CCC]">{w.trackingId}</p>
                 </div>
-              ))}
-            </div>
+                <div className="ml-4 flex shrink-0 items-center gap-1">
+                  <a href={`/dashboard/site/${w._id}`} className="p-1.5 text-[#CCC] transition-colors hover:text-[#666]">
+                    <Eye className="h-4 w-4" />
+                  </a>
+                  <button
+                    onClick={() => handleDeleteWebsite(w._id as Id<"websites">)}
+                    className="p-1.5 text-[#CCC] transition-colors hover:text-red-500"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            ))
           ) : (
-            <p className="py-8 text-center text-[0.85rem] text-[#C5C2BC]">No websites yet</p>
+            <p className="px-6 py-8 text-center text-[0.82rem] text-[#CCC]">No websites yet</p>
           )}
         </div>
       </div>

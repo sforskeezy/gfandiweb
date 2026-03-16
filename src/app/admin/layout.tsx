@@ -2,7 +2,7 @@
 
 import { useState, useEffect, createContext, useContext, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { LogOut, LayoutDashboard, Shield, ChevronRight } from "lucide-react";
+import { LogOut, LayoutDashboard, Shield } from "lucide-react";
 
 type User = {
   id: string;
@@ -54,53 +54,31 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: "#F4F1EC", fontFamily: "var(--font-dm), sans-serif" }}>
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#E8E6E3] border-t-[#7B8C6F]" />
+      <div className="flex min-h-screen items-center justify-center bg-[#FAFAFA]">
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#E5E5E5] border-t-[#111]" />
       </div>
     );
   }
 
   return (
     <AdminSessionContext.Provider value={{ user, token, loading }}>
-      <div className="relative min-h-screen" style={{ backgroundColor: "#F4F1EC", fontFamily: "var(--font-dm), sans-serif" }}>
-        {/* Ambient washes */}
-        <div className="pointer-events-none fixed inset-0">
-          <div
-            className="absolute -top-[150px] left-[10%] h-[500px] w-[500px] rounded-full"
-            style={{ background: "radial-gradient(circle, rgba(154,175,140,0.15) 0%, transparent 65%)" }}
-          />
-          <div
-            className="absolute bottom-[10%] right-[-5%] h-[400px] w-[400px] rounded-full"
-            style={{ background: "radial-gradient(circle, rgba(180,200,220,0.12) 0%, transparent 65%)" }}
-          />
-        </div>
-
-        {/* Top nav */}
-        <nav
-          className="sticky top-0 z-50 flex items-center justify-between px-5 py-3.5 sm:px-8"
-          style={{
-            backgroundColor: "rgba(255,255,255,0.7)",
-            backdropFilter: "blur(16px)",
-            borderBottom: "1px solid rgba(0,0,0,0.05)",
-          }}
-        >
-          <div className="flex items-center gap-2">
-            <a href="/admin" className="text-[1.1rem] font-bold tracking-[-0.04em] text-[#1A1A1A]">
+      <div className="min-h-screen bg-[#FAFAFA]">
+        <nav className="sticky top-0 z-50 flex items-center justify-between border-b border-[#E5E5E5] bg-white px-5 py-3 sm:px-8">
+          <div className="flex items-center gap-6">
+            <a href="/admin" className="text-[1.05rem] font-semibold tracking-[-0.04em] text-[#111]">
               6POINT
             </a>
-            <ChevronRight className="h-3.5 w-3.5 text-[#D0D0D0]" />
-            <div className="hidden items-center gap-0.5 sm:flex">
+            <div className="hidden items-center gap-1 sm:flex">
               <a
                 href="/dashboard"
-                className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-[0.8rem] font-medium text-[#999] transition-colors hover:bg-black/[0.03] hover:text-[#666]"
+                className="flex items-center gap-1.5 border-b-2 border-transparent px-3 py-2 text-[0.8rem] font-medium text-[#999] transition-colors hover:text-[#666]"
               >
                 <LayoutDashboard className="h-3.5 w-3.5" />
                 Dashboard
               </a>
               <a
                 href="/admin"
-                className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-[0.8rem] font-medium"
-                style={{ backgroundColor: "rgba(123,140,111,0.08)", color: "#5a6d50" }}
+                className="flex items-center gap-1.5 border-b-2 border-[#111] px-3 py-2 text-[0.8rem] font-medium text-[#111]"
               >
                 <Shield className="h-3.5 w-3.5" />
                 Admin
@@ -109,21 +87,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2.5">
-              <div
-                className="flex h-8 w-8 items-center justify-center rounded-full text-[0.68rem] font-bold text-white"
-                style={{ background: "linear-gradient(135deg, #9AAF8C, #7B8C6F)" }}
-              >
-                {user?.name?.charAt(0).toUpperCase()}
-              </div>
-              <span className="hidden text-[0.8rem] font-medium text-[#888] sm:block">
-                {user?.name}
-              </span>
-            </div>
+            <span className="hidden text-[0.8rem] text-[#999] sm:block">
+              {user?.name}
+            </span>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-1.5 rounded-lg bg-white px-3 py-2 text-[0.75rem] font-medium text-[#999] transition-all hover:text-[#666]"
-              style={{ border: "1px solid rgba(0,0,0,0.06)", boxShadow: "0 1px 3px rgba(0,0,0,0.03)" }}
+              className="flex items-center gap-1.5 rounded-lg border border-[#E5E5E5] px-3 py-1.5 text-[0.75rem] font-medium text-[#666] transition-colors hover:border-[#CCC] hover:text-[#111]"
             >
               <LogOut className="h-3.5 w-3.5" />
               <span className="hidden sm:inline">Logout</span>
@@ -131,7 +100,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </div>
         </nav>
 
-        <main className="relative z-10 mx-auto w-full max-w-[1200px] px-5 py-8 sm:px-8 sm:py-10">
+        <main className="mx-auto w-full max-w-[1200px] px-5 py-8 sm:px-8 sm:py-10">
           {children}
         </main>
       </div>
