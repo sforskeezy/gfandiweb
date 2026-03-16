@@ -1,5 +1,7 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -15,7 +17,14 @@ function normalizeFromEmail(raw: string): string {
 }
 
 const FROM_EMAIL = normalizeFromEmail(process.env.FROM_EMAIL || "6POINT Solutions <hello@6pointsolutions.com>");
-const LOGO_URL = "https://6pointsolutions.com/d2b8263f-f484-4783-8fd0-daf49e85220b.png";
+
+let logoBase64: string | null = null;
+try {
+  const logoPath = path.join(process.cwd(), "public", "logo.png");
+  logoBase64 = fs.readFileSync(logoPath).toString("base64");
+} catch {
+  // logo file not available
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -26,6 +35,18 @@ export async function POST(req: NextRequest) {
     }
 
     const year = new Date().getFullYear();
+    const logoImg = logoBase64
+      ? `<img src="cid:logo" alt="6POINT" width="36" height="36" style="display: block;" />`
+      : "";
+
+    const attachments = logoBase64
+      ? [{
+          filename: "logo.png",
+          content: logoBase64,
+          content_type: "image/png",
+          headers: { "Content-ID": "<logo>", "Content-Disposition": "inline" },
+        }]
+      : [];
 
     await resend.emails.send({
       from: FROM_EMAIL,
@@ -40,6 +61,7 @@ export async function POST(req: NextRequest) {
         "The 6POINT Team",
         "6pointsolutions.com",
       ].filter(Boolean).join("\n"),
+      attachments,
       html: `
 <!DOCTYPE html>
 <html lang="en">
@@ -58,7 +80,7 @@ export async function POST(req: NextRequest) {
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td style="font-size: 22px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.02em; padding-bottom: 36px;">6POINT</td>
-                  <td style="text-align: right; padding-bottom: 36px;"><img src="${LOGO_URL}" alt="" width="36" height="36" style="display: block;" /></td>
+                  <td style="text-align: right; padding-bottom: 36px;">${logoImg}</td>
                 </tr>
               </table>
               <!-- Body -->
@@ -66,7 +88,7 @@ export async function POST(req: NextRequest) {
               <p style="margin: 0; font-size: 15px; color: #1d1d1f; line-height: 1.6; white-space: pre-wrap;">${body}</p>
               <!-- Sign off -->
               <p style="margin: 36px 0 0; font-size: 15px; color: #1d1d1f;">Regards,</p>
-              <p style="margin: 2px 0 0; font-size: 15px; color: #1d1d1f;">The 6POINT Team</p>
+              <p style="margin: 2px 0 0; font-size: 15px; color: #7B8C6F; font-weight: 500;">The 6POINT Team</p>
             </td>
           </tr>
         </table>
