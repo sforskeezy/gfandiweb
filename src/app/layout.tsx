@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Playfair_Display, DM_Sans } from "next/font/google";
 import ConvexClientProvider from "@/components/ConvexClientProvider";
 import "./globals.css";
 
@@ -16,6 +16,12 @@ const playfair = Playfair_Display({
   style: ["normal", "italic"],
 });
 
+const dmSans = DM_Sans({
+  variable: "--font-dm",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
+
 export const metadata: Metadata = {
   title: "6POINT Strategies | Marketing That Actually Grows Your Business",
   description:
@@ -30,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${inter.variable} ${playfair.variable} font-sans antialiased`}
+        className={`${inter.variable} ${playfair.variable} ${dmSans.variable} font-sans antialiased`}
       >
         <ConvexClientProvider>{children}</ConvexClientProvider>
       </body>

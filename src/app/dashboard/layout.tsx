@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect, createContext, useContext, useCallback } from "react";
-import { useRouter } from "next/navigation";
-import { LogOut, LayoutDashboard, Shield } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
+import { LogOut, LayoutDashboard, Shield, ChevronRight } from "lucide-react";
 
 type User = {
   id: string;
@@ -22,6 +22,7 @@ export const useSession = () => useContext(SessionContext);
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -52,9 +53,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     router.push("/login");
   };
 
+  const isOnDashboard = pathname === "/dashboard";
+
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: "#F4F1EC" }}>
+      <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: "#F4F1EC", fontFamily: "var(--font-dm), sans-serif" }}>
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#E8E6E3] border-t-[#7B8C6F]" />
       </div>
     );
@@ -62,7 +65,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <SessionContext.Provider value={{ user, token, loading }}>
-      <div className="relative min-h-screen" style={{ backgroundColor: "#F4F1EC" }}>
+      <div className="relative min-h-screen" style={{ backgroundColor: "#F4F1EC", fontFamily: "var(--font-dm), sans-serif" }}>
         {/* Ambient color washes */}
         <div className="pointer-events-none fixed inset-0">
           <div
@@ -81,53 +84,58 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         {/* Top nav */}
         <nav
-          className="sticky top-0 z-50 flex items-center justify-between border-b px-5 py-4 sm:px-8"
+          className="sticky top-0 z-50 flex items-center justify-between px-5 py-3.5 sm:px-8"
           style={{
-            backgroundColor: "rgba(244,241,236,0.85)",
-            backdropFilter: "blur(12px)",
-            borderColor: "rgba(0,0,0,0.06)",
+            backgroundColor: "rgba(255,255,255,0.7)",
+            backdropFilter: "blur(16px)",
+            borderBottom: "1px solid rgba(0,0,0,0.05)",
           }}
         >
-          <div className="flex items-center gap-6">
-            <a href="/dashboard" className="text-lg font-semibold tracking-[-0.03em] text-[#1A1A1A]">
+          <div className="flex items-center gap-2">
+            <a href="/dashboard" className="text-[1.1rem] font-bold tracking-[-0.04em] text-[#1A1A1A]">
               6POINT
             </a>
-            <div className="hidden items-center gap-1 sm:flex">
+            <ChevronRight className="h-3.5 w-3.5 text-[#D0D0D0]" />
+            <div className="hidden items-center gap-0.5 sm:flex">
               <a
                 href="/dashboard"
-                className="flex items-center gap-2 rounded-lg px-3 py-2 text-[0.82rem] text-[#777] transition-colors hover:bg-black/[0.04] hover:text-[#1A1A1A]"
+                className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-[0.8rem] font-medium transition-colors"
+                style={{
+                  backgroundColor: isOnDashboard ? "rgba(123,140,111,0.08)" : "transparent",
+                  color: isOnDashboard ? "#5a6d50" : "#999",
+                }}
               >
-                <LayoutDashboard className="h-4 w-4" />
+                <LayoutDashboard className="h-3.5 w-3.5" />
                 Dashboard
               </a>
               {user?.isAdmin && (
                 <a
                   href="/admin"
-                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-[0.82rem] text-[#777] transition-colors hover:bg-black/[0.04] hover:text-[#1A1A1A]"
+                  className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-[0.8rem] font-medium text-[#999] transition-colors hover:bg-black/[0.03] hover:text-[#666]"
                 >
-                  <Shield className="h-4 w-4" />
+                  <Shield className="h-3.5 w-3.5" />
                   Admin
                 </a>
               )}
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <div className="flex items-center gap-2.5">
               <div
-                className="flex h-8 w-8 items-center justify-center rounded-full text-[0.7rem] font-semibold text-white"
+                className="flex h-8 w-8 items-center justify-center rounded-full text-[0.68rem] font-bold text-white"
                 style={{ background: "linear-gradient(135deg, #9AAF8C, #7B8C6F)" }}
               >
                 {user?.name?.charAt(0).toUpperCase()}
               </div>
-              <span className="hidden text-[0.82rem] text-[#777] sm:block">
+              <span className="hidden text-[0.8rem] font-medium text-[#888] sm:block">
                 {user?.name}
               </span>
             </div>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 rounded-lg border bg-white px-3 py-2 text-[0.78rem] font-medium text-[#777] transition-all hover:border-[#CCC] hover:text-[#1A1A1A]"
-              style={{ borderColor: "rgba(0,0,0,0.08)" }}
+              className="flex items-center gap-1.5 rounded-lg bg-white px-3 py-2 text-[0.75rem] font-medium text-[#999] transition-all hover:text-[#666]"
+              style={{ border: "1px solid rgba(0,0,0,0.06)", boxShadow: "0 1px 3px rgba(0,0,0,0.03)" }}
             >
               <LogOut className="h-3.5 w-3.5" />
               <span className="hidden sm:inline">Logout</span>
