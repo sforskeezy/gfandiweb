@@ -48,16 +48,17 @@ export async function POST(req: NextRequest) {
         : `New Application from ${fullName}`,
       html: `
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px;">
-          <div style="background: #1A1A1A; border-radius: 16px; padding: 32px; color: white; margin-bottom: 24px;">
-            <h1 style="margin: 0; font-size: 20px; font-weight: 600;">
-              ${isBooking ? "📞 New Booking Request" : "📋 New Application"}
-            </h1>
-            <p style="margin: 8px 0 0; color: rgba(255,255,255,0.5); font-size: 14px;">
-              ${new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })}
-            </p>
-          </div>
+          <div style="border: 2px solid #7B8C6F; border-radius: 16px; overflow: hidden;">
+            <div style="background: #1A1A1A; padding: 32px; color: white;">
+              <h1 style="margin: 0; font-size: 20px; font-weight: 600;">
+                ${isBooking ? "📞 New Booking Request" : "📋 New Application"}
+              </h1>
+              <p style="margin: 8px 0 0; color: rgba(255,255,255,0.5); font-size: 14px;">
+                ${new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })}
+              </p>
+            </div>
 
-          <div style="background: #fff; border: 1px solid #eee; border-radius: 16px; padding: 24px;">
+            <div style="background: #fff; padding: 24px;">
             <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
               <tr>
                 <td style="padding: 8px 0; color: #999; width: 120px;">Name</td>
@@ -85,12 +86,13 @@ export async function POST(req: NextRequest) {
                 <p style="margin: 0; font-size: 14px; color: #666; line-height: 1.6;">${details}</p>
               </div>
             ` : ""}
-          </div>
+            </div>
 
-          <div style="text-align: center; margin-top: 24px;">
-            <a href="mailto:${email}" style="display: inline-block; background: #1A1A1A; color: white; padding: 12px 28px; border-radius: 50px; text-decoration: none; font-size: 14px; font-weight: 500;">
-              Reply to ${firstName}
-            </a>
+            <div style="text-align: center; padding: 20px; border-top: 1px solid #f0f0f0;">
+              <a href="mailto:${email}" style="display: inline-block; background: #1A1A1A; color: white; padding: 12px 28px; border-radius: 50px; text-decoration: none; font-size: 14px; font-weight: 500;">
+                Reply to ${firstName}
+              </a>
+            </div>
           </div>
         </div>
       `,
@@ -105,33 +107,35 @@ export async function POST(req: NextRequest) {
         : "We got your application — 6POINT Solutions",
       html: `
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px;">
-          <div style="margin-bottom: 32px;">
-            <h1 style="margin: 0; font-size: 28px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.02em;">6POINT</h1>
-          </div>
-
-          <h2 style="margin: 0 0 8px; font-size: 22px; font-weight: 600; color: #1A1A1A;">
-            ${isBooking ? "Your call is booked!" : "We received your application!"}
-          </h2>
-          <p style="margin: 0 0 24px; font-size: 15px; color: #888; line-height: 1.6;">
-            Hey ${firstName}, thanks for reaching out. ${isBooking
-              ? "We'll be in touch within 24 hours to confirm your strategy call."
-              : "Our team will review your application and get back to you within 24 hours."}
-          </p>
-
-          ${!isBooking && packageTier && packageTier !== "none" ? `
-            <div style="background: #F4F1EC; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
-              <p style="margin: 0 0 4px; font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 0.08em;">Selected Package</p>
-              <p style="margin: 0; font-size: 18px; font-weight: 600; color: #1A1A1A;">${packageTier.charAt(0).toUpperCase() + packageTier.slice(1)}</p>
+          <div style="border: 2px solid #7B8C6F; border-radius: 16px; padding: 32px;">
+            <div style="margin-bottom: 24px;">
+              <h1 style="margin: 0; font-size: 28px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.02em;">6POINT</h1>
             </div>
-          ` : ""}
 
-          <div style="border-top: 1px solid #eee; padding-top: 24px; margin-top: 24px;">
-            <p style="margin: 0; font-size: 14px; color: #999; line-height: 1.6;">
-              If you have any questions in the meantime, just reply to this email.
+            <h2 style="margin: 0 0 8px; font-size: 22px; font-weight: 600; color: #1A1A1A;">
+              ${isBooking ? "Your call is booked!" : "We received your application!"}
+            </h2>
+            <p style="margin: 0 0 24px; font-size: 15px; color: #888; line-height: 1.6;">
+              Hey ${firstName}, thanks for reaching out. ${isBooking
+                ? "We'll be in touch within 24 hours to confirm your strategy call."
+                : "Our team will review your application and get back to you within 24 hours."}
             </p>
-            <p style="margin: 16px 0 0; font-size: 14px; color: #1A1A1A; font-weight: 500;">
-              — The 6POINT Team
-            </p>
+
+            ${!isBooking && packageTier && packageTier !== "none" ? `
+              <div style="background: #F4F1EC; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+                <p style="margin: 0 0 4px; font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 0.08em;">Selected Package</p>
+                <p style="margin: 0; font-size: 18px; font-weight: 600; color: #1A1A1A;">${packageTier.charAt(0).toUpperCase() + packageTier.slice(1)}</p>
+              </div>
+            ` : ""}
+
+            <div style="border-top: 1px solid #eee; padding-top: 24px; margin-top: 24px;">
+              <p style="margin: 0; font-size: 14px; color: #999; line-height: 1.6;">
+                If you have any questions in the meantime, just reply to this email.
+              </p>
+              <p style="margin: 16px 0 0; font-size: 14px; color: #1A1A1A; font-weight: 500;">
+                — The 6POINT Team
+              </p>
+            </div>
           </div>
         </div>
       `,
