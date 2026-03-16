@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useMutation } from "convex/react";
+import { api } from "../../convex/_generated/api";
 import { motion, AnimatePresence } from "motion/react";
 import { X, CalendarDays, ArrowRight, CheckCircle2, Clock, Sparkles } from "lucide-react";
 
@@ -17,12 +19,33 @@ export default function BookingModal({
   onClose: () => void;
 }) {
   const [submitted, setSubmitted] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [service, setService] = useState("");
+  const [details, setDetails] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const submitMut = useMutation(api.applications.submit);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    await submitMut({
+      firstName,
+      lastName,
+      email,
+      packageTier: "none",
+      services: service ? [service] : [],
+      details: details || undefined,
+      type: "booking",
+    });
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setService("");
+      setDetails("");
       onClose();
     }, 3000);
   };
@@ -38,7 +61,6 @@ export default function BookingModal({
           className="fixed inset-0 z-[100] flex items-center justify-center px-4"
           onClick={onClose}
         >
-          {/* Backdrop with blur */}
           <motion.div
             initial={{ backdropFilter: "blur(0px)" }}
             animate={{ backdropFilter: "blur(12px)" }}
@@ -46,7 +68,6 @@ export default function BookingModal({
             className="absolute inset-0 bg-black/50"
           />
 
-          {/* Modal */}
           <motion.div
             initial={{ opacity: 0, scale: 0.92, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -55,7 +76,6 @@ export default function BookingModal({
             onClick={(e) => e.stopPropagation()}
             className="relative w-full max-w-lg overflow-hidden rounded-[28px] bg-white shadow-[0_25px_60px_rgba(0,0,0,0.2),0_0_0_1px_rgba(0,0,0,0.03)]"
           >
-            {/* Decorative top gradient band */}
             <div className="pointer-events-none absolute top-0 left-0 right-0 h-48">
               <div
                 className="absolute inset-0"
@@ -73,7 +93,6 @@ export default function BookingModal({
               />
             </div>
 
-            {/* Close button */}
             <button
               onClick={onClose}
               className="absolute top-4 right-4 z-10 rounded-full border border-black/[0.06] bg-white/80 p-2.5 text-[#999] backdrop-blur-sm transition-all hover:border-black/10 hover:bg-white hover:text-[#1A1A1A] hover:shadow-sm"
@@ -123,7 +142,6 @@ export default function BookingModal({
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  {/* Header */}
                   <div className="relative px-8 pt-8 pb-0 sm:px-10">
                     <div className="flex items-start gap-4">
                       <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#7B8C6F]/15 to-[#7B8C6F]/5">
@@ -139,7 +157,6 @@ export default function BookingModal({
                       </div>
                     </div>
 
-                    {/* Value props */}
                     <div className="mt-5 flex flex-wrap gap-3">
                       <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F7F6F4] px-3.5 py-1.5 text-[0.72rem] font-medium text-[#777]">
                         <Clock className="h-3 w-3" />
@@ -156,10 +173,8 @@ export default function BookingModal({
                     </div>
                   </div>
 
-                  {/* Divider */}
                   <div className="mx-8 mt-6 h-px bg-gradient-to-r from-transparent via-[#E8E6E3] to-transparent sm:mx-10" />
 
-                  {/* Form */}
                   <form onSubmit={handleSubmit} className="px-8 pt-6 pb-8 sm:px-10">
                     <div className="space-y-4">
                       <div className="grid gap-4 sm:grid-cols-2">
@@ -170,6 +185,8 @@ export default function BookingModal({
                           <input
                             type="text"
                             required
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
                             className="w-full rounded-xl border border-[#E8E6E3] bg-[#FAFAF9] px-4 py-3 text-[0.88rem] text-[#1A1A1A] outline-none transition-all placeholder:text-[#D0D0D0] focus:border-[#7B8C6F] focus:bg-white focus:ring-2 focus:ring-[#7B8C6F]/10"
                             placeholder="John"
                           />
@@ -181,6 +198,8 @@ export default function BookingModal({
                           <input
                             type="text"
                             required
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
                             className="w-full rounded-xl border border-[#E8E6E3] bg-[#FAFAF9] px-4 py-3 text-[0.88rem] text-[#1A1A1A] outline-none transition-all placeholder:text-[#D0D0D0] focus:border-[#7B8C6F] focus:bg-white focus:ring-2 focus:ring-[#7B8C6F]/10"
                             placeholder="Doe"
                           />
@@ -194,6 +213,8 @@ export default function BookingModal({
                         <input
                           type="email"
                           required
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                           className="w-full rounded-xl border border-[#E8E6E3] bg-[#FAFAF9] px-4 py-3 text-[0.88rem] text-[#1A1A1A] outline-none transition-all placeholder:text-[#D0D0D0] focus:border-[#7B8C6F] focus:bg-white focus:ring-2 focus:ring-[#7B8C6F]/10"
                           placeholder="john@company.com"
                         />
@@ -205,8 +226,9 @@ export default function BookingModal({
                         </label>
                         <select
                           required
+                          value={service}
+                          onChange={(e) => setService(e.target.value)}
                           className="w-full appearance-none rounded-xl border border-[#E8E6E3] bg-[#FAFAF9] px-4 py-3 text-[0.88rem] text-[#1A1A1A] outline-none transition-all focus:border-[#7B8C6F] focus:bg-white focus:ring-2 focus:ring-[#7B8C6F]/10"
-                          defaultValue=""
                         >
                           <option value="" disabled>
                             Select a service
@@ -225,6 +247,8 @@ export default function BookingModal({
                         </label>
                         <textarea
                           rows={3}
+                          value={details}
+                          onChange={(e) => setDetails(e.target.value)}
                           className="w-full resize-none rounded-xl border border-[#E8E6E3] bg-[#FAFAF9] px-4 py-3 text-[0.88rem] text-[#1A1A1A] outline-none transition-all placeholder:text-[#D0D0D0] focus:border-[#7B8C6F] focus:bg-white focus:ring-2 focus:ring-[#7B8C6F]/10"
                           placeholder="What are you working on?"
                         />

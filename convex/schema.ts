@@ -47,6 +47,23 @@ export default defineSchema({
     .index("by_trackingId", ["trackingId"])
     .index("by_timestamp", ["websiteId", "timestamp"]),
 
+  applications: defineTable({
+    firstName: v.string(),
+    lastName: v.string(),
+    email: v.string(),
+    phone: v.optional(v.string()),
+    businessName: v.optional(v.string()),
+    packageTier: v.string(),
+    services: v.array(v.string()),
+    details: v.optional(v.string()),
+    budget: v.optional(v.string()),
+    website: v.optional(v.string()),
+    status: v.string(),
+    type: v.string(),
+    createdAt: v.number(),
+  }).index("by_status", ["status"])
+    .index("by_createdAt", ["createdAt"]),
+
   adAccounts: defineTable({
     websiteId: v.id("websites"),
     platform: v.string(),

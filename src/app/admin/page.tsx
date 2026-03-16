@@ -5,18 +5,21 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
 import { useAdminSession } from "./layout";
-import { UserPlus, Globe, Trash2, Eye, Users, Settings, ExternalLink } from "lucide-react";
+import { UserPlus, Globe, Trash2, Eye, Users, Inbox, CalendarDays, Check, X, Clock } from "lucide-react";
 
 export default function AdminPage() {
   const { token } = useAdminSession();
 
   const users = useQuery(api.users.listUsers, token ? { sessionToken: token } : "skip");
   const allWebsites = useQuery(api.websites.listAllWebsites, token ? { sessionToken: token } : "skip");
+  const applications = useQuery(api.applications.list, token ? { sessionToken: token } : "skip");
 
   const createUserMut = useMutation(api.users.createUser);
   const addWebsiteMut = useMutation(api.websites.addWebsite);
   const deleteUserMut = useMutation(api.users.deleteUser);
   const deleteWebsiteMut = useMutation(api.websites.deleteWebsite);
+  const updateStatusMut = useMutation(api.applications.updateStatus);
+  const removeAppMut = useMutation(api.applications.remove);
 
   const [newUser, setNewUser] = useState({ name: "", username: "", password: "" });
   const [newSite, setNewSite] = useState({ userId: "", name: "", url: "" });
@@ -91,7 +94,7 @@ export default function AdminPage() {
       </div>
 
       {/* Quick stats */}
-      <div className="mb-8 flex gap-4">
+      <div className="mb-8 flex flex-wrap gap-4">
         <div
           className="flex items-center gap-3 rounded-2xl bg-white px-5 py-3.5"
           style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 1px 4px rgba(0,0,0,0.03)" }}
@@ -114,6 +117,21 @@ export default function AdminPage() {
           <div>
             <p className="text-[0.62rem] font-bold uppercase tracking-[0.08em] text-[#C5C2BC]">Websites</p>
             <p className="text-[1.1rem] font-bold text-[#1A1A1A]">{allWebsites?.length ?? 0}</p>
+          </div>
+        </div>
+        <div
+          className="flex items-center gap-3 rounded-2xl bg-white px-5 py-3.5"
+          style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 1px 4px rgba(0,0,0,0.03)" }}
+        >
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(232,167,130,0.08)" }}>
+            <Inbox className="h-4 w-4 text-[#E8A782]" />
+          </div>
+          <div>
+            <p className="text-[0.62rem] font-bold uppercase tracking-[0.08em] text-[#C5C2BC]">Inbox</p>
+            <p className="text-[1.1rem] font-bold text-[#1A1A1A]">
+              {applications?.filter((a) => a.status === "new").length ?? 0}
+              <span className="ml-1 text-[0.65rem] font-medium text-[#C5C2BC]">new</span>
+            </p>
           </div>
         </div>
       </div>
@@ -319,6 +337,146 @@ export default function AdminPage() {
             </div>
           ) : (
             <p className="py-8 text-center text-[0.85rem] text-[#C5C2BC]">No websites yet</p>
+          )}
+        </div>
+      </div>
+
+      {/* Applications & Bookings Inbox */}
+      <div
+        className="mt-8 overflow-hidden rounded-[24px] bg-white"
+        style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}
+      >
+        <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(0,0,0,0.04)" }}>
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(232,167,130,0.08)" }}>
+            <Inbox className="h-4 w-4 text-[#E8A782]" />
+          </div>
+          <h2 className="text-[0.9rem] font-bold text-[#1A1A1A]">Inbox</h2>
+          <span className="ml-auto rounded-lg px-2.5 py-1 text-[0.68rem] font-bold text-[#B0ADA8]" style={{ backgroundColor: "#F4F1EC" }}>
+            {applications?.length ?? 0}
+          </span>
+        </div>
+        <div className="p-3">
+          {applications && applications.length > 0 ? (
+            <div className="space-y-1">
+              {applications.map((app) => (
+                <div
+                  key={app._id}
+                  className="rounded-2xl px-5 py-4 transition-colors hover:bg-[#FAF9F7]"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-[0.88rem] font-semibold text-[#1A1A1A]">
+                          {app.firstName} {app.lastName}
+                        </span>
+                        <span
+                          className="flex items-center gap-1 rounded-md px-2 py-0.5 text-[0.6rem] font-bold uppercase tracking-[0.04em]"
+                          style={{
+                            backgroundColor: app.type === "booking" ? "rgba(92,122,138,0.08)" : "rgba(123,140,111,0.08)",
+                            color: app.type === "booking" ? "#5C7A8A" : "#7B8C6F",
+                          }}
+                        >
+                          {app.type === "booking" ? <><CalendarDays className="h-3 w-3" /> Booking</> : <><Inbox className="h-3 w-3" /> Application</>}
+                        </span>
+                        <span
+                          className="flex items-center gap-1 rounded-md px-2 py-0.5 text-[0.6rem] font-bold uppercase tracking-[0.04em]"
+                          style={{
+                            backgroundColor:
+                              app.status === "new" ? "rgba(232,167,130,0.1)" :
+                              app.status === "contacted" ? "rgba(92,122,138,0.08)" :
+                              app.status === "closed" ? "rgba(0,0,0,0.04)" : "rgba(123,140,111,0.08)",
+                            color:
+                              app.status === "new" ? "#E8A782" :
+                              app.status === "contacted" ? "#5C7A8A" :
+                              app.status === "closed" ? "#999" : "#7B8C6F",
+                          }}
+                        >
+                          {app.status === "new" && <Clock className="h-3 w-3" />}
+                          {app.status === "contacted" && <Check className="h-3 w-3" />}
+                          {app.status}
+                        </span>
+                      </div>
+
+                      <p className="mt-1 text-[0.78rem] text-[#B0ADA8]">
+                        {app.email}
+                        {app.phone && <> &middot; {app.phone}</>}
+                        {app.businessName && <> &middot; {app.businessName}</>}
+                      </p>
+
+                      {app.packageTier && app.packageTier !== "none" && (
+                        <p className="mt-1 text-[0.72rem] font-semibold text-[#7B8C6F]">
+                          {app.packageTier.charAt(0).toUpperCase() + app.packageTier.slice(1)} Package
+                        </p>
+                      )}
+
+                      {app.services && app.services.length > 0 && (
+                        <div className="mt-2 flex flex-wrap gap-1.5">
+                          {app.services.map((s) => (
+                            <span key={s} className="rounded-full bg-[#F4F1EC] px-2.5 py-1 text-[0.65rem] font-medium text-[#888]">
+                              {s}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      {app.details && (
+                        <p className="mt-2 text-[0.78rem] leading-relaxed text-[#999]">
+                          &ldquo;{app.details}&rdquo;
+                        </p>
+                      )}
+
+                      <p className="mt-2 text-[0.65rem] text-[#D0D0D0]">
+                        {new Date(app.createdAt).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                          hour: "numeric",
+                          minute: "2-digit",
+                        })}
+                      </p>
+                    </div>
+
+                    <div className="flex shrink-0 items-center gap-1">
+                      {app.status === "new" && (
+                        <button
+                          onClick={async () => {
+                            if (token) await updateStatusMut({ sessionToken: token, applicationId: app._id as any, status: "contacted" });
+                          }}
+                          className="rounded-xl px-3 py-2 text-[0.68rem] font-semibold text-[#5C7A8A] transition-all hover:bg-[#F4F1EC]"
+                          title="Mark as contacted"
+                        >
+                          <Check className="h-4 w-4" />
+                        </button>
+                      )}
+                      {app.status === "contacted" && (
+                        <button
+                          onClick={async () => {
+                            if (token) await updateStatusMut({ sessionToken: token, applicationId: app._id as any, status: "closed" });
+                          }}
+                          className="rounded-xl px-3 py-2 text-[0.68rem] font-semibold text-[#7B8C6F] transition-all hover:bg-[#F4F1EC]"
+                          title="Mark as closed"
+                        >
+                          <Check className="h-4 w-4" />
+                        </button>
+                      )}
+                      <button
+                        onClick={async () => {
+                          if (token && confirm("Delete this submission?")) {
+                            await removeAppMut({ sessionToken: token, applicationId: app._id as any });
+                          }
+                        }}
+                        className="rounded-xl p-2.5 text-[#D0D0D0] transition-all hover:bg-red-50 hover:text-red-400"
+                        title="Delete"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="py-8 text-center text-[0.85rem] text-[#C5C2BC]">No submissions yet</p>
           )}
         </div>
       </div>

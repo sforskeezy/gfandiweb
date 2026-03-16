@@ -169,7 +169,7 @@ export default function PricingSection() {
 
               <div className="mt-auto pt-8">
                 <a
-                  href="#contact"
+                  href={`/apply?package=${plan.name.toLowerCase()}`}
                   className={`group flex w-full items-center justify-center gap-2 rounded-full py-3.5 text-[0.84rem] font-medium transition-all duration-200 ${
                     plan.accent
                       ? "bg-white text-[#1A1A1A] hover:bg-white/90"

@@ -10,6 +10,7 @@
 
 import type * as adAccounts from "../adAccounts.js";
 import type * as analytics from "../analytics.js";
+import type * as applications from "../applications.js";
 import type * as auth from "../auth.js";
 import type * as profile from "../profile.js";
 import type * as users from "../users.js";
@@ -24,6 +25,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   adAccounts: typeof adAccounts;
   analytics: typeof analytics;
+  applications: typeof applications;
   auth: typeof auth;
   profile: typeof profile;
   users: typeof users;
