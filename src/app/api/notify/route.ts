@@ -3,8 +3,23 @@ import { NextRequest, NextResponse } from "next/server";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "HELLO@6POINTSOLUTIONS.COM";
-const FROM_EMAIL = process.env.FROM_EMAIL || "6POINT Solutions <HELLO@6POINTSOLUTIONS.COM>";
+function normalizeEmail(raw: string): string {
+  const addr = raw.trim();
+  const atIdx = addr.lastIndexOf("@");
+  if (atIdx === -1) return raw;
+  return addr.slice(0, atIdx + 1) + addr.slice(atIdx + 1).toLowerCase();
+}
+
+const ADMIN_EMAIL = normalizeEmail(process.env.ADMIN_EMAIL || "hello@6pointsolutions.com");
+const FROM_EMAIL = (() => {
+  const raw = process.env.FROM_EMAIL || "6POINT Solutions <hello@6pointsolutions.com>";
+  const match = raw.match(/<([^>]+)>/);
+  const addr = (match ? match[1] : raw).trim();
+  const atIdx = addr.lastIndexOf("@");
+  if (atIdx === -1) return raw;
+  const normalized = addr.slice(0, atIdx + 1) + addr.slice(atIdx + 1).toLowerCase();
+  return match ? raw.replace(match[1], normalized) : normalized;
+})();
 
 export async function POST(req: NextRequest) {
   try {

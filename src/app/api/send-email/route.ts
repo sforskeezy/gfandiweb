@@ -2,7 +2,19 @@ import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const FROM_EMAIL = process.env.FROM_EMAIL || "6POINT Solutions <HELLO@6POINTSOLUTIONS.COM>";
+
+function normalizeFromEmail(raw: string): string {
+  const match = raw.match(/<([^>]+)>/);
+  const addr = (match ? match[1] : raw).trim();
+  const atIdx = addr.lastIndexOf("@");
+  if (atIdx === -1) return raw;
+  const local = addr.slice(0, atIdx);
+  const domain = addr.slice(atIdx + 1).toLowerCase();
+  const normalized = `${local}@${domain}`;
+  return match ? raw.replace(match[1], normalized) : normalized;
+}
+
+const FROM_EMAIL = normalizeFromEmail(process.env.FROM_EMAIL || "6POINT Solutions <hello@6pointsolutions.com>");
 
 export async function POST(req: NextRequest) {
   try {
@@ -39,8 +51,9 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Send email error:", error);
-    return NextResponse.json({ success: false, error: "Failed to send" }, { status: 500 });
+    const msg = error && typeof error === "object" && "message" in error ? String((error as { message: string }).message) : "Failed to send";
+    return NextResponse.json({ success: false, error: msg }, { status: 500 });
   }
 }
