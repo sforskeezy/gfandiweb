@@ -49,7 +49,12 @@ export async function POST(req: NextRequest) {
       html: `
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background-color: #f2f2f7; padding: 40px 0;">
           <div style="max-width: 680px; margin: 0 auto; background: #ffffff; border-radius: 12px; padding: 48px 44px;">
-            <p style="margin: 0 0 36px; font-size: 22px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.02em;">6POINT</p>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 36px;">
+              <tr>
+                <td style="vertical-align: middle;"><p style="margin: 0; font-size: 22px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.02em;">6POINT</p></td>
+                <td style="vertical-align: middle; text-align: right;"><img src="https://6pointsolutions.com/logo.png" alt="6POINT" width="32" height="32" style="display: block; margin-left: auto;" /></td>
+              </tr>
+            </table>
 
             <p style="margin: 0 0 4px; font-size: 17px; font-weight: 600; color: #1A1A1A;">
               ${isBooking ? "New Booking Request" : "New Application"}
@@ -104,7 +109,12 @@ export async function POST(req: NextRequest) {
       html: `
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background-color: #f2f2f7; padding: 40px 0;">
           <div style="max-width: 680px; margin: 0 auto; background: #ffffff; border-radius: 12px; padding: 48px 44px;">
-            <p style="margin: 0 0 40px; font-size: 22px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.02em;">6POINT</p>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 40px;">
+              <tr>
+                <td style="vertical-align: middle;"><p style="margin: 0; font-size: 22px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.02em;">6POINT</p></td>
+                <td style="vertical-align: middle; text-align: right;"><img src="https://6pointsolutions.com/logo.png" alt="6POINT" width="32" height="32" style="display: block; margin-left: auto;" /></td>
+              </tr>
+            </table>
 
             <p style="margin: 0 0 16px; font-size: 15px; color: #333; line-height: 1.6;">Hey ${firstName},</p>
 
