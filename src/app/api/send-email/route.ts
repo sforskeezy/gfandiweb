@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 40px;">
               <tr>
                 <td style="vertical-align: middle;"><p style="margin: 0; font-size: 22px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.02em;">6POINT</p></td>
-                <td style="vertical-align: middle; text-align: right;"><img src="https://6pointsolutions.com/logo.png" alt="6POINT" width="32" height="32" style="display: block; margin-left: auto;" /></td>
+                <td style="vertical-align: middle; text-align: right;"><img src="https://6pointsolutions.com/d2b8263f-f484-4783-8fd0-daf49e85220b.png" alt="6POINT" width="32" height="32" style="display: block; margin-left: auto;" /></td>
               </tr>
             </table>
 
