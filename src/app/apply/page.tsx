@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
@@ -50,6 +50,14 @@ const serviceOptions = [
 ];
 
 export default function ApplyPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-[#F4F1EC]"><div className="h-6 w-6 animate-spin rounded-full border-2 border-[#E8E6E3] border-t-[#7B8C6F]" /></div>}>
+      <ApplyPageInner />
+    </Suspense>
+  );
+}
+
+function ApplyPageInner() {
   const searchParams = useSearchParams();
   const preselected = searchParams.get("package") || "";
 
