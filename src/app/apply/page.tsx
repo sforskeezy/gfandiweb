@@ -100,6 +100,21 @@ function ApplyPageInner() {
       website: form.website || undefined,
       type: "application",
     });
+    fetch("/api/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type: "application",
+        firstName: form.firstName,
+        lastName: form.lastName,
+        email: form.email,
+        phone: form.phone,
+        businessName: form.businessName,
+        packageTier: selectedPackage,
+        services: selectedServices,
+        details: form.details,
+      }),
+    }).catch(() => {});
     setSubmitting(false);
     setSubmitted(true);
   };

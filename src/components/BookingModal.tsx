@@ -38,6 +38,18 @@ export default function BookingModal({
       details: details || undefined,
       type: "booking",
     });
+    fetch("/api/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type: "booking",
+        firstName,
+        lastName,
+        email,
+        services: service ? [service] : [],
+        details,
+      }),
+    }).catch(() => {});
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);
