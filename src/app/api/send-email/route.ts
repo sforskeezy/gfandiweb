@@ -24,36 +24,34 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: "Missing fields" }, { status: 400 });
     }
 
+    const textBody = [
+      firstName ? `Hey ${firstName},\n\n` : "",
+      body,
+      "\n\nRegards,\nThe 6POINT Team\n\n6pointsolutions.com",
+    ].join("");
+
     await resend.emails.send({
       from: FROM_EMAIL,
       to,
       subject,
+      text: textBody,
       html: `
-        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background-color: #f2f2f7; padding: 40px 0;">
-          <div style="max-width: 680px; margin: 0 auto; background: #ffffff; border-radius: 12px; padding: 48px 44px;">
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 40px;">
-              <tr>
-                <td style="vertical-align: middle;"><p style="margin: 0; font-size: 22px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.02em;">6POINT</p></td>
-                <td style="vertical-align: middle; text-align: right;"><img src="https://6pointsolutions.com/d2b8263f-f484-4783-8fd0-daf49e85220b.png" alt="6POINT" width="32" height="32" style="display: block; margin-left: auto;" /></td>
-              </tr>
-            </table>
-
-            ${firstName ? `<p style="margin: 0 0 16px; font-size: 15px; color: #1A1A1A; line-height: 1.6;">Hey ${firstName},</p>` : ""}
-
-            <div style="font-size: 15px; color: #333; line-height: 1.7; white-space: pre-wrap;">${body}</div>
-
-            <p style="margin: 40px 0 0; font-size: 15px; color: #333;">Regards,</p>
-            <p style="margin: 4px 0 0; font-size: 15px; color: #333;">The 6POINT Team</p>
-          </div>
-
-          <div style="max-width: 680px; margin: 0 auto; text-align: center; padding: 28px 20px 0;">
-            <p style="margin: 0; font-size: 12px; color: #86868b;">Copyright &copy; ${new Date().getFullYear()} 6POINT Solutions. All rights reserved.</p>
-            <p style="margin: 8px 0 0; font-size: 12px;">
-              <a href="https://6pointsolutions.com" style="color: #86868b; text-decoration: none;">6pointsolutions.com</a>
-            </p>
-          </div>
-        </div>
-      `,
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;color:#333;line-height:1.6;background:#fff;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;">
+<tr><td style="padding:32px 24px;">
+<p style="margin:0 0 24px;font-size:20px;font-weight:700;color:#1A1A1A;">6POINT</p>
+${firstName ? `<p style="margin:0 0 16px;">Hey ${firstName},</p>` : ""}
+<p style="margin:0 0 24px;white-space:pre-wrap;">${body}</p>
+<p style="margin:0;color:#666;">Regards,<br>The 6POINT Team</p>
+<p style="margin:12px 0 0;font-size:13px;"><a href="https://6pointsolutions.com" style="color:#86868b;text-decoration:none;">6pointsolutions.com</a></p>
+</td></tr>
+</table>
+</body>
+</html>
+      `.trim(),
     });
 
     return NextResponse.json({ success: true });
