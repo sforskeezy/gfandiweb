@@ -206,7 +206,7 @@ export default function LoginPage() {
 
         <p className="mt-8 text-center text-[0.78rem] text-[#C0BCB5]">
           <a href="/" className="transition-colors hover:text-[#888]">
-            &larr; Back to 6POINT Strategies
+            &larr; Back to 6POINT Solutions
           </a>
         </p>
       </div>

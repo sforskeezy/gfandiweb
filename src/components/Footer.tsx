@@ -72,7 +72,7 @@ export default function Footer() {
           >
             6POINT{" "}
             <span className="italic" style={{ fontFamily: "var(--font-serif)" }}>
-              Strategies
+              Solutions
             </span>
           </h2>
           <p
@@ -161,7 +161,7 @@ export default function Footer() {
           style={{ borderTop: "1px solid rgba(26,26,26,0.06)" }}
         >
           <p className="text-[0.72rem]" style={{ color: "rgba(26,26,26,0.2)" }}>
-            &copy; {new Date().getFullYear()} 6POINT Strategies. All rights reserved.
+            &copy; {new Date().getFullYear()} 6POINT Solutions. All rights reserved.
           </p>
         </div>
       </div>
