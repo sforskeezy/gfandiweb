@@ -2,7 +2,7 @@
 
 import { useState, useEffect, createContext, useContext, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { LogOut, LayoutDashboard, Shield, Megaphone, Settings } from "lucide-react";
+import { LogOut, LayoutDashboard, Shield, ChevronRight, Megaphone, Settings } from "lucide-react";
 
 type User = {
   id: string;
@@ -53,47 +53,89 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     router.push("/login");
   };
 
-  const navItems = [
-    { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, match: pathname === "/dashboard" || pathname.startsWith("/dashboard/site") },
-    { href: "/dashboard/ads", label: "Ads", icon: Megaphone, match: pathname === "/dashboard/ads" },
-    { href: "/dashboard/settings", label: "Settings", icon: Settings, match: pathname === "/dashboard/settings" },
-  ];
+  const isOnDashboard = pathname === "/dashboard";
+  const isOnAds = pathname === "/dashboard/ads";
+  const isOnSettings = pathname === "/dashboard/settings";
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#FAFAFA]">
-        <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#E5E5E5] border-t-[#111]" />
+      <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: "#F4F1EC", fontFamily: "var(--font-dm), sans-serif" }}>
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#E8E6E3] border-t-[#7B8C6F]" />
       </div>
     );
   }
 
   return (
     <SessionContext.Provider value={{ user, token, loading }}>
-      <div className="min-h-screen bg-[#FAFAFA]">
-        <nav className="sticky top-0 z-50 flex items-center justify-between border-b border-[#E5E5E5] bg-white px-5 py-3 sm:px-8">
-          <div className="flex items-center gap-6">
-            <a href="/dashboard" className="text-[1.05rem] font-semibold tracking-[-0.04em] text-[#111]">
+      <div className="relative min-h-screen" style={{ backgroundColor: "#F4F1EC", fontFamily: "var(--font-dm), sans-serif" }}>
+        {/* Ambient color washes */}
+        <div className="pointer-events-none fixed inset-0">
+          <div
+            className="absolute -top-[150px] right-[5%] h-[500px] w-[500px] rounded-full"
+            style={{ background: "radial-gradient(circle, rgba(154,175,140,0.18) 0%, transparent 65%)" }}
+          />
+          <div
+            className="absolute bottom-[5%] left-[-5%] h-[450px] w-[450px] rounded-full"
+            style={{ background: "radial-gradient(circle, rgba(180,200,220,0.12) 0%, transparent 65%)" }}
+          />
+          <div
+            className="absolute top-[50%] right-[40%] h-[350px] w-[350px] rounded-full"
+            style={{ background: "radial-gradient(circle, rgba(220,200,160,0.1) 0%, transparent 65%)" }}
+          />
+        </div>
+
+        {/* Top nav */}
+        <nav
+          className="sticky top-0 z-50 flex items-center justify-between px-5 py-3.5 sm:px-8"
+          style={{
+            backgroundColor: "rgba(255,255,255,0.7)",
+            backdropFilter: "blur(16px)",
+            borderBottom: "1px solid rgba(0,0,0,0.05)",
+          }}
+        >
+          <div className="flex items-center gap-2">
+            <a href="/dashboard" className="text-[1.1rem] font-bold tracking-[-0.04em] text-[#1A1A1A]">
               6POINT
             </a>
-            <div className="hidden items-center gap-1 sm:flex">
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="flex items-center gap-1.5 border-b-2 px-3 py-2 text-[0.8rem] font-medium transition-colors"
-                  style={{
-                    borderColor: item.match ? "#111" : "transparent",
-                    color: item.match ? "#111" : "#999",
-                  }}
-                >
-                  <item.icon className="h-3.5 w-3.5" />
-                  {item.label}
-                </a>
-              ))}
+            <ChevronRight className="h-3.5 w-3.5 text-[#D0D0D0]" />
+            <div className="hidden items-center gap-0.5 sm:flex">
+              <a
+                href="/dashboard"
+                className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-[0.8rem] font-medium transition-colors"
+                style={{
+                  backgroundColor: isOnDashboard ? "rgba(123,140,111,0.08)" : "transparent",
+                  color: isOnDashboard ? "#5a6d50" : "#999",
+                }}
+              >
+                <LayoutDashboard className="h-3.5 w-3.5" />
+                Dashboard
+              </a>
+              <a
+                href="/dashboard/ads"
+                className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-[0.8rem] font-medium transition-colors"
+                style={{
+                  backgroundColor: isOnAds ? "rgba(92,122,138,0.08)" : "transparent",
+                  color: isOnAds ? "#4a6a7a" : "#999",
+                }}
+              >
+                <Megaphone className="h-3.5 w-3.5" />
+                Ads
+              </a>
+              <a
+                href="/dashboard/settings"
+                className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-[0.8rem] font-medium transition-colors"
+                style={{
+                  backgroundColor: isOnSettings ? "rgba(139,115,85,0.08)" : "transparent",
+                  color: isOnSettings ? "#7a6448" : "#999",
+                }}
+              >
+                <Settings className="h-3.5 w-3.5" />
+                Settings
+              </a>
               {user?.isAdmin && (
                 <a
                   href="/admin"
-                  className="flex items-center gap-1.5 border-b-2 border-transparent px-3 py-2 text-[0.8rem] font-medium text-[#999] transition-colors hover:text-[#666]"
+                  className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-[0.8rem] font-medium text-[#999] transition-colors hover:bg-black/[0.03] hover:text-[#666]"
                 >
                   <Shield className="h-3.5 w-3.5" />
                   Admin
@@ -103,12 +145,21 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="hidden text-[0.8rem] text-[#999] sm:block">
-              {user?.name}
-            </span>
+            <div className="flex items-center gap-2.5">
+              <div
+                className="flex h-8 w-8 items-center justify-center rounded-full text-[0.68rem] font-bold text-white"
+                style={{ background: "linear-gradient(135deg, #9AAF8C, #7B8C6F)" }}
+              >
+                {user?.name?.charAt(0).toUpperCase()}
+              </div>
+              <span className="hidden text-[0.8rem] font-medium text-[#888] sm:block">
+                {user?.name}
+              </span>
+            </div>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-1.5 rounded-lg border border-[#E5E5E5] px-3 py-1.5 text-[0.75rem] font-medium text-[#666] transition-colors hover:border-[#CCC] hover:text-[#111]"
+              className="flex items-center gap-1.5 rounded-lg bg-white px-3 py-2 text-[0.75rem] font-medium text-[#999] transition-all hover:text-[#666]"
+              style={{ border: "1px solid rgba(0,0,0,0.06)", boxShadow: "0 1px 3px rgba(0,0,0,0.03)" }}
             >
               <LogOut className="h-3.5 w-3.5" />
               <span className="hidden sm:inline">Logout</span>
@@ -116,7 +167,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
         </nav>
 
-        <main className="mx-auto w-full max-w-[1200px] px-5 py-8 sm:px-8 sm:py-10">
+        <main className="relative z-10 mx-auto w-full max-w-[1200px] px-5 py-8 sm:px-8 sm:py-10">
           {children}
         </main>
       </div>

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { useSession } from "../layout";
-import { Check, AlertCircle, Globe, Trash2, Plus } from "lucide-react";
+import { User, Lock, Check, AlertCircle, Globe, Trash2, Plus, Megaphone } from "lucide-react";
 
 export default function SettingsPage() {
   const { user, token } = useSession();
@@ -69,53 +69,72 @@ export default function SettingsPage() {
   };
 
   const inputClass =
-    "w-full rounded-xl border border-[#E5E5E5] bg-white px-4 py-3 text-[0.85rem] text-[#111] outline-none transition-colors placeholder:text-[#CCC] focus:border-[#111]";
+    "w-full rounded-2xl border-2 border-[#EEECEA] bg-[#FAF9F7] px-5 py-3.5 text-[0.85rem] font-medium text-[#1A1A1A] outline-none transition-all placeholder:font-normal placeholder:text-[#D0D0D0] focus:border-[#7B8C6F] focus:bg-white focus:shadow-[0_0_0_4px_rgba(123,140,111,0.06)]";
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-[1.75rem] font-semibold tracking-[-0.03em] text-[#111]">
-          Settings
+      {/* Header */}
+      <div className="mb-10">
+        <div className="mb-4 flex items-center gap-2">
+          <div className="h-2 w-2 rounded-full bg-[#7B8C6F]" />
+          <p className="text-[0.72rem] font-bold uppercase tracking-[0.12em] text-[#B0ADA8]">
+            Settings
+          </p>
+        </div>
+        <h1 className="text-[clamp(1.6rem,3.5vw,2.2rem)] font-bold tracking-[-0.04em] text-[#1A1A1A]">
+          Account Settings
         </h1>
-        <p className="mt-1 text-[0.88rem] text-[#999]">
+        <p className="mt-2 text-[0.88rem] text-[#A5A29D]">
           Manage your profile and preferences.
         </p>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid gap-6 lg:grid-cols-2">
         {/* Profile */}
-        <div className="rounded-2xl border border-[#E5E5E5] bg-white">
-          <div className="border-b border-[#F0F0F0] px-6 py-4">
-            <h2 className="text-[0.88rem] font-semibold text-[#111]">Profile</h2>
-            <p className="text-[0.72rem] text-[#999]">Update your display name</p>
+        <div
+          className="overflow-hidden rounded-[24px] bg-white"
+          style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}
+        >
+          <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(0,0,0,0.04)" }}>
+            <div className="flex h-10 w-10 items-center justify-center rounded-[14px]" style={{ backgroundColor: "rgba(123,140,111,0.08)" }}>
+              <User className="h-[18px] w-[18px] text-[#7B8C6F]" />
+            </div>
+            <div>
+              <h2 className="text-[0.95rem] font-bold text-[#1A1A1A]">Profile</h2>
+              <p className="text-[0.7rem] text-[#B0ADA8]">Update your display name</p>
+            </div>
           </div>
           <div className="p-6">
             {nameMsg && (
               <div
-                className="mb-4 flex items-center gap-2 rounded-xl border px-4 py-3 text-[0.8rem] font-medium"
+                className="mb-5 flex items-center gap-2 rounded-2xl px-4 py-3 text-[0.8rem] font-semibold"
                 style={{
-                  backgroundColor: nameMsg.type === "success" ? "#f0fdf4" : "#fef2f2",
-                  borderColor: nameMsg.type === "success" ? "#dcfce7" : "#fee2e2",
-                  color: nameMsg.type === "success" ? "#15803d" : "#dc2626",
+                  backgroundColor: nameMsg.type === "success" ? "rgba(123,140,111,0.06)" : "rgba(220,50,50,0.05)",
+                  color: nameMsg.type === "success" ? "#5a6d50" : "#c53030",
                 }}
               >
                 {nameMsg.type === "success" ? <Check className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
                 {nameMsg.text}
               </div>
             )}
-            <form onSubmit={handleUpdateName} className="space-y-3">
+            <form onSubmit={handleUpdateName} className="space-y-4">
               <div>
-                <label className="mb-1.5 block text-[0.8rem] font-medium text-[#111]">Username</label>
+                <label className="mb-2.5 block text-[0.7rem] font-bold uppercase tracking-[0.1em] text-[#C5C2BC]">
+                  Username
+                </label>
                 <input className={inputClass} value={user?.username ?? ""} disabled style={{ opacity: 0.5 }} />
               </div>
               <div>
-                <label className="mb-1.5 block text-[0.8rem] font-medium text-[#111]">Display Name</label>
+                <label className="mb-2.5 block text-[0.7rem] font-bold uppercase tracking-[0.1em] text-[#C5C2BC]">
+                  Display Name
+                </label>
                 <input className={inputClass} value={name} onChange={(e) => setName(e.target.value)} required />
               </div>
               <button
                 type="submit"
                 disabled={nameSaving}
-                className="w-full rounded-xl bg-[#111] py-3 text-[0.85rem] font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-40"
+                className="w-full rounded-2xl py-3.5 text-[0.85rem] font-semibold text-white transition-all hover:brightness-105 active:scale-[0.98] disabled:opacity-50"
+                style={{ background: "linear-gradient(135deg, #7B8C6F, #6A7A5F)", boxShadow: "0 4px 14px rgba(123,140,111,0.25)" }}
               >
                 {nameSaving ? "Saving..." : "Update Name"}
               </button>
@@ -124,42 +143,56 @@ export default function SettingsPage() {
         </div>
 
         {/* Password */}
-        <div className="rounded-2xl border border-[#E5E5E5] bg-white">
-          <div className="border-b border-[#F0F0F0] px-6 py-4">
-            <h2 className="text-[0.88rem] font-semibold text-[#111]">Security</h2>
-            <p className="text-[0.72rem] text-[#999]">Change your password</p>
+        <div
+          className="overflow-hidden rounded-[24px] bg-white"
+          style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}
+        >
+          <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(0,0,0,0.04)" }}>
+            <div className="flex h-10 w-10 items-center justify-center rounded-[14px]" style={{ backgroundColor: "rgba(139,115,85,0.08)" }}>
+              <Lock className="h-[18px] w-[18px] text-[#8B7355]" />
+            </div>
+            <div>
+              <h2 className="text-[0.95rem] font-bold text-[#1A1A1A]">Security</h2>
+              <p className="text-[0.7rem] text-[#B0ADA8]">Change your password</p>
+            </div>
           </div>
           <div className="p-6">
             {pwMsg && (
               <div
-                className="mb-4 flex items-center gap-2 rounded-xl border px-4 py-3 text-[0.8rem] font-medium"
+                className="mb-5 flex items-center gap-2 rounded-2xl px-4 py-3 text-[0.8rem] font-semibold"
                 style={{
-                  backgroundColor: pwMsg.type === "success" ? "#f0fdf4" : "#fef2f2",
-                  borderColor: pwMsg.type === "success" ? "#dcfce7" : "#fee2e2",
-                  color: pwMsg.type === "success" ? "#15803d" : "#dc2626",
+                  backgroundColor: pwMsg.type === "success" ? "rgba(123,140,111,0.06)" : "rgba(220,50,50,0.05)",
+                  color: pwMsg.type === "success" ? "#5a6d50" : "#c53030",
                 }}
               >
                 {pwMsg.type === "success" ? <Check className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
                 {pwMsg.text}
               </div>
             )}
-            <form onSubmit={handleChangePassword} className="space-y-3">
+            <form onSubmit={handleChangePassword} className="space-y-4">
               <div>
-                <label className="mb-1.5 block text-[0.8rem] font-medium text-[#111]">Current Password</label>
+                <label className="mb-2.5 block text-[0.7rem] font-bold uppercase tracking-[0.1em] text-[#C5C2BC]">
+                  Current Password
+                </label>
                 <input className={inputClass} type="password" value={currentPw} onChange={(e) => setCurrentPw(e.target.value)} required placeholder="Enter current password" />
               </div>
               <div>
-                <label className="mb-1.5 block text-[0.8rem] font-medium text-[#111]">New Password</label>
+                <label className="mb-2.5 block text-[0.7rem] font-bold uppercase tracking-[0.1em] text-[#C5C2BC]">
+                  New Password
+                </label>
                 <input className={inputClass} type="password" value={newPw} onChange={(e) => setNewPw(e.target.value)} required placeholder="Enter new password" />
               </div>
               <div>
-                <label className="mb-1.5 block text-[0.8rem] font-medium text-[#111]">Confirm Password</label>
+                <label className="mb-2.5 block text-[0.7rem] font-bold uppercase tracking-[0.1em] text-[#C5C2BC]">
+                  Confirm New Password
+                </label>
                 <input className={inputClass} type="password" value={confirmPw} onChange={(e) => setConfirmPw(e.target.value)} required placeholder="Confirm new password" />
               </div>
               <button
                 type="submit"
                 disabled={pwSaving}
-                className="w-full rounded-xl bg-[#111] py-3 text-[0.85rem] font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-40"
+                className="w-full rounded-2xl py-3.5 text-[0.85rem] font-semibold text-white transition-all hover:brightness-105 active:scale-[0.98] disabled:opacity-50"
+                style={{ background: "linear-gradient(135deg, #8B7355, #7a6448)", boxShadow: "0 4px 14px rgba(139,115,85,0.25)" }}
               >
                 {pwSaving ? "Changing..." : "Change Password"}
               </button>
@@ -168,9 +201,18 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* Ad Accounts */}
-      <div className="mt-6">
-        <h2 className="mb-4 text-[0.95rem] font-semibold text-[#111]">Ad Accounts</h2>
+      {/* Connected Ad Accounts per site */}
+      <div className="mt-8">
+        <div className="mb-5 flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-[14px]" style={{ backgroundColor: "rgba(92,122,138,0.08)" }}>
+            <Megaphone className="h-[18px] w-[18px] text-[#5C7A8A]" />
+          </div>
+          <div>
+            <h2 className="text-[0.95rem] font-bold text-[#1A1A1A]">Ad Accounts</h2>
+            <p className="text-[0.7rem] text-[#B0ADA8]">Connected ad platforms for each website</p>
+          </div>
+        </div>
+
         {websites && websites.length > 0 ? (
           <div className="space-y-4">
             {websites.map((site) => (
@@ -178,9 +220,12 @@ export default function SettingsPage() {
             ))}
           </div>
         ) : (
-          <div className="rounded-2xl border border-[#E5E5E5] bg-white px-8 py-12 text-center">
-            <Globe className="mx-auto h-8 w-8 text-[#CCC]" />
-            <p className="mt-3 text-[0.85rem] text-[#999]">No websites to configure yet.</p>
+          <div
+            className="rounded-[24px] bg-white px-8 py-12 text-center"
+            style={{ border: "1px solid rgba(0,0,0,0.05)" }}
+          >
+            <Globe className="mx-auto h-8 w-8 text-[#D0D0D0]" />
+            <p className="mt-3 text-[0.85rem] text-[#A5A29D]">No websites to configure yet.</p>
           </div>
         )}
       </div>
@@ -230,75 +275,126 @@ function AdAccountsCard({
   };
 
   const inputClass =
-    "w-full rounded-xl border border-[#E5E5E5] bg-white px-4 py-3 text-[0.82rem] text-[#111] outline-none transition-colors placeholder:text-[#CCC] focus:border-[#111]";
+    "w-full rounded-xl border-2 border-[#EEECEA] bg-[#FAF9F7] px-4 py-3 text-[0.82rem] font-medium text-[#1A1A1A] outline-none transition-all placeholder:font-normal placeholder:text-[#D0D0D0] focus:border-[#7B8C6F] focus:bg-white";
 
   return (
-    <div className="rounded-2xl border border-[#E5E5E5] bg-white">
-      <div className="flex items-center justify-between border-b border-[#F0F0F0] px-6 py-4">
-        <h3 className="text-[0.88rem] font-semibold text-[#111]">{websiteName}</h3>
+    <div
+      className="overflow-hidden rounded-[24px] bg-white"
+      style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}
+    >
+      <div className="flex items-center justify-between border-b px-7 py-5" style={{ borderColor: "rgba(0,0,0,0.04)" }}>
+        <div className="flex items-center gap-3">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(92,122,138,0.08)" }}>
+            <Globe className="h-4 w-4 text-[#5C7A8A]" />
+          </div>
+          <h3 className="text-[0.9rem] font-bold text-[#1A1A1A]">{websiteName}</h3>
+        </div>
         {isAdmin && (
           <button
             onClick={() => setShowAdd(!showAdd)}
-            className="flex items-center gap-1.5 text-[0.75rem] font-medium transition-colors"
-            style={{ color: showAdd ? "#dc2626" : "#7B8C6F" }}
+            className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-[0.72rem] font-semibold transition-all"
+            style={{
+              backgroundColor: showAdd ? "rgba(220,50,50,0.06)" : "rgba(123,140,111,0.06)",
+              color: showAdd ? "#c53030" : "#7B8C6F",
+            }}
           >
             <Plus className="h-3.5 w-3.5" style={{ transform: showAdd ? "rotate(45deg)" : "none", transition: "transform 0.2s" }} />
-            {showAdd ? "Cancel" : "Add"}
+            {showAdd ? "Cancel" : "Add Account"}
           </button>
         )}
       </div>
 
       <div className="p-5">
+        {/* Add form */}
         {showAdd && (
-          <form onSubmit={handleAdd} className="mb-5 space-y-3 rounded-xl border border-dashed border-[#E5E5E5] bg-[#FAFAFA] p-4">
-            <select className={inputClass} value={platform} onChange={(e) => setPlatform(e.target.value)}>
-              <option value="meta">Meta (Facebook/Instagram)</option>
-              <option value="google">Google Ads</option>
-              <option value="tiktok">TikTok Ads</option>
-              <option value="other">Other</option>
-            </select>
-            <input className={inputClass} placeholder="Account Name" value={accountName} onChange={(e) => setAccountName(e.target.value)} required />
+          <form onSubmit={handleAdd} className="mb-5 space-y-3 rounded-2xl border border-dashed p-4" style={{ borderColor: "rgba(0,0,0,0.08)", backgroundColor: "#FDFCFA" }}>
+            <div className="flex gap-3">
+              <select
+                className={inputClass}
+                value={platform}
+                onChange={(e) => setPlatform(e.target.value)}
+              >
+                <option value="meta">Meta (Facebook/Instagram)</option>
+                <option value="google">Google Ads</option>
+                <option value="tiktok">TikTok Ads</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <input className={inputClass} placeholder="Account Name (e.g. Main Business)" value={accountName} onChange={(e) => setAccountName(e.target.value)} required />
             <input className={inputClass} placeholder="Account / Pixel ID" value={accountId} onChange={(e) => setAccountId(e.target.value)} required />
             <button
               type="submit"
               disabled={adding}
-              className="w-full rounded-xl bg-[#111] py-3 text-[0.82rem] font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-40"
+              className="w-full rounded-xl py-3 text-[0.82rem] font-semibold text-white transition-all hover:brightness-105 disabled:opacity-50"
+              style={{ background: "linear-gradient(135deg, #5C7A8A, #4a6878)" }}
             >
               {adding ? "Adding..." : "Connect Account"}
             </button>
           </form>
         )}
 
+        {/* List */}
         {adAccounts && adAccounts.length > 0 ? (
-          <div className="divide-y divide-[#F5F5F5]">
+          <div className="space-y-2">
             {adAccounts.map((acc) => (
-              <div key={acc._id} className="flex items-center justify-between py-3">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[0.82rem] font-medium text-[#111]">{acc.accountName}</span>
-                    <span
-                      className="rounded bg-[#F0F0F0] px-1.5 py-0.5 text-[0.6rem] font-semibold uppercase"
-                      style={{ color: acc.isActive ? "#15803d" : "#999" }}
-                    >
-                      {acc.isActive ? "Active" : "Paused"}
+              <div
+                key={acc._id}
+                className="flex items-center justify-between rounded-2xl px-4 py-3.5 transition-colors hover:bg-[#FAF9F7]"
+              >
+                <div className="flex items-center gap-3">
+                  <div
+                    className="flex h-9 w-9 items-center justify-center rounded-xl text-[0.65rem] font-bold uppercase"
+                    style={{
+                      backgroundColor:
+                        acc.platform === "meta" ? "rgba(24,119,242,0.08)" :
+                        acc.platform === "google" ? "rgba(234,67,53,0.08)" :
+                        acc.platform === "tiktok" ? "rgba(0,0,0,0.06)" :
+                        "rgba(0,0,0,0.04)",
+                      color:
+                        acc.platform === "meta" ? "#1877F2" :
+                        acc.platform === "google" ? "#EA4335" :
+                        acc.platform === "tiktok" ? "#000" :
+                        "#888",
+                    }}
+                  >
+                    {acc.platform === "meta" ? "M" : acc.platform === "google" ? "G" : acc.platform === "tiktok" ? "T" : "?"}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[0.85rem] font-semibold text-[#1A1A1A]">{acc.accountName}</span>
+                      <span
+                        className="rounded-md px-1.5 py-0.5 text-[0.58rem] font-bold uppercase tracking-[0.04em]"
+                        style={{
+                          backgroundColor: acc.isActive ? "rgba(123,140,111,0.08)" : "rgba(0,0,0,0.04)",
+                          color: acc.isActive ? "#7B8C6F" : "#BBB",
+                        }}
+                      >
+                        {acc.isActive ? "Active" : "Paused"}
+                      </span>
+                    </div>
+                    <span className="text-[0.72rem] text-[#B0ADA8]">
+                      {acc.platform.charAt(0).toUpperCase() + acc.platform.slice(1)} &middot; ID: {acc.accountId}
                     </span>
                   </div>
-                  <span className="text-[0.72rem] text-[#999]">
-                    {acc.platform.charAt(0).toUpperCase() + acc.platform.slice(1)} &middot; {acc.accountId}
-                  </span>
                 </div>
                 <div className="flex items-center gap-1">
                   <button
-                    onClick={async () => { if (token) await toggleMut({ sessionToken: token, adAccountId: acc._id as any }); }}
-                    className="px-2 py-1 text-[0.7rem] font-medium transition-colors hover:text-[#111]"
-                    style={{ color: acc.isActive ? "#dc2626" : "#15803d" }}
+                    onClick={async () => {
+                      if (token) await toggleMut({ sessionToken: token, adAccountId: acc._id as any });
+                    }}
+                    className="rounded-xl px-3 py-2 text-[0.68rem] font-semibold transition-all hover:bg-[#F4F1EC]"
+                    style={{ color: acc.isActive ? "#c53030" : "#7B8C6F" }}
                   >
                     {acc.isActive ? "Pause" : "Resume"}
                   </button>
                   {isAdmin && (
                     <button
-                      onClick={async () => { if (token && confirm("Delete this ad account?")) await deleteMut({ sessionToken: token, adAccountId: acc._id as any }); }}
-                      className="p-1 text-[#CCC] transition-colors hover:text-red-500"
+                      onClick={async () => {
+                        if (token && confirm("Delete this ad account?")) {
+                          await deleteMut({ sessionToken: token, adAccountId: acc._id as any });
+                        }
+                      }}
+                      className="rounded-xl p-2 text-[#D0D0D0] transition-all hover:bg-red-50 hover:text-red-400"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </button>
@@ -308,7 +404,9 @@ function AdAccountsCard({
             ))}
           </div>
         ) : (
-          <p className="py-4 text-center text-[0.82rem] text-[#CCC]">No ad accounts connected.</p>
+          <p className="py-4 text-center text-[0.82rem] text-[#C5C2BC]">
+            No ad accounts connected yet.
+          </p>
         )}
       </div>
     </div>
