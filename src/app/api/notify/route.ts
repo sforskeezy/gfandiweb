@@ -47,56 +47,48 @@ export async function POST(req: NextRequest) {
         ? `New Booking Request from ${fullName}`
         : `New Application from ${fullName}`,
       html: `
-        <style>@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&display=swap');</style>
-        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background-color: #f5f5f0; padding: 48px 20px;">
-          <div style="max-width: 560px; margin: 0 auto;">
-            <div style="background: #7B8C6F; height: 4px; border-radius: 8px 8px 0 0;"></div>
-            <div style="background: #ffffff; border: 1px solid #e8e8e4; border-top: none; border-radius: 0 0 8px 8px; padding: 40px 36px;">
-              <h1 style="margin: 0 0 28px; font-size: 26px; font-weight: 600; color: #1A1A1A; letter-spacing: -0.03em;">6POINT <span style="font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-weight: 600;">Solutions</span></h1>
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background-color: #f2f2f7; padding: 40px 0;">
+          <div style="max-width: 680px; margin: 0 auto; background: #ffffff; border-radius: 12px; padding: 48px 44px;">
+            <p style="margin: 0 0 36px; font-size: 22px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.02em;">6POINT</p>
 
-              <div style="background: #1A1A1A; border-radius: 10px; padding: 24px 28px; margin-bottom: 28px;">
-                <p style="margin: 0; font-size: 18px; font-weight: 600; color: #ffffff;">
-                  ${isBooking ? "New Booking Request" : "New Application"}
-                </p>
-                <p style="margin: 6px 0 0; font-size: 13px; color: rgba(255,255,255,0.45);">
-                  ${new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })}
-                </p>
+            <p style="margin: 0 0 4px; font-size: 17px; font-weight: 600; color: #1A1A1A;">
+              ${isBooking ? "New Booking Request" : "New Application"}
+            </p>
+            <p style="margin: 0 0 28px; font-size: 13px; color: #86868b;">
+              ${new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })}
+            </p>
+
+            <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+              <tr>
+                <td style="padding: 10px 0; color: #86868b; width: 110px; vertical-align: top;">Name</td>
+                <td style="padding: 10px 0; color: #1A1A1A;">${fullName}</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 0; color: #86868b; vertical-align: top;">Email</td>
+                <td style="padding: 10px 0;"><a href="mailto:${email}" style="color: #0066cc; text-decoration: none;">${email}</a></td>
+              </tr>
+              ${phone ? `<tr><td style="padding: 10px 0; color: #86868b; vertical-align: top;">Phone</td><td style="padding: 10px 0; color: #1A1A1A;">${phone}</td></tr>` : ""}
+              ${businessName ? `<tr><td style="padding: 10px 0; color: #86868b; vertical-align: top;">Business</td><td style="padding: 10px 0; color: #1A1A1A;">${businessName}</td></tr>` : ""}
+              ${packageTier && packageTier !== "none" ? `<tr><td style="padding: 10px 0; color: #86868b; vertical-align: top;">Package</td><td style="padding: 10px 0; font-weight: 600; color: #1A1A1A;">${packageTier.charAt(0).toUpperCase() + packageTier.slice(1)}</td></tr>` : ""}
+            </table>
+
+            ${services && services.length > 0 ? `
+              <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e5ea;">
+                <p style="margin: 0 0 8px; font-size: 14px; color: #86868b;">Services</p>
+                <p style="margin: 0; font-size: 14px; color: #1A1A1A; line-height: 1.6;">${services.join(", ")}</p>
               </div>
+            ` : ""}
 
-              <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
-                <tr>
-                  <td style="padding: 10px 0; color: #999; width: 110px; vertical-align: top;">Name</td>
-                  <td style="padding: 10px 0; font-weight: 600; color: #1A1A1A;">${fullName}</td>
-                </tr>
-                <tr>
-                  <td style="padding: 10px 0; color: #999; vertical-align: top;">Email</td>
-                  <td style="padding: 10px 0;"><a href="mailto:${email}" style="color: #7B8C6F; text-decoration: none;">${email}</a></td>
-                </tr>
-                ${phone ? `<tr><td style="padding: 10px 0; color: #999; vertical-align: top;">Phone</td><td style="padding: 10px 0; color: #1A1A1A;">${phone}</td></tr>` : ""}
-                ${businessName ? `<tr><td style="padding: 10px 0; color: #999; vertical-align: top;">Business</td><td style="padding: 10px 0; color: #1A1A1A;">${businessName}</td></tr>` : ""}
-                ${packageTier && packageTier !== "none" ? `<tr><td style="padding: 10px 0; color: #999; vertical-align: top;">Package</td><td style="padding: 10px 0; color: #7B8C6F; font-weight: 600;">${packageTier.charAt(0).toUpperCase() + packageTier.slice(1)}</td></tr>` : ""}
-              </table>
-
-              ${services && services.length > 0 ? `
-                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eeeeea;">
-                  <p style="margin: 0 0 10px; font-size: 11px; font-weight: 600; color: #bbb; text-transform: uppercase; letter-spacing: 0.08em;">Services</p>
-                  <div>${services.map((s: string) => `<span style="display: inline-block; background: #f0ede8; padding: 5px 12px; border-radius: 20px; font-size: 12px; color: #666; margin: 3px 4px 3px 0;">${s}</span>`).join("")}</div>
-                </div>
-              ` : ""}
-
-              ${details ? `
-                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eeeeea;">
-                  <p style="margin: 0 0 10px; font-size: 11px; font-weight: 600; color: #bbb; text-transform: uppercase; letter-spacing: 0.08em;">Project Details</p>
-                  <p style="margin: 0; font-size: 14px; color: #555; line-height: 1.7;">${details}</p>
-                </div>
-              ` : ""}
-
-              <div style="margin-top: 32px; text-align: center;">
-                <a href="mailto:${email}" style="display: inline-block; background: #7B8C6F; color: white; padding: 13px 32px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600;">
-                  Reply to ${firstName}
-                </a>
+            ${details ? `
+              <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e5ea;">
+                <p style="margin: 0 0 8px; font-size: 14px; color: #86868b;">Project Details</p>
+                <p style="margin: 0; font-size: 14px; color: #1A1A1A; line-height: 1.6;">${details}</p>
               </div>
-            </div>
+            ` : ""}
+          </div>
+
+          <div style="max-width: 680px; margin: 0 auto; text-align: center; padding: 28px 20px 0;">
+            <p style="margin: 0; font-size: 12px; color: #86868b;">Copyright &copy; ${new Date().getFullYear()} 6POINT Solutions. All rights reserved.</p>
           </div>
         </div>
       `,
@@ -110,39 +102,33 @@ export async function POST(req: NextRequest) {
         ? "Your call is booked — 6POINT Solutions"
         : "We got your application — 6POINT Solutions",
       html: `
-        <style>@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&display=swap');</style>
-        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background-color: #f5f5f0; padding: 48px 20px;">
-          <div style="max-width: 560px; margin: 0 auto;">
-            <div style="background: #7B8C6F; height: 4px; border-radius: 8px 8px 0 0;"></div>
-            <div style="background: #ffffff; border: 1px solid #e8e8e4; border-top: none; border-radius: 0 0 8px 8px; padding: 40px 36px;">
-              <h1 style="margin: 0 0 32px; font-size: 26px; font-weight: 600; color: #1A1A1A; letter-spacing: -0.03em;">6POINT <span style="font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-weight: 600;">Solutions</span></h1>
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background-color: #f2f2f7; padding: 40px 0;">
+          <div style="max-width: 680px; margin: 0 auto; background: #ffffff; border-radius: 12px; padding: 48px 44px;">
+            <p style="margin: 0 0 40px; font-size: 22px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.02em;">6POINT</p>
 
-              <h2 style="margin: 0 0 10px; font-size: 22px; font-weight: 600; color: #1A1A1A;">
-                ${isBooking ? "Your call is booked!" : "We received your application!"}
-              </h2>
-              <p style="margin: 0 0 28px; font-size: 15px; color: #777; line-height: 1.7;">
-                Hey ${firstName}, thanks for reaching out. ${isBooking
-                  ? "We'll be in touch within 24 hours to confirm your strategy call."
-                  : "Our team will review your application and get back to you within 24 hours."}
-              </p>
+            <p style="margin: 0 0 16px; font-size: 15px; color: #333; line-height: 1.6;">Hey ${firstName},</p>
 
-              ${!isBooking && packageTier && packageTier !== "none" ? `
-                <div style="background: #f0ede8; border-radius: 10px; padding: 20px 24px; margin-bottom: 28px;">
-                  <p style="margin: 0 0 4px; font-size: 11px; font-weight: 600; color: #bbb; text-transform: uppercase; letter-spacing: 0.08em;">Selected Package</p>
-                  <p style="margin: 0; font-size: 18px; font-weight: 600; color: #1A1A1A;">${packageTier.charAt(0).toUpperCase() + packageTier.slice(1)}</p>
-                </div>
-              ` : ""}
+            <p style="margin: 0 0 16px; font-size: 15px; color: #333; line-height: 1.6;">
+              ${isBooking
+                ? "Thanks for booking a call with us. We'll be in touch within 24 hours to confirm your strategy call."
+                : "Thanks for reaching out. Our team will review your application and get back to you within 24 hours."}
+            </p>
 
-              <div style="border-top: 1px solid #eeeeea; padding-top: 28px; margin-top: 28px;">
-                <p style="margin: 0; font-size: 14px; color: #999; line-height: 1.7;">
-                  If you have any questions in the meantime, just reply to this email.
-                </p>
-                <p style="margin: 16px 0 0; font-size: 14px; color: #1A1A1A; font-weight: 500;">— The 6POINT Team</p>
-                <p style="margin: 6px 0 0; font-size: 13px;">
-                  <a href="https://6pointsolutions.com" style="color: #7B8C6F; text-decoration: none;">6pointsolutions.com</a>
-                </p>
-              </div>
-            </div>
+            ${!isBooking && packageTier && packageTier !== "none" ? `
+              <p style="margin: 0 0 16px; font-size: 15px; color: #333; line-height: 1.6;">Your selected package: <strong>${packageTier.charAt(0).toUpperCase() + packageTier.slice(1)}</strong></p>
+            ` : ""}
+
+            <p style="margin: 0 0 16px; font-size: 15px; color: #333; line-height: 1.6;">If you have any questions in the meantime, just reply to this email.</p>
+
+            <p style="margin: 28px 0 0; font-size: 15px; color: #333;">Regards,</p>
+            <p style="margin: 4px 0 0; font-size: 15px; color: #333;">The 6POINT Team</p>
+          </div>
+
+          <div style="max-width: 680px; margin: 0 auto; text-align: center; padding: 28px 20px 0;">
+            <p style="margin: 0; font-size: 12px; color: #86868b;">Copyright &copy; ${new Date().getFullYear()} 6POINT Solutions. All rights reserved.</p>
+            <p style="margin: 8px 0 0; font-size: 12px;">
+              <a href="https://6pointsolutions.com" style="color: #86868b; text-decoration: none;">6pointsolutions.com</a>
+            </p>
           </div>
         </div>
       `,

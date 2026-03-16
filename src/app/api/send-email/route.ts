@@ -29,24 +29,23 @@ export async function POST(req: NextRequest) {
       to,
       subject,
       html: `
-        <style>@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&display=swap');</style>
-        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background-color: #f5f5f0; padding: 48px 20px;">
-          <div style="max-width: 560px; margin: 0 auto;">
-            <div style="background: #7B8C6F; height: 4px; border-radius: 8px 8px 0 0;"></div>
-            <div style="background: #ffffff; border: 1px solid #e8e8e4; border-top: none; border-radius: 0 0 8px 8px; padding: 40px 36px;">
-              <h1 style="margin: 0 0 32px; font-size: 26px; font-weight: 600; color: #1A1A1A; letter-spacing: -0.03em;">6POINT <span style="font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-weight: 600;">Solutions</span></h1>
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background-color: #f2f2f7; padding: 40px 0;">
+          <div style="max-width: 680px; margin: 0 auto; background: #ffffff; border-radius: 12px; padding: 48px 44px;">
+            <p style="margin: 0 0 40px; font-size: 22px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.02em;">6POINT</p>
 
-              ${firstName ? `<p style="margin: 0 0 20px; font-size: 16px; color: #1A1A1A;">Hey ${firstName},</p>` : ""}
+            ${firstName ? `<p style="margin: 0 0 16px; font-size: 15px; color: #1A1A1A; line-height: 1.6;">Hey ${firstName},</p>` : ""}
 
-              <div style="font-size: 15px; color: #555; line-height: 1.75; white-space: pre-wrap;">${body}</div>
+            <div style="font-size: 15px; color: #333; line-height: 1.7; white-space: pre-wrap;">${body}</div>
 
-              <div style="border-top: 1px solid #eeeeea; padding-top: 28px; margin-top: 36px;">
-                <p style="margin: 0; font-size: 14px; color: #1A1A1A; font-weight: 500;">— The 6POINT Team</p>
-                <p style="margin: 6px 0 0; font-size: 13px;">
-                  <a href="https://6pointsolutions.com" style="color: #7B8C6F; text-decoration: none;">6pointsolutions.com</a>
-                </p>
-              </div>
-            </div>
+            <p style="margin: 40px 0 0; font-size: 15px; color: #333;">Regards,</p>
+            <p style="margin: 4px 0 0; font-size: 15px; color: #333;">The 6POINT Team</p>
+          </div>
+
+          <div style="max-width: 680px; margin: 0 auto; text-align: center; padding: 28px 20px 0;">
+            <p style="margin: 0; font-size: 12px; color: #86868b;">Copyright &copy; ${new Date().getFullYear()} 6POINT Solutions. All rights reserved.</p>
+            <p style="margin: 8px 0 0; font-size: 12px;">
+              <a href="https://6pointsolutions.com" style="color: #86868b; text-decoration: none;">6pointsolutions.com</a>
+            </p>
           </div>
         </div>
       `,
