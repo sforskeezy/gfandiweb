@@ -15,6 +15,7 @@ function normalizeFromEmail(raw: string): string {
 }
 
 const FROM_EMAIL = normalizeFromEmail(process.env.FROM_EMAIL || "6POINT Solutions <hello@6pointsolutions.com>");
+const LOGO_URL = "https://6pointsolutions.com/d2b8263f-f484-4783-8fd0-daf49e85220b.png";
 
 export async function POST(req: NextRequest) {
   try {
@@ -24,31 +25,63 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: "Missing fields" }, { status: 400 });
     }
 
-    const textBody = [
-      firstName ? `Hey ${firstName},\n\n` : "",
-      body,
-      "\n\nRegards,\nThe 6POINT Team\n\n6pointsolutions.com",
-    ].join("");
+    const year = new Date().getFullYear();
 
     await resend.emails.send({
       from: FROM_EMAIL,
       to,
       subject,
-      text: textBody,
+      text: [
+        firstName ? `Hey ${firstName},` : "",
+        "",
+        body,
+        "",
+        "Regards,",
+        "The 6POINT Team",
+        "6pointsolutions.com",
+      ].filter(Boolean).join("\n"),
       html: `
 <!DOCTYPE html>
-<html>
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;color:#333;line-height:1.6;background:#fff;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;">
-<tr><td style="padding:32px 24px;">
-<p style="margin:0 0 24px;font-size:20px;font-weight:700;color:#1A1A1A;">6POINT</p>
-${firstName ? `<p style="margin:0 0 16px;">Hey ${firstName},</p>` : ""}
-<p style="margin:0 0 24px;white-space:pre-wrap;">${body}</p>
-<p style="margin:0;color:#666;">Regards,<br>The 6POINT Team</p>
-<p style="margin:12px 0 0;font-size:13px;"><a href="https://6pointsolutions.com" style="color:#86868b;text-decoration:none;">6pointsolutions.com</a></p>
-</td></tr>
-</table>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body style="margin: 0; padding: 0; background-color: #f2f2f7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #f2f2f7; padding: 40px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" cellpadding="0" cellspacing="0" style="width: 100%; max-width: 680px; background: #ffffff; border-radius: 12px;">
+          <tr>
+            <td style="padding: 44px 44px 40px;">
+              <!-- Header -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="font-size: 22px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.02em; padding-bottom: 36px;">6POINT</td>
+                  <td style="text-align: right; padding-bottom: 36px;"><img src="${LOGO_URL}" alt="" width="36" height="36" style="display: block;" /></td>
+                </tr>
+              </table>
+              <!-- Body -->
+              ${firstName ? `<p style="margin: 0 0 16px; font-size: 15px; color: #1d1d1f; line-height: 1.6;">Hey ${firstName},</p>` : ""}
+              <p style="margin: 0; font-size: 15px; color: #1d1d1f; line-height: 1.6; white-space: pre-wrap;">${body}</p>
+              <!-- Sign off -->
+              <p style="margin: 36px 0 0; font-size: 15px; color: #1d1d1f;">Regards,</p>
+              <p style="margin: 2px 0 0; font-size: 15px; color: #1d1d1f;">The 6POINT Team</p>
+            </td>
+          </tr>
+        </table>
+        <!-- Footer -->
+        <table role="presentation" cellpadding="0" cellspacing="0" style="width: 100%; max-width: 680px;">
+          <tr>
+            <td style="padding: 24px 0 0; text-align: center; font-size: 12px; color: #86868b; line-height: 1.5;">
+              Copyright &copy; ${year} 6POINT Solutions. All rights reserved.
+              <br><a href="https://6pointsolutions.com" style="color: #86868b; text-decoration: none;">6pointsolutions.com</a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>
       `.trim(),

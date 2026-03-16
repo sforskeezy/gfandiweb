@@ -21,6 +21,8 @@ const FROM_EMAIL = (() => {
   return match ? raw.replace(match[1], normalized) : normalized;
 })();
 
+const LOGO_URL = "https://6pointsolutions.com/d2b8263f-f484-4783-8fd0-daf49e85220b.png";
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -38,91 +40,160 @@ export async function POST(req: NextRequest) {
 
     const isBooking = type === "booking";
     const fullName = `${firstName} ${lastName}`;
+    const year = new Date().getFullYear();
+    const dateStr = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" });
 
-    // 1. Send notification to admin
-    const adminText = [
-      `${isBooking ? "New Booking Request" : "New Application"}`,
-      new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" }),
-      "",
-      `Name: ${fullName}`,
-      `Email: ${email}`,
-      phone ? `Phone: ${phone}` : "",
-      businessName ? `Business: ${businessName}` : "",
-      packageTier && packageTier !== "none" ? `Package: ${packageTier}` : "",
-      services?.length ? `Services: ${services.join(", ")}` : "",
-      details ? `\nProject Details:\n${details}` : "",
-    ].filter(Boolean).join("\n");
-
+    // ── 1. Admin notification ──
     await resend.emails.send({
       from: FROM_EMAIL,
       to: ADMIN_EMAIL,
       subject: isBooking
         ? `New Booking Request from ${fullName}`
         : `New Application from ${fullName}`,
-      text: adminText,
+      text: [
+        isBooking ? "New Booking Request" : "New Application",
+        dateStr,
+        "",
+        `Name: ${fullName}`,
+        `Email: ${email}`,
+        phone ? `Phone: ${phone}` : "",
+        businessName ? `Business: ${businessName}` : "",
+        packageTier && packageTier !== "none" ? `Package: ${packageTier}` : "",
+        services?.length ? `Services: ${services.join(", ")}` : "",
+        details ? `\nProject Details:\n${details}` : "",
+      ].filter(Boolean).join("\n"),
       html: `
 <!DOCTYPE html>
-<html>
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;color:#333;line-height:1.6;background:#fff;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;">
-<tr><td style="padding:32px 24px;">
-<p style="margin:0 0 24px;font-size:20px;font-weight:700;color:#1A1A1A;">6POINT</p>
-<p style="margin:0 0 4px;font-size:16px;font-weight:600;color:#1A1A1A;">${isBooking ? "New Booking Request" : "New Application"}</p>
-<p style="margin:0 0 20px;font-size:13px;color:#86868b;">${new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })}</p>
-<table role="presentation" style="width:100%;border-collapse:collapse;font-size:14px;">
-<tr><td style="padding:8px 0;color:#86868b;width:100px;">Name</td><td style="padding:8px 0;">${fullName}</td></tr>
-<tr><td style="padding:8px 0;color:#86868b;">Email</td><td style="padding:8px 0;"><a href="mailto:${email}" style="color:#0066cc;text-decoration:none;">${email}</a></td></tr>
-${phone ? `<tr><td style="padding:8px 0;color:#86868b;">Phone</td><td style="padding:8px 0;">${phone}</td></tr>` : ""}
-${businessName ? `<tr><td style="padding:8px 0;color:#86868b;">Business</td><td style="padding:8px 0;">${businessName}</td></tr>` : ""}
-${packageTier && packageTier !== "none" ? `<tr><td style="padding:8px 0;color:#86868b;">Package</td><td style="padding:8px 0;font-weight:600;">${packageTier.charAt(0).toUpperCase() + packageTier.slice(1)}</td></tr>` : ""}
-</table>
-${services && services.length > 0 ? `<p style="margin:20px 0 0;font-size:13px;color:#86868b;">Services: ${services.join(", ")}</p>` : ""}
-${details ? `<p style="margin:12px 0 0;font-size:13px;color:#86868b;">Project Details:</p><p style="margin:4px 0 0;">${details}</p>` : ""}
-</td></tr>
-</table>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body style="margin: 0; padding: 0; background-color: #f2f2f7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #f2f2f7; padding: 40px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" cellpadding="0" cellspacing="0" style="width: 100%; max-width: 680px; background: #ffffff; border-radius: 12px;">
+          <tr>
+            <td style="padding: 44px 44px 40px;">
+              <!-- Header -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="font-size: 22px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.02em; padding-bottom: 32px;">6POINT</td>
+                  <td style="text-align: right; padding-bottom: 32px;"><img src="${LOGO_URL}" alt="" width="36" height="36" style="display: block;" /></td>
+                </tr>
+              </table>
+              <!-- Title -->
+              <p style="margin: 0 0 4px; font-size: 17px; font-weight: 600; color: #1d1d1f;">${isBooking ? "New Booking Request" : "New Application"}</p>
+              <p style="margin: 0 0 28px; font-size: 13px; color: #86868b;">${dateStr}</p>
+              <!-- Details -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size: 14px; color: #1d1d1f;">
+                <tr>
+                  <td style="padding: 10px 0; color: #86868b; width: 110px; vertical-align: top;">Name</td>
+                  <td style="padding: 10px 0;">${fullName}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px 0; color: #86868b; vertical-align: top;">Email</td>
+                  <td style="padding: 10px 0;"><a href="mailto:${email}" style="color: #0066cc; text-decoration: none;">${email}</a></td>
+                </tr>
+                ${phone ? `<tr><td style="padding: 10px 0; color: #86868b; vertical-align: top;">Phone</td><td style="padding: 10px 0;">${phone}</td></tr>` : ""}
+                ${businessName ? `<tr><td style="padding: 10px 0; color: #86868b; vertical-align: top;">Business</td><td style="padding: 10px 0;">${businessName}</td></tr>` : ""}
+                ${packageTier && packageTier !== "none" ? `<tr><td style="padding: 10px 0; color: #86868b; vertical-align: top;">Package</td><td style="padding: 10px 0; font-weight: 600;">${packageTier.charAt(0).toUpperCase() + packageTier.slice(1)}</td></tr>` : ""}
+              </table>
+              ${services && services.length > 0 ? `
+              <p style="margin: 24px 0 6px; font-size: 13px; color: #86868b;">Services</p>
+              <p style="margin: 0; font-size: 14px; color: #1d1d1f; line-height: 1.6;">${services.join(", ")}</p>
+              ` : ""}
+              ${details ? `
+              <p style="margin: 24px 0 6px; font-size: 13px; color: #86868b;">Project Details</p>
+              <p style="margin: 0; font-size: 14px; color: #1d1d1f; line-height: 1.6;">${details}</p>
+              ` : ""}
+            </td>
+          </tr>
+        </table>
+        <!-- Footer -->
+        <table role="presentation" cellpadding="0" cellspacing="0" style="width: 100%; max-width: 680px;">
+          <tr>
+            <td style="padding: 24px 0 0; text-align: center; font-size: 12px; color: #86868b;">
+              Copyright &copy; ${year} 6POINT Solutions. All rights reserved.
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>
       `.trim(),
     });
 
-    // 2. Send confirmation to the applicant
-    const confirmText = [
-      `Hey ${firstName},`,
-      "",
-      isBooking ? "Thanks for booking a call with us. We'll be in touch within 24 hours to confirm your strategy call." : "Thanks for reaching out. Our team will review your application and get back to you within 24 hours.",
-      !isBooking && packageTier && packageTier !== "none" ? `\nYour selected package: ${packageTier}` : "",
-      "",
-      "If you have any questions in the meantime, just reply to this email.",
-      "",
-      "Regards,",
-      "The 6POINT Team",
-      "6pointsolutions.com",
-    ].filter(Boolean).join("\n");
-
+    // ── 2. Confirmation to applicant ──
     await resend.emails.send({
       from: FROM_EMAIL,
       to: email,
       subject: isBooking
         ? "Your call is booked — 6POINT Solutions"
         : "We got your application — 6POINT Solutions",
-      text: confirmText,
+      text: [
+        `Hey ${firstName},`,
+        "",
+        isBooking
+          ? "Thanks for booking a call with us. We'll be in touch within 24 hours to confirm your strategy call."
+          : "Thanks for reaching out. Our team will review your application and get back to you within 24 hours.",
+        !isBooking && packageTier && packageTier !== "none" ? `\nYour selected package: ${packageTier}` : "",
+        "",
+        "If you have any questions in the meantime, just reply to this email.",
+        "",
+        "Regards,",
+        "The 6POINT Team",
+        "6pointsolutions.com",
+      ].filter(Boolean).join("\n"),
       html: `
 <!DOCTYPE html>
-<html>
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;color:#333;line-height:1.6;background:#fff;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;">
-<tr><td style="padding:32px 24px;">
-<p style="margin:0 0 24px;font-size:20px;font-weight:700;color:#1A1A1A;">6POINT</p>
-<p style="margin:0 0 16px;">Hey ${firstName},</p>
-<p style="margin:0 0 16px;">${isBooking ? "Thanks for booking a call with us. We'll be in touch within 24 hours to confirm your strategy call." : "Thanks for reaching out. Our team will review your application and get back to you within 24 hours."}</p>
-${!isBooking && packageTier && packageTier !== "none" ? `<p style="margin:0 0 16px;">Your selected package: <strong>${packageTier.charAt(0).toUpperCase() + packageTier.slice(1)}</strong></p>` : ""}
-<p style="margin:0 0 24px;">If you have any questions in the meantime, just reply to this email.</p>
-<p style="margin:0;color:#666;">Regards,<br>The 6POINT Team</p>
-<p style="margin:12px 0 0;font-size:13px;"><a href="https://6pointsolutions.com" style="color:#86868b;text-decoration:none;">6pointsolutions.com</a></p>
-</td></tr>
-</table>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body style="margin: 0; padding: 0; background-color: #f2f2f7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #f2f2f7; padding: 40px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" cellpadding="0" cellspacing="0" style="width: 100%; max-width: 680px; background: #ffffff; border-radius: 12px;">
+          <tr>
+            <td style="padding: 44px 44px 40px;">
+              <!-- Header -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="font-size: 22px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.02em; padding-bottom: 36px;">6POINT</td>
+                  <td style="text-align: right; padding-bottom: 36px;"><img src="${LOGO_URL}" alt="" width="36" height="36" style="display: block;" /></td>
+                </tr>
+              </table>
+              <!-- Body -->
+              <p style="margin: 0 0 16px; font-size: 15px; color: #1d1d1f; line-height: 1.6;">Hey ${firstName},</p>
+              <p style="margin: 0 0 16px; font-size: 15px; color: #1d1d1f; line-height: 1.6;">${isBooking
+                ? "Thanks for booking a call with us. We'll be in touch within 24 hours to confirm your strategy call."
+                : "Thanks for reaching out. Our team will review your application and get back to you within 24 hours."}</p>
+              ${!isBooking && packageTier && packageTier !== "none" ? `<p style="margin: 0 0 16px; font-size: 15px; color: #1d1d1f; line-height: 1.6;">Your selected package: <strong>${packageTier.charAt(0).toUpperCase() + packageTier.slice(1)}</strong></p>` : ""}
+              <p style="margin: 0 0 16px; font-size: 15px; color: #1d1d1f; line-height: 1.6;">If you have any questions in the meantime, just reply to this email.</p>
+              <!-- Sign off -->
+              <p style="margin: 28px 0 0; font-size: 15px; color: #1d1d1f;">Regards,</p>
+              <p style="margin: 2px 0 0; font-size: 15px; color: #1d1d1f;">The 6POINT Team</p>
+            </td>
+          </tr>
+        </table>
+        <!-- Footer -->
+        <table role="presentation" cellpadding="0" cellspacing="0" style="width: 100%; max-width: 680px;">
+          <tr>
+            <td style="padding: 24px 0 0; text-align: center; font-size: 12px; color: #86868b; line-height: 1.5;">
+              Copyright &copy; ${year} 6POINT Solutions. All rights reserved.
+              <br><a href="https://6pointsolutions.com" style="color: #86868b; text-decoration: none;">6pointsolutions.com</a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>
       `.trim(),
