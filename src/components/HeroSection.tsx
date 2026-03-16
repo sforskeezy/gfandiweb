@@ -33,39 +33,94 @@ function RotatingWord() {
   );
 }
 
-export default function HeroSection() {
+export default function HeroSection({ onBookCall }: { onBookCall?: () => void }) {
   return (
     <section className="relative flex flex-col justify-center px-4 pt-24 pb-0 sm:px-6 sm:pt-28">
-      {/* Colorful gradient blobs OUTSIDE the green box */}
+      {/* Animated radiating gradient blobs */}
       <div className="pointer-events-none absolute -inset-20 z-0 overflow-visible sm:-inset-32">
+        {/* Top-right warm blob with radiating rings */}
         <motion.div
           initial={{ opacity: 0, scale: 0.6 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.5, delay: 0.2 }}
-          className="absolute -top-20 -right-10 h-[350px] w-[350px] rounded-full sm:-top-28 sm:right-0 sm:h-[500px] sm:w-[500px]"
-          style={{ background: "#E8A782", filter: "blur(100px)", opacity: 0.5 }}
-        />
+          className="absolute -top-20 -right-10 sm:-top-28 sm:right-0"
+        >
+          <div
+            className="h-[350px] w-[350px] rounded-full sm:h-[500px] sm:w-[500px]"
+            style={{ background: "#E8A782", animation: "blob-breathe 6s ease-in-out infinite" }}
+          />
+          <div
+            className="absolute inset-0 rounded-full"
+            style={{ border: "2px solid rgba(232,167,130,0.2)", animation: "radiate-ring 4s ease-in-out infinite" }}
+          />
+          <div
+            className="absolute -inset-8 rounded-full"
+            style={{ border: "1.5px solid rgba(232,167,130,0.12)", animation: "radiate-ring-slow 5s ease-in-out infinite 1s" }}
+          />
+        </motion.div>
+
+        {/* Left green blob with radiating rings */}
         <motion.div
           initial={{ opacity: 0, scale: 0.6 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.5, delay: 0.4 }}
-          className="absolute -left-10 top-[20%] h-[300px] w-[300px] rounded-full sm:-left-16 sm:h-[420px] sm:w-[420px]"
-          style={{ background: "#9AAF8C", filter: "blur(90px)", opacity: 0.4 }}
-        />
+          className="absolute -left-10 top-[20%] sm:-left-16"
+        >
+          <div
+            className="h-[300px] w-[300px] rounded-full sm:h-[420px] sm:w-[420px]"
+            style={{ background: "#9AAF8C", animation: "blob-breathe-alt 7s ease-in-out infinite 0.5s" }}
+          />
+          <div
+            className="absolute inset-0 rounded-full"
+            style={{ border: "2px solid rgba(154,175,140,0.2)", animation: "radiate-ring 5s ease-in-out infinite 0.5s" }}
+          />
+          <div
+            className="absolute -inset-10 rounded-full"
+            style={{ border: "1.5px solid rgba(154,175,140,0.1)", animation: "radiate-ring-slow 6s ease-in-out infinite 2s" }}
+          />
+        </motion.div>
+
+        {/* Bottom-right blue blob with radiating rings */}
         <motion.div
           initial={{ opacity: 0, scale: 0.6 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.5, delay: 0.6 }}
-          className="absolute -bottom-10 -right-8 h-[280px] w-[280px] rounded-full sm:-bottom-16 sm:h-[400px] sm:w-[400px]"
-          style={{ background: "#96AAC8", filter: "blur(90px)", opacity: 0.45 }}
-        />
+          className="absolute -bottom-10 -right-8 sm:-bottom-16"
+        >
+          <div
+            className="h-[280px] w-[280px] rounded-full sm:h-[400px] sm:w-[400px]"
+            style={{ background: "#96AAC8", animation: "blob-breathe 5.5s ease-in-out infinite 1s" }}
+          />
+          <div
+            className="absolute inset-0 rounded-full"
+            style={{ border: "2px solid rgba(150,170,200,0.18)", animation: "radiate-ring 4.5s ease-in-out infinite 1.5s" }}
+          />
+          <div
+            className="absolute -inset-6 rounded-full"
+            style={{ border: "1.5px solid rgba(150,170,200,0.1)", animation: "radiate-ring-slow 5.5s ease-in-out infinite 0.8s" }}
+          />
+        </motion.div>
+
+        {/* Bottom-left tan blob with radiating rings */}
         <motion.div
           initial={{ opacity: 0, scale: 0.6 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, delay: 0.8 }}
-          className="absolute -bottom-6 -left-6 h-[220px] w-[220px] rounded-full sm:h-[320px] sm:w-[320px]"
-          style={{ background: "#D2B48C", filter: "blur(80px)", opacity: 0.35 }}
-        />
+          className="absolute -bottom-6 -left-6"
+        >
+          <div
+            className="h-[220px] w-[220px] rounded-full sm:h-[320px] sm:w-[320px]"
+            style={{ background: "#D2B48C", animation: "blob-breathe-alt 6.5s ease-in-out infinite 2s" }}
+          />
+          <div
+            className="absolute inset-0 rounded-full"
+            style={{ border: "2px solid rgba(210,180,140,0.18)", animation: "radiate-ring 5s ease-in-out infinite 2.5s" }}
+          />
+          <div
+            className="absolute -inset-6 rounded-full"
+            style={{ border: "1px solid rgba(210,180,140,0.08)", animation: "radiate-ring-slow 6.5s ease-in-out infinite 1.2s" }}
+          />
+        </motion.div>
       </div>
 
       {/* The green hero box */}
@@ -115,12 +170,12 @@ export default function HeroSection() {
             transition={{ duration: 0.4, delay: 0.9 }}
             className="mt-10 flex flex-wrap items-center justify-center gap-4"
           >
-            <a
-              href="#contact"
+            <button
+              onClick={onBookCall}
               className="inline-block rounded-full bg-white px-7 py-3.5 text-[0.84rem] font-medium text-[#1A1A1A] transition-all duration-200 hover:bg-white/90"
             >
               Book a Call
-            </a>
+            </button>
             <a
               href="#work"
               className="inline-block rounded-full border border-white/30 px-7 py-3.5 text-[0.84rem] font-medium text-white transition-all duration-200 hover:border-white/50 hover:bg-white/10"

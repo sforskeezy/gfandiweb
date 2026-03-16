@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import { ArrowRight } from "lucide-react";
 
-export default function ContactSection() {
+export default function ContactSection({ onBookCall }: { onBookCall?: () => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-15%" });
 
@@ -63,18 +63,18 @@ export default function ContactSection() {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="mt-10 flex flex-wrap items-center justify-center gap-4"
             >
-              <a
-                href="#"
+              <button
+                onClick={onBookCall}
                 className="group inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-[0.88rem] font-medium text-[#1A1A1A] transition-all duration-200 hover:bg-white/90"
               >
                 Book a Free Call
                 <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-              </a>
+              </button>
               <a
-                href="mailto:hello@skylinemarketing.com"
+                href="mailto:hello@6pointstrategies.com"
                 className="inline-flex items-center gap-2 rounded-full border border-white/15 px-8 py-4 text-[0.88rem] font-medium text-white/70 transition-all duration-200 hover:border-white/25 hover:text-white"
               >
-                hello@skylinemarketing.com
+                hello@6pointstrategies.com
               </a>
             </motion.div>
           </div>

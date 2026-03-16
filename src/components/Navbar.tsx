@@ -2,16 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogIn } from "lucide-react";
 
 const navLinks = [
-  { label: "Services", href: "#services" },
   { label: "Pricing", href: "#pricing" },
   { label: "Our Work", href: "#work" },
   { label: "Contact", href: "#contact" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
@@ -38,8 +37,8 @@ export default function Navbar() {
           }`}
         >
           <a href="#" className="pl-2">
-            <span className="text-2xl font-semibold tracking-[-0.03em] text-[#1A1A1A] sm:text-[1.7rem]">
-              Skyline
+            <span className="text-xl font-semibold tracking-[-0.03em] text-[#1A1A1A] sm:text-[1.4rem]">
+              6POINT
             </span>
           </a>
 
@@ -66,12 +65,21 @@ export default function Navbar() {
             ))}
           </div>
 
-          <a
-            href="#contact"
-            className="hidden rounded-full bg-[#1A1A1A] px-7 py-3 text-[0.9rem] font-medium text-white transition-colors duration-200 hover:bg-[#333] md:block"
-          >
-            Book a Call
-          </a>
+          <div className="hidden items-center gap-3 md:flex">
+            <a
+              href="/login"
+              className="flex items-center gap-2 rounded-full border border-[#1A1A1A]/10 px-5 py-3 text-[0.85rem] font-medium text-[#1A1A1A]/70 transition-all duration-200 hover:border-[#1A1A1A]/20 hover:text-[#1A1A1A]"
+            >
+              <LogIn className="h-4 w-4" />
+              Client Login
+            </a>
+            <button
+              onClick={onBookCall}
+              className="rounded-full bg-[#1A1A1A] px-7 py-3 text-[0.9rem] font-medium text-white transition-colors duration-200 hover:bg-[#333]"
+            >
+              Book a Call
+            </button>
+          </div>
 
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -110,15 +118,28 @@ export default function Navbar() {
               </motion.a>
             ))}
             <motion.a
-              href="#contact"
+              href="/login"
               onClick={() => setMobileOpen(false)}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.12, duration: 0.25 }}
+              className="flex items-center gap-2 text-lg text-[#1A1A1A]/60"
+            >
+              <LogIn className="h-5 w-5" />
+              Client Login
+            </motion.a>
+            <motion.button
+              onClick={() => {
+                setMobileOpen(false);
+                onBookCall?.();
+              }}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.25 }}
               className="mt-4 rounded-full bg-[#1A1A1A] px-8 py-3.5 text-sm font-medium text-white"
             >
               Book a Call
-            </motion.a>
+            </motion.button>
           </motion.div>
         )}
       </AnimatePresence>
