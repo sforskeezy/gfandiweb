@@ -93,7 +93,7 @@ export default function BookingModal({
                 className="absolute inset-0"
                 style={{
                   background:
-                    "radial-gradient(ellipse 90% 120% at 30% -20%, rgba(123,140,111,0.15) 0%, transparent 60%)",
+                    "radial-gradient(ellipse 90% 120% at 30% -20%, rgba(93,139,104,0.15) 0%, transparent 60%)",
                 }}
               />
               <div
@@ -126,9 +126,9 @@ export default function BookingModal({
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", bounce: 0.5, delay: 0.1 }}
-                    className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-[#7B8C6F]/15 to-[#7B8C6F]/5"
+                    className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-[#5D8B68]/15 to-[#5D8B68]/5"
                   >
-                    <CheckCircle2 className="h-9 w-9 text-[#7B8C6F]" />
+                    <CheckCircle2 className="h-9 w-9 text-[#5D8B68]" />
                   </motion.div>
                   <motion.h3
                     initial={{ opacity: 0, y: 8 }}
@@ -156,8 +156,8 @@ export default function BookingModal({
                 >
                   <div className="relative px-8 pt-8 pb-0 sm:px-10">
                     <div className="flex items-start gap-4">
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#7B8C6F]/15 to-[#7B8C6F]/5">
-                        <CalendarDays className="h-5.5 w-5.5 text-[#7B8C6F]" />
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#5D8B68]/15 to-[#5D8B68]/5">
+                        <CalendarDays className="h-5.5 w-5.5 text-[#5D8B68]" />
                       </div>
                       <div>
                         <h3 className="text-[1.25rem] font-semibold tracking-[-0.02em] text-[#1A1A1A]">
@@ -199,7 +199,7 @@ export default function BookingModal({
                             required
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
-                            className="w-full rounded-xl border border-[#E8E6E3] bg-[#FAFAF9] px-4 py-3 text-[0.88rem] text-[#1A1A1A] outline-none transition-all placeholder:text-[#D0D0D0] focus:border-[#7B8C6F] focus:bg-white focus:ring-2 focus:ring-[#7B8C6F]/10"
+                            className="w-full rounded-xl border border-[#E8E6E3] bg-[#FAFAF9] px-4 py-3 text-[0.88rem] text-[#1A1A1A] outline-none transition-all placeholder:text-[#D0D0D0] focus:border-[#5D8B68] focus:bg-white focus:ring-2 focus:ring-[#5D8B68]/10"
                             placeholder="John"
                           />
                         </div>
@@ -212,7 +212,7 @@ export default function BookingModal({
                             required
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
-                            className="w-full rounded-xl border border-[#E8E6E3] bg-[#FAFAF9] px-4 py-3 text-[0.88rem] text-[#1A1A1A] outline-none transition-all placeholder:text-[#D0D0D0] focus:border-[#7B8C6F] focus:bg-white focus:ring-2 focus:ring-[#7B8C6F]/10"
+                            className="w-full rounded-xl border border-[#E8E6E3] bg-[#FAFAF9] px-4 py-3 text-[0.88rem] text-[#1A1A1A] outline-none transition-all placeholder:text-[#D0D0D0] focus:border-[#5D8B68] focus:bg-white focus:ring-2 focus:ring-[#5D8B68]/10"
                             placeholder="Doe"
                           />
                         </div>
@@ -227,7 +227,7 @@ export default function BookingModal({
                           required
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          className="w-full rounded-xl border border-[#E8E6E3] bg-[#FAFAF9] px-4 py-3 text-[0.88rem] text-[#1A1A1A] outline-none transition-all placeholder:text-[#D0D0D0] focus:border-[#7B8C6F] focus:bg-white focus:ring-2 focus:ring-[#7B8C6F]/10"
+                          className="w-full rounded-xl border border-[#E8E6E3] bg-[#FAFAF9] px-4 py-3 text-[0.88rem] text-[#1A1A1A] outline-none transition-all placeholder:text-[#D0D0D0] focus:border-[#5D8B68] focus:bg-white focus:ring-2 focus:ring-[#5D8B68]/10"
                           placeholder="john@company.com"
                         />
                       </div>
@@ -240,7 +240,7 @@ export default function BookingModal({
                           required
                           value={service}
                           onChange={(e) => setService(e.target.value)}
-                          className="w-full appearance-none rounded-xl border border-[#E8E6E3] bg-[#FAFAF9] px-4 py-3 text-[0.88rem] text-[#1A1A1A] outline-none transition-all focus:border-[#7B8C6F] focus:bg-white focus:ring-2 focus:ring-[#7B8C6F]/10"
+                          className="w-full appearance-none rounded-xl border border-[#E8E6E3] bg-[#FAFAF9] px-4 py-3 text-[0.88rem] text-[#1A1A1A] outline-none transition-all focus:border-[#5D8B68] focus:bg-white focus:ring-2 focus:ring-[#5D8B68]/10"
                         >
                           <option value="" disabled>
                             Select a service
@@ -261,7 +261,7 @@ export default function BookingModal({
                           rows={3}
                           value={details}
                           onChange={(e) => setDetails(e.target.value)}
-                          className="w-full resize-none rounded-xl border border-[#E8E6E3] bg-[#FAFAF9] px-4 py-3 text-[0.88rem] text-[#1A1A1A] outline-none transition-all placeholder:text-[#D0D0D0] focus:border-[#7B8C6F] focus:bg-white focus:ring-2 focus:ring-[#7B8C6F]/10"
+                          className="w-full resize-none rounded-xl border border-[#E8E6E3] bg-[#FAFAF9] px-4 py-3 text-[0.88rem] text-[#1A1A1A] outline-none transition-all placeholder:text-[#D0D0D0] focus:border-[#5D8B68] focus:bg-white focus:ring-2 focus:ring-[#5D8B68]/10"
                           placeholder="What are you working on?"
                         />
                       </div>

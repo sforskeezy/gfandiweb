@@ -3,7 +3,6 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import DiscoverySection from "@/components/DiscoverySection";
-import LogoCloudSection from "@/components/LogoCloudSection";
 import MarqueeText from "@/components/MarqueeText";
 import ServicesSection from "@/components/ServicesSection";
 import PricingSection from "@/components/PricingSection";
@@ -20,7 +19,6 @@ export default function Home() {
         <Navbar onBookCall={openModal} />
         <HeroSection onBookCall={openModal} />
         <DiscoverySection />
-        <LogoCloudSection />
         <MarqueeText />
         <ServicesSection />
         <PricingSection />

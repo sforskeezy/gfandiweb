@@ -19,7 +19,7 @@ export default function ContactSection({ onBookCall }: { onBookCall?: () => void
           className="relative overflow-hidden rounded-[32px] bg-[#1A1A1A] px-8 py-16 sm:px-14 sm:py-24 lg:px-20"
         >
           {/* Decorative gradient blobs */}
-          <div className="pointer-events-none absolute -top-32 -right-32 h-[400px] w-[400px] rounded-full" style={{ background: "#7B8C6F", filter: "blur(120px)", opacity: 0.15 }} />
+          <div className="pointer-events-none absolute -top-32 -right-32 h-[400px] w-[400px] rounded-full" style={{ background: "#5D8B68", filter: "blur(120px)", opacity: 0.15 }} />
           <div className="pointer-events-none absolute -bottom-32 -left-32 h-[350px] w-[350px] rounded-full" style={{ background: "#E8A782", filter: "blur(100px)", opacity: 0.1 }} />
 
           {/* Noise texture */}

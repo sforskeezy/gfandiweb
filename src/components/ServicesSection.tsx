@@ -139,7 +139,7 @@ function ServiceRow({
         className="absolute inset-x-1 inset-y-1 rounded-2xl"
         initial={false}
         animate={{
-          backgroundColor: hovered ? "rgba(123,140,111,0.08)" : "rgba(123,140,111,0)",
+          backgroundColor: hovered ? "rgba(93,139,104,0.08)" : "rgba(93,139,104,0)",
           scale: hovered ? 1 : 0.98,
         }}
         transition={{ duration: 0.3 }}
@@ -151,7 +151,7 @@ function ServiceRow({
           <motion.div
             initial={false}
             animate={{
-              backgroundColor: hovered ? "#7B8C6F" : "rgba(123,140,111,0.1)",
+              backgroundColor: hovered ? "#5D8B68" : "rgba(93,139,104,0.1)",
               scale: hovered ? 1.1 : 1,
             }}
             transition={{ duration: 0.3 }}
@@ -159,7 +159,7 @@ function ServiceRow({
           >
             <Icon
               className={`h-4 w-4 transition-colors duration-300 ${
-                hovered ? "text-white" : "text-[#7B8C6F]"
+                hovered ? "text-white" : "text-[#5D8B68]"
               }`}
             />
           </motion.div>
@@ -183,7 +183,7 @@ function ServiceRow({
             rotate: hovered ? 0 : -45,
           }}
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="flex h-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#7B8C6F]"
+          className="flex h-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#5D8B68]"
         >
           <ArrowUpRight className="h-4 w-4 text-white" />
         </motion.div>

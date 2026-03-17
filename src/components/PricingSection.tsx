@@ -96,7 +96,7 @@ export default function PricingSection() {
               transition={{ delay: i * 0.1, duration: 0.5 }}
               className={`relative flex flex-col rounded-[24px] p-8 ${
                 plan.accent
-                  ? "bg-[#7B8C6F] text-white"
+                  ? "bg-[#5D8B68] text-white"
                   : "bg-[#E4E2DF] text-[#1A1A1A]"
               }`}
               style={
@@ -104,13 +104,13 @@ export default function PricingSection() {
                   ? {
                       border: "1.5px solid rgba(255,255,255,0.15)",
                       boxShadow:
-                        "0 0 30px rgba(123,140,111,0.2), 0 0 60px rgba(123,140,111,0.08)",
+                        "0 0 30px rgba(93,139,104,0.2), 0 0 60px rgba(93,139,104,0.08)",
                     }
                   : undefined
               }
             >
               {plan.badge && (
-                <span className="absolute -top-3 left-8 rounded-full bg-white px-4 py-1 text-[0.7rem] font-semibold text-[#7B8C6F] shadow-sm">
+                <span className="absolute -top-3 left-8 rounded-full bg-white px-4 py-1 text-[0.7rem] font-semibold text-[#5D8B68] shadow-sm">
                   {plan.badge}
                 </span>
               )}
@@ -153,7 +153,7 @@ export default function PricingSection() {
                   <div key={feature} className="flex items-start gap-3">
                     <Check
                       className={`mt-0.5 h-4 w-4 shrink-0 ${
-                        plan.accent ? "text-white/60" : "text-[#7B8C6F]"
+                        plan.accent ? "text-white/60" : "text-[#5D8B68]"
                       }`}
                     />
                     <span

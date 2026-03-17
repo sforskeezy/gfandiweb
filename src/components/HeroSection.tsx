@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 import { ArrowRight } from "lucide-react";
+import { InfiniteSlider } from "@/components/ui/infinite-slider";
 
 const ROTATING_WORDS = ["brands", "businesses", "companies"];
 
@@ -33,6 +34,18 @@ function RotatingWord() {
     </span>
   );
 }
+
+const platformLogos = [
+  { src: "https://svgl.app/library/google.svg", alt: "Google" },
+  { src: "https://svgl.app/library/meta.svg", alt: "Facebook" },
+  { src: "https://svgl.app/library/instagram.svg", alt: "Instagram" },
+  { src: "https://svgl.app/library/tiktok.svg", alt: "TikTok" },
+  { src: "https://svgl.app/library/youtube.svg", alt: "YouTube" },
+  { src: "https://svgl.app/library/x.svg", alt: "X" },
+  { src: "https://svgl.app/library/linkedin.svg", alt: "LinkedIn" },
+  { src: "https://svgl.app/library/snapchat.svg", alt: "Snapchat" },
+  { src: "https://svgl.app/library/pinterest.svg", alt: "Pinterest" },
+];
 
 export default function HeroSection({ onBookCall }: { onBookCall?: () => void }) {
   const { scrollY } = useScroll();
@@ -104,10 +117,10 @@ export default function HeroSection({ onBookCall }: { onBookCall?: () => void })
           initial={{ opacity: 0, y: 40, scale: 0.97 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className="relative overflow-hidden rounded-[28px] bg-[#7B8C6F] sm:rounded-[36px]"
+          className="relative overflow-hidden rounded-[28px] bg-[#5D8B68] sm:rounded-[36px]"
           style={{
             border: "1.5px solid rgba(255,255,255,0.15)",
-            boxShadow: "0 8px 60px rgba(123,140,111,0.25), 0 0 120px rgba(123,140,111,0.1)",
+            boxShadow: "0 8px 60px rgba(93,139,104,0.3), 0 0 120px rgba(93,139,104,0.12)",
           }}
         >
           {/* Noise overlay */}
@@ -118,7 +131,7 @@ export default function HeroSection({ onBookCall }: { onBookCall?: () => void })
           <div className="pointer-events-none absolute -bottom-24 -left-24 h-[300px] w-[300px] rounded-full opacity-15" style={{ background: "radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 70%)" }} />
 
           {/* Content */}
-          <div className="relative z-10 flex flex-col items-center justify-center px-6 py-20 text-center sm:px-12 sm:py-28 lg:px-20 lg:py-36">
+          <div className="relative z-10 flex flex-col items-center justify-center px-6 py-20 text-center sm:px-12 sm:py-28 lg:px-20 lg:py-32">
             {/* Horizontal headline */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
@@ -170,6 +183,33 @@ export default function HeroSection({ onBookCall }: { onBookCall?: () => void })
               >
                 See Our Work
               </a>
+            </motion.div>
+
+            {/* Where we will get you — logo slider */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 1.1 }}
+              className="mt-14 w-full max-w-lg border-t border-white/10 pt-8"
+            >
+              <p className="mb-5 text-[0.74rem] font-medium uppercase tracking-[0.14em] text-white/40">
+                Where we will get you
+              </p>
+              <div className="relative">
+                <InfiniteSlider gap={36} duration={30} durationOnHover={60} reverse>
+                  {platformLogos.map((logo) => (
+                    <img
+                      key={logo.alt}
+                      src={logo.src}
+                      alt={logo.alt}
+                      loading="lazy"
+                      className="pointer-events-none h-5 w-auto select-none brightness-0 invert opacity-50 transition-opacity duration-300 hover:opacity-80 sm:h-6"
+                    />
+                  ))}
+                </InfiniteSlider>
+                <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#5D8B68] to-transparent" />
+                <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#5D8B68] to-transparent" />
+              </div>
             </motion.div>
           </div>
         </motion.div>

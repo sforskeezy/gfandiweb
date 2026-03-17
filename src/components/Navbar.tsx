@@ -48,7 +48,7 @@ export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
         >
           {/* Logo */}
           <a href="#" className="group flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#7B8C6F]">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#5D8B68]">
               <span className="text-[0.7rem] font-bold leading-none text-white">6P</span>
             </div>
             <span className="text-[1.15rem] font-semibold tracking-[-0.03em] text-[#1A1A1A]">
@@ -71,7 +71,7 @@ export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
                 {hovered === link.label && (
                   <motion.span
                     layoutId="nav-hover"
-                    className="absolute inset-0 rounded-xl bg-[#7B8C6F]/[0.07]"
+                    className="absolute inset-0 rounded-xl bg-[#5D8B68]/[0.07]"
                     transition={{ type: "spring", bounce: 0.15, duration: 0.45 }}
                   />
                 )}
@@ -91,7 +91,7 @@ export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
             </a>
             <button
               onClick={onBookCall}
-              className="group flex items-center gap-2 rounded-xl bg-[#7B8C6F] px-6 py-2.5 text-[0.84rem] font-medium text-white transition-all duration-300 hover:bg-[#6B7C5F] hover:shadow-[0_4px_20px_rgba(123,140,111,0.3)]"
+              className="group flex items-center gap-2 rounded-xl bg-[#5D8B68] px-6 py-2.5 text-[0.84rem] font-medium text-white transition-all duration-300 hover:bg-[#4E7A58] hover:shadow-[0_4px_20px_rgba(93,139,104,0.3)]"
             >
               Get in Touch
               <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -144,7 +144,7 @@ export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
                     <span className="text-[1.8rem] font-medium tracking-[-0.02em] text-[#1A1A1A]">
                       {link.label}
                     </span>
-                    <ArrowRight className="h-5 w-5 text-[#1A1A1A]/20 transition-all duration-200 group-hover:translate-x-1 group-hover:text-[#7B8C6F]" />
+                    <ArrowRight className="h-5 w-5 text-[#1A1A1A]/20 transition-all duration-200 group-hover:translate-x-1 group-hover:text-[#5D8B68]" />
                   </motion.a>
                 ))}
               </div>
@@ -160,7 +160,7 @@ export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
                     setMobileOpen(false);
                     onBookCall?.();
                   }}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#7B8C6F] py-4 text-[0.95rem] font-medium text-white"
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#5D8B68] py-4 text-[0.95rem] font-medium text-white"
                 >
                   Get in Touch
                   <ArrowRight className="h-4 w-4" />
