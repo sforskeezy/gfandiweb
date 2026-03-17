@@ -35,14 +35,14 @@ export default function AdsPage() {
       <div className="mb-8">
         <div className="mb-4 flex items-center gap-2">
           <div className="h-2 w-2 rounded-full bg-[#5C7A8A]" />
-          <p className="text-[0.72rem] font-bold uppercase tracking-[0.12em] text-[#B0ADA8]">
+          <p className="text-[0.72rem] font-bold uppercase tracking-[0.12em] text-[#555]">
             Advertising
           </p>
         </div>
-        <h1 className="text-[clamp(1.6rem,3.5vw,2.2rem)] font-bold tracking-[-0.04em] text-[#1A1A1A]">
+        <h1 className="text-[clamp(1.6rem,3.5vw,2.2rem)] font-bold tracking-[-0.04em] text-[#F0F0F0]">
           Ad Performance
         </h1>
-        <p className="mt-2 text-[0.88rem] text-[#A5A29D]">
+        <p className="mt-2 text-[0.88rem] text-[#555]">
           Track how your Meta and Google ad conversions are performing.
         </p>
       </div>
@@ -52,7 +52,7 @@ export default function AdsPage() {
         {/* Site selector */}
         {websites && websites.length > 1 && (
           <select
-            className="rounded-2xl border-2 border-[#EEECEA] bg-white px-4 py-2.5 text-[0.82rem] font-medium text-[#1A1A1A] outline-none transition-all focus:border-[#7B8C6F]"
+            className="rounded-2xl border-2 border-[#222] bg-[#141414] px-4 py-2.5 text-[0.82rem] font-medium text-[#E0E0E0] outline-none transition-all focus:border-[#7B8C6F]"
             value={siteId ?? ""}
             onChange={(e) => setSelectedSite(e.target.value)}
           >
@@ -65,7 +65,7 @@ export default function AdsPage() {
         {/* Time range */}
         <div
           className="flex gap-1 rounded-2xl p-1.5"
-          style={{ backgroundColor: "rgba(255,255,255,0.7)", border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 1px 3px rgba(0,0,0,0.03)" }}
+          style={{ backgroundColor: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
         >
           {[
             { value: 7, label: "7d" },
@@ -77,9 +77,9 @@ export default function AdsPage() {
               onClick={() => setDays(d.value)}
               className="rounded-xl px-4 py-2 text-[0.75rem] font-semibold transition-all"
               style={{
-                backgroundColor: days === d.value ? "#1A1A1A" : "transparent",
-                color: days === d.value ? "#fff" : "#999",
-                boxShadow: days === d.value ? "0 2px 8px rgba(0,0,0,0.12)" : "none",
+                backgroundColor: days === d.value ? "#7B8C6F" : "transparent",
+                color: days === d.value ? "#fff" : "#555",
+                boxShadow: days === d.value ? "0 2px 12px rgba(123,140,111,0.3)" : "none",
               }}
             >
               {d.label}
@@ -92,12 +92,12 @@ export default function AdsPage() {
         <AdsAnalytics websiteId={siteId as Id<"websites">} days={days} />
       ) : (
         <div
-          className="rounded-[24px] bg-white px-8 py-20 text-center"
-          style={{ border: "1px solid rgba(0,0,0,0.05)" }}
+          className="rounded-[24px] px-8 py-20 text-center"
+          style={{ backgroundColor: "#141414", border: "1px solid rgba(255,255,255,0.06)" }}
         >
-          <Megaphone className="mx-auto h-10 w-10 text-[#D0D0D0]" />
-          <h3 className="mt-5 text-[1.1rem] font-bold text-[#1A1A1A]">No websites yet</h3>
-          <p className="mt-2 text-[0.85rem] text-[#A5A29D]">
+          <Megaphone className="mx-auto h-10 w-10 text-[#333]" />
+          <h3 className="mt-5 text-[1.1rem] font-bold text-[#E0E0E0]">No websites yet</h3>
+          <p className="mt-2 text-[0.85rem] text-[#555]">
             Add a website to start tracking ad performance.
           </p>
         </div>
@@ -113,8 +113,8 @@ function AdsAnalytics({ websiteId, days }: { websiteId: Id<"websites">; days: nu
 
   if (!conversions) {
     return (
-      <div className="flex items-center gap-3 py-16 text-[0.85rem] text-[#C5C2BC]">
-        <div className="h-5 w-5 animate-spin rounded-full border-2 border-[#E8E6E3] border-t-[#7B8C6F]" />
+      <div className="flex items-center gap-3 py-16 text-[0.85rem] text-[#444]">
+        <div className="h-5 w-5 animate-spin rounded-full border-2 border-[#222] border-t-[#7B8C6F]" />
         Loading ad data...
       </div>
     );
@@ -132,7 +132,7 @@ function AdsAnalytics({ websiteId, days }: { websiteId: Id<"websites">; days: nu
           sublabel="Views / Visitors"
           value={`${conversions.meta.views}`}
           subvalue={`${conversions.meta.visitors} visitors`}
-          accent="#1877F2"
+          accent="#4A9AF5"
         />
         <StatCard
           icon={<Eye className="h-5 w-5" />}
@@ -140,7 +140,7 @@ function AdsAnalytics({ websiteId, days }: { websiteId: Id<"websites">; days: nu
           sublabel="Views / Visitors"
           value={`${conversions.google.views}`}
           subvalue={`${conversions.google.visitors} visitors`}
-          accent="#EA4335"
+          accent="#EF6B5E"
         />
         <StatCard
           icon={<Users className="h-5 w-5" />}
@@ -148,7 +148,7 @@ function AdsAnalytics({ websiteId, days }: { websiteId: Id<"websites">; days: nu
           sublabel="Non-paid traffic"
           value={`${conversions.organic.views}`}
           subvalue={`${conversions.organic.visitors} visitors`}
-          accent="#7B8C6F"
+          accent="#9AAF8C"
         />
         <StatCard
           icon={<Target className="h-5 w-5" />}
@@ -156,22 +156,22 @@ function AdsAnalytics({ websiteId, days }: { websiteId: Id<"websites">; days: nu
           sublabel="% of total"
           value={`${paidPct}%`}
           subvalue={`${conversions.totalPaid} of ${conversions.totalViews}`}
-          accent="#8B7355"
+          accent="#B8996E"
         />
       </div>
 
       {/* Chart */}
       <div
-        className="mb-7 overflow-hidden rounded-[24px] bg-white"
-        style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}
+        className="mb-7 overflow-hidden rounded-[24px]"
+        style={{ backgroundColor: "#141414", border: "1px solid rgba(255,255,255,0.06)" }}
       >
-        <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(0,0,0,0.04)" }}>
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(92,122,138,0.08)" }}>
-            <TrendingUp className="h-4 w-4 text-[#5C7A8A]" />
+        <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(92,122,138,0.12)" }}>
+            <TrendingUp className="h-4 w-4 text-[#7BA0B4]" />
           </div>
           <div>
-            <h3 className="text-[0.9rem] font-bold text-[#1A1A1A]">Traffic by Source</h3>
-            <p className="text-[0.7rem] text-[#B0ADA8]">Meta vs Google vs Organic over the last {days} days</p>
+            <h3 className="text-[0.9rem] font-bold text-[#E0E0E0]">Traffic by Source</h3>
+            <p className="text-[0.7rem] text-[#444]">Meta vs Google vs Organic over the last {days} days</p>
           </div>
         </div>
         <div className="px-5 py-5">
@@ -180,58 +180,58 @@ function AdsAnalytics({ websiteId, days }: { websiteId: Id<"websites">; days: nu
               <AreaChart data={overTime}>
                 <defs>
                   <linearGradient id="metaGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#1877F2" stopOpacity={0.15} />
-                    <stop offset="100%" stopColor="#1877F2" stopOpacity={0} />
+                    <stop offset="0%" stopColor="#4A9AF5" stopOpacity={0.2} />
+                    <stop offset="100%" stopColor="#4A9AF5" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="googleGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#EA4335" stopOpacity={0.15} />
-                    <stop offset="100%" stopColor="#EA4335" stopOpacity={0} />
+                    <stop offset="0%" stopColor="#EF6B5E" stopOpacity={0.2} />
+                    <stop offset="100%" stopColor="#EF6B5E" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="organicGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#7B8C6F" stopOpacity={0.15} />
-                    <stop offset="100%" stopColor="#7B8C6F" stopOpacity={0} />
+                    <stop offset="0%" stopColor="#9AAF8C" stopOpacity={0.2} />
+                    <stop offset="100%" stopColor="#9AAF8C" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <XAxis
                   dataKey="date"
-                  tick={{ fill: "#C5C2BC", fontSize: 11, fontWeight: 500 }}
+                  tick={{ fill: "#444", fontSize: 11, fontWeight: 500 }}
                   axisLine={false}
                   tickLine={false}
                   tickFormatter={(v: string) => v.slice(5)}
                 />
                 <YAxis
-                  tick={{ fill: "#C5C2BC", fontSize: 11, fontWeight: 500 }}
+                  tick={{ fill: "#444", fontSize: 11, fontWeight: 500 }}
                   axisLine={false}
                   tickLine={false}
                   allowDecimals={false}
                 />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "#1A1A1A",
-                    border: "none",
+                    backgroundColor: "#1F1F1F",
+                    border: "1px solid rgba(255,255,255,0.1)",
                     borderRadius: "14px",
-                    color: "#fff",
+                    color: "#E0E0E0",
                     fontSize: "0.78rem",
                     fontWeight: 500,
                     padding: "10px 14px",
-                    boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
+                    boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
                   }}
                 />
                 <Legend
-                  wrapperStyle={{ fontSize: "0.72rem", fontWeight: 600 }}
+                  wrapperStyle={{ fontSize: "0.72rem", fontWeight: 600, color: "#888" }}
                   iconType="circle"
                   iconSize={8}
                 />
-                <Area type="monotone" dataKey="meta" name="Meta" stroke="#1877F2" strokeWidth={2} fill="url(#metaGrad)" dot={false} />
-                <Area type="monotone" dataKey="google" name="Google" stroke="#EA4335" strokeWidth={2} fill="url(#googleGrad)" dot={false} />
-                <Area type="monotone" dataKey="organic" name="Organic" stroke="#7B8C6F" strokeWidth={2} fill="url(#organicGrad)" dot={false} />
+                <Area type="monotone" dataKey="meta" name="Meta" stroke="#4A9AF5" strokeWidth={2} fill="url(#metaGrad)" dot={false} />
+                <Area type="monotone" dataKey="google" name="Google" stroke="#EF6B5E" strokeWidth={2} fill="url(#googleGrad)" dot={false} />
+                <Area type="monotone" dataKey="organic" name="Organic" stroke="#9AAF8C" strokeWidth={2} fill="url(#organicGrad)" dot={false} />
               </AreaChart>
             </ResponsiveContainer>
           ) : (
             <div className="flex h-[300px] flex-col items-center justify-center gap-3">
-              <TrendingUp className="h-8 w-8 text-[#D0D0D0]" />
-              <p className="text-[0.85rem] text-[#C5C2BC]">No ad traffic data yet</p>
-              <p className="max-w-xs text-center text-[0.75rem] text-[#D0D0D0]">
+              <TrendingUp className="h-8 w-8 text-[#333]" />
+              <p className="text-[0.85rem] text-[#555]">No ad traffic data yet</p>
+              <p className="max-w-xs text-center text-[0.75rem] text-[#444]">
                 Traffic from Meta and Google Ads will appear here when visitors land with UTM parameters.
               </p>
             </div>
@@ -241,41 +241,41 @@ function AdsAnalytics({ websiteId, days }: { websiteId: Id<"websites">; days: nu
 
       {/* Campaign breakdown */}
       <div
-        className="mb-7 overflow-hidden rounded-[24px] bg-white"
-        style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}
+        className="mb-7 overflow-hidden rounded-[24px]"
+        style={{ backgroundColor: "#141414", border: "1px solid rgba(255,255,255,0.06)" }}
       >
-        <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(0,0,0,0.04)" }}>
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(139,115,85,0.08)" }}>
-            <BarChart3 className="h-4 w-4 text-[#8B7355]" />
+        <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(139,115,85,0.12)" }}>
+            <BarChart3 className="h-4 w-4 text-[#B8996E]" />
           </div>
-          <h3 className="text-[0.9rem] font-bold text-[#1A1A1A]">Campaign Breakdown</h3>
+          <h3 className="text-[0.9rem] font-bold text-[#E0E0E0]">Campaign Breakdown</h3>
         </div>
         <div className="p-4">
           {conversions.campaigns.length > 0 ? (
             <div className="space-y-0.5">
               {/* Header */}
-              <div className="flex items-center gap-3 px-4 py-2 text-[0.65rem] font-bold uppercase tracking-[0.08em] text-[#C5C2BC]">
+              <div className="flex items-center gap-3 px-4 py-2 text-[0.65rem] font-bold uppercase tracking-[0.08em] text-[#444]">
                 <span className="flex-1">Campaign</span>
                 <span className="w-20 text-right">Views</span>
                 <span className="w-20 text-right">Visitors</span>
               </div>
               {conversions.campaigns.map((c, i) => (
-                <div key={i} className="flex items-center gap-3 rounded-xl px-4 py-3 transition-colors hover:bg-[#FAF9F7]">
+                <div key={i} className="flex items-center gap-3 rounded-xl px-4 py-3 transition-colors hover:bg-white/[0.02]">
                   <div className="flex flex-1 items-center gap-3">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-lg text-[0.62rem] font-bold text-[#C5C2BC]" style={{ backgroundColor: "rgba(0,0,0,0.02)" }}>
+                    <span className="flex h-6 w-6 items-center justify-center rounded-lg text-[0.62rem] font-bold text-[#555]" style={{ backgroundColor: "rgba(255,255,255,0.04)" }}>
                       {i + 1}
                     </span>
-                    <span className="text-[0.82rem] font-medium text-[#555]">{c.name}</span>
+                    <span className="text-[0.82rem] font-medium text-[#999]">{c.name}</span>
                   </div>
-                  <span className="w-20 text-right text-[0.82rem] font-semibold text-[#1A1A1A]">{c.views}</span>
-                  <span className="w-20 text-right rounded-lg px-2 py-0.5 text-[0.75rem] font-bold text-[#888]" style={{ backgroundColor: "#F4F1EC" }}>
+                  <span className="w-20 text-right text-[0.82rem] font-semibold text-[#E0E0E0]">{c.views}</span>
+                  <span className="w-20 text-right rounded-lg px-2 py-0.5 text-[0.75rem] font-bold text-[#888]" style={{ backgroundColor: "rgba(255,255,255,0.04)" }}>
                     {c.visitors}
                   </span>
                 </div>
               ))}
             </div>
           ) : (
-            <p className="py-8 text-center text-[0.82rem] text-[#C5C2BC]">
+            <p className="py-8 text-center text-[0.82rem] text-[#444]">
               No campaign data yet. Use UTM parameters in your ad links.
             </p>
           )}
@@ -284,24 +284,24 @@ function AdsAnalytics({ websiteId, days }: { websiteId: Id<"websites">; days: nu
 
       {/* How it works info */}
       <div
-        className="overflow-hidden rounded-[24px] bg-white"
-        style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}
+        className="overflow-hidden rounded-[24px]"
+        style={{ backgroundColor: "#141414", border: "1px solid rgba(255,255,255,0.06)" }}
       >
         <div className="px-7 py-6">
-          <h3 className="text-[0.9rem] font-bold text-[#1A1A1A]">How Ad Tracking Works</h3>
-          <p className="mt-2 text-[0.8rem] leading-relaxed text-[#A5A29D]">
+          <h3 className="text-[0.9rem] font-bold text-[#E0E0E0]">How Ad Tracking Works</h3>
+          <p className="mt-2 text-[0.8rem] leading-relaxed text-[#555]">
             Our tracker automatically captures UTM parameters from your ad links. When someone clicks a Meta or Google ad
-            with UTM tags (like <code className="rounded-md bg-[#F4F1EC] px-1.5 py-0.5 text-[0.72rem] font-mono text-[#666]">utm_source=facebook</code>),
+            with UTM tags (like <code className="rounded-md bg-white/[0.04] px-1.5 py-0.5 text-[0.72rem] font-mono text-[#888]">utm_source=facebook</code>),
             we attribute that visit to the correct platform.
           </p>
           <div className="mt-4 space-y-2">
-            <p className="text-[0.75rem] font-semibold text-[#888]">Example ad URLs:</p>
-            <div className="space-y-1.5 rounded-2xl p-4" style={{ backgroundColor: "#FAF9F7", border: "1px solid rgba(0,0,0,0.04)" }}>
-              <p className="font-mono text-[0.68rem] text-[#888]">
-                <span className="text-[#5C7A8A]">Meta:</span> yoursite.com?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=spring_sale
+            <p className="text-[0.75rem] font-semibold text-[#666]">Example ad URLs:</p>
+            <div className="space-y-1.5 rounded-2xl p-4" style={{ backgroundColor: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
+              <p className="font-mono text-[0.68rem] text-[#666]">
+                <span className="text-[#4A9AF5]">Meta:</span> yoursite.com?utm_source=facebook&amp;utm_medium=paid&amp;utm_campaign=spring_sale
               </p>
-              <p className="font-mono text-[0.68rem] text-[#888]">
-                <span className="text-[#EA4335]">Google:</span> yoursite.com?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=brand_search
+              <p className="font-mono text-[0.68rem] text-[#666]">
+                <span className="text-[#EF6B5E]">Google:</span> yoursite.com?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=brand_search
               </p>
             </div>
           </div>
@@ -328,18 +328,18 @@ function StatCard({
 }) {
   return (
     <div
-      className="rounded-[22px] bg-white p-6"
-      style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}
+      className="rounded-[22px] p-6"
+      style={{ backgroundColor: "#141414", border: "1px solid rgba(255,255,255,0.06)" }}
     >
       <div
         className="mb-4 flex h-11 w-11 items-center justify-center rounded-[14px]"
-        style={{ backgroundColor: `${accent}12`, color: accent }}
+        style={{ backgroundColor: `${accent}18`, color: accent }}
       >
         {icon}
       </div>
-      <p className="text-[0.72rem] font-bold uppercase tracking-[0.06em] text-[#B0ADA8]">{label}</p>
-      <p className="mt-1 text-[1.5rem] font-bold tracking-[-0.03em] text-[#1A1A1A]">{value}</p>
-      <p className="mt-1 text-[0.7rem] text-[#C5C2BC]">{subvalue}</p>
+      <p className="text-[0.72rem] font-bold uppercase tracking-[0.06em] text-[#555]">{label}</p>
+      <p className="mt-1 text-[1.5rem] font-bold tracking-[-0.03em] text-[#F0F0F0]">{value}</p>
+      <p className="mt-1 text-[0.7rem] text-[#444]">{subvalue}</p>
     </div>
   );
 }

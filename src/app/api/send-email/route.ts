@@ -1,7 +1,6 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -18,14 +17,6 @@ function normalizeFromEmail(raw: string): string {
 
 const FROM_EMAIL = normalizeFromEmail(process.env.FROM_EMAIL || "6POINT Solutions <hello@6pointsolutions.com>");
 
-let logoBase64: string | null = null;
-try {
-  const logoPath = path.join(process.cwd(), "public", "logo.png");
-  logoBase64 = fs.readFileSync(logoPath).toString("base64");
-} catch {
-  // logo file not available
-}
-
 export async function POST(req: NextRequest) {
   try {
     const { to, subject, body, firstName } = await req.json();
@@ -35,18 +26,6 @@ export async function POST(req: NextRequest) {
     }
 
     const year = new Date().getFullYear();
-    const logoImg = logoBase64
-      ? `<img src="cid:logo" alt="6POINT" width="36" height="36" style="display: block;" />`
-      : "";
-
-    const attachments = logoBase64
-      ? [{
-          filename: "logo.png",
-          content: logoBase64,
-          content_type: "image/png",
-          headers: { "Content-ID": "<logo>", "Content-Disposition": "inline" },
-        }]
-      : [];
 
     await resend.emails.send({
       from: FROM_EMAIL,
@@ -61,7 +40,6 @@ export async function POST(req: NextRequest) {
         "The 6POINT Team",
         "6pointsolutions.com",
       ].filter(Boolean).join("\n"),
-      attachments,
       html: `
 <!DOCTYPE html>
 <html lang="en">
@@ -76,14 +54,7 @@ export async function POST(req: NextRequest) {
         <table role="presentation" cellpadding="0" cellspacing="0" style="width: 100%; max-width: 680px; background: #ffffff; border-radius: 12px;">
           <tr>
             <td style="padding: 44px 44px 40px;">
-              <!-- Header -->
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td style="font-size: 22px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.02em; padding-bottom: 36px;">6POINT</td>
-                  <td style="text-align: right; padding-bottom: 36px;">${logoImg}</td>
-                </tr>
-              </table>
-              <!-- Body -->
+              <p style="margin: 0 0 36px; font-size: 22px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.02em;">6POINT</p>
               ${firstName ? `<p style="margin: 0 0 16px; font-size: 15px; color: #1d1d1f; line-height: 1.6;">Hey ${firstName},</p>` : ""}
               <p style="margin: 0; font-size: 15px; color: #1d1d1f; line-height: 1.6; white-space: pre-wrap;">${body}</p>
               <!-- Sign off -->

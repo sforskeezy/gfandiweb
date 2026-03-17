@@ -69,7 +69,7 @@ export default function SettingsPage() {
   };
 
   const inputClass =
-    "w-full rounded-2xl border-2 border-[#EEECEA] bg-[#FAF9F7] px-5 py-3.5 text-[0.85rem] font-medium text-[#1A1A1A] outline-none transition-all placeholder:font-normal placeholder:text-[#D0D0D0] focus:border-[#7B8C6F] focus:bg-white focus:shadow-[0_0_0_4px_rgba(123,140,111,0.06)]";
+    "w-full rounded-2xl border-2 border-[#222] bg-[#111] px-5 py-3.5 text-[0.85rem] font-medium text-[#E0E0E0] outline-none transition-all placeholder:font-normal placeholder:text-[#444] focus:border-[#7B8C6F] focus:bg-[#141414] focus:shadow-[0_0_0_4px_rgba(123,140,111,0.08)]";
 
   return (
     <div>
@@ -77,14 +77,14 @@ export default function SettingsPage() {
       <div className="mb-10">
         <div className="mb-4 flex items-center gap-2">
           <div className="h-2 w-2 rounded-full bg-[#7B8C6F]" />
-          <p className="text-[0.72rem] font-bold uppercase tracking-[0.12em] text-[#B0ADA8]">
+          <p className="text-[0.72rem] font-bold uppercase tracking-[0.12em] text-[#555]">
             Settings
           </p>
         </div>
-        <h1 className="text-[clamp(1.6rem,3.5vw,2.2rem)] font-bold tracking-[-0.04em] text-[#1A1A1A]">
+        <h1 className="text-[clamp(1.6rem,3.5vw,2.2rem)] font-bold tracking-[-0.04em] text-[#F0F0F0]">
           Account Settings
         </h1>
-        <p className="mt-2 text-[0.88rem] text-[#A5A29D]">
+        <p className="mt-2 text-[0.88rem] text-[#555]">
           Manage your profile and preferences.
         </p>
       </div>
@@ -92,16 +92,16 @@ export default function SettingsPage() {
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Profile */}
         <div
-          className="overflow-hidden rounded-[24px] bg-white"
-          style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}
+          className="overflow-hidden rounded-[24px]"
+          style={{ backgroundColor: "#141414", border: "1px solid rgba(255,255,255,0.06)" }}
         >
-          <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(0,0,0,0.04)" }}>
-            <div className="flex h-10 w-10 items-center justify-center rounded-[14px]" style={{ backgroundColor: "rgba(123,140,111,0.08)" }}>
-              <User className="h-[18px] w-[18px] text-[#7B8C6F]" />
+          <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+            <div className="flex h-10 w-10 items-center justify-center rounded-[14px]" style={{ backgroundColor: "rgba(123,140,111,0.12)" }}>
+              <User className="h-[18px] w-[18px] text-[#9AAF8C]" />
             </div>
             <div>
-              <h2 className="text-[0.95rem] font-bold text-[#1A1A1A]">Profile</h2>
-              <p className="text-[0.7rem] text-[#B0ADA8]">Update your display name</p>
+              <h2 className="text-[0.95rem] font-bold text-[#E0E0E0]">Profile</h2>
+              <p className="text-[0.7rem] text-[#444]">Update your display name</p>
             </div>
           </div>
           <div className="p-6">
@@ -109,8 +109,8 @@ export default function SettingsPage() {
               <div
                 className="mb-5 flex items-center gap-2 rounded-2xl px-4 py-3 text-[0.8rem] font-semibold"
                 style={{
-                  backgroundColor: nameMsg.type === "success" ? "rgba(123,140,111,0.06)" : "rgba(220,50,50,0.05)",
-                  color: nameMsg.type === "success" ? "#5a6d50" : "#c53030",
+                  backgroundColor: nameMsg.type === "success" ? "rgba(123,140,111,0.1)" : "rgba(220,50,50,0.08)",
+                  color: nameMsg.type === "success" ? "#9AAF8C" : "#e55",
                 }}
               >
                 {nameMsg.type === "success" ? <Check className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
@@ -119,13 +119,13 @@ export default function SettingsPage() {
             )}
             <form onSubmit={handleUpdateName} className="space-y-4">
               <div>
-                <label className="mb-2.5 block text-[0.7rem] font-bold uppercase tracking-[0.1em] text-[#C5C2BC]">
+                <label className="mb-2.5 block text-[0.7rem] font-bold uppercase tracking-[0.1em] text-[#444]">
                   Username
                 </label>
-                <input className={inputClass} value={user?.username ?? ""} disabled style={{ opacity: 0.5 }} />
+                <input className={inputClass} value={user?.username ?? ""} disabled style={{ opacity: 0.4 }} />
               </div>
               <div>
-                <label className="mb-2.5 block text-[0.7rem] font-bold uppercase tracking-[0.1em] text-[#C5C2BC]">
+                <label className="mb-2.5 block text-[0.7rem] font-bold uppercase tracking-[0.1em] text-[#444]">
                   Display Name
                 </label>
                 <input className={inputClass} value={name} onChange={(e) => setName(e.target.value)} required />
@@ -133,8 +133,8 @@ export default function SettingsPage() {
               <button
                 type="submit"
                 disabled={nameSaving}
-                className="w-full rounded-2xl py-3.5 text-[0.85rem] font-semibold text-white transition-all hover:brightness-105 active:scale-[0.98] disabled:opacity-50"
-                style={{ background: "linear-gradient(135deg, #7B8C6F, #6A7A5F)", boxShadow: "0 4px 14px rgba(123,140,111,0.25)" }}
+                className="w-full rounded-2xl py-3.5 text-[0.85rem] font-semibold text-white transition-all hover:brightness-110 active:scale-[0.98] disabled:opacity-50"
+                style={{ background: "linear-gradient(135deg, #7B8C6F, #6A7A5F)", boxShadow: "0 4px 20px rgba(123,140,111,0.3)" }}
               >
                 {nameSaving ? "Saving..." : "Update Name"}
               </button>
@@ -144,16 +144,16 @@ export default function SettingsPage() {
 
         {/* Password */}
         <div
-          className="overflow-hidden rounded-[24px] bg-white"
-          style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}
+          className="overflow-hidden rounded-[24px]"
+          style={{ backgroundColor: "#141414", border: "1px solid rgba(255,255,255,0.06)" }}
         >
-          <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(0,0,0,0.04)" }}>
-            <div className="flex h-10 w-10 items-center justify-center rounded-[14px]" style={{ backgroundColor: "rgba(139,115,85,0.08)" }}>
-              <Lock className="h-[18px] w-[18px] text-[#8B7355]" />
+          <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+            <div className="flex h-10 w-10 items-center justify-center rounded-[14px]" style={{ backgroundColor: "rgba(139,115,85,0.12)" }}>
+              <Lock className="h-[18px] w-[18px] text-[#B8996E]" />
             </div>
             <div>
-              <h2 className="text-[0.95rem] font-bold text-[#1A1A1A]">Security</h2>
-              <p className="text-[0.7rem] text-[#B0ADA8]">Change your password</p>
+              <h2 className="text-[0.95rem] font-bold text-[#E0E0E0]">Security</h2>
+              <p className="text-[0.7rem] text-[#444]">Change your password</p>
             </div>
           </div>
           <div className="p-6">
@@ -161,8 +161,8 @@ export default function SettingsPage() {
               <div
                 className="mb-5 flex items-center gap-2 rounded-2xl px-4 py-3 text-[0.8rem] font-semibold"
                 style={{
-                  backgroundColor: pwMsg.type === "success" ? "rgba(123,140,111,0.06)" : "rgba(220,50,50,0.05)",
-                  color: pwMsg.type === "success" ? "#5a6d50" : "#c53030",
+                  backgroundColor: pwMsg.type === "success" ? "rgba(123,140,111,0.1)" : "rgba(220,50,50,0.08)",
+                  color: pwMsg.type === "success" ? "#9AAF8C" : "#e55",
                 }}
               >
                 {pwMsg.type === "success" ? <Check className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
@@ -171,19 +171,19 @@ export default function SettingsPage() {
             )}
             <form onSubmit={handleChangePassword} className="space-y-4">
               <div>
-                <label className="mb-2.5 block text-[0.7rem] font-bold uppercase tracking-[0.1em] text-[#C5C2BC]">
+                <label className="mb-2.5 block text-[0.7rem] font-bold uppercase tracking-[0.1em] text-[#444]">
                   Current Password
                 </label>
                 <input className={inputClass} type="password" value={currentPw} onChange={(e) => setCurrentPw(e.target.value)} required placeholder="Enter current password" />
               </div>
               <div>
-                <label className="mb-2.5 block text-[0.7rem] font-bold uppercase tracking-[0.1em] text-[#C5C2BC]">
+                <label className="mb-2.5 block text-[0.7rem] font-bold uppercase tracking-[0.1em] text-[#444]">
                   New Password
                 </label>
                 <input className={inputClass} type="password" value={newPw} onChange={(e) => setNewPw(e.target.value)} required placeholder="Enter new password" />
               </div>
               <div>
-                <label className="mb-2.5 block text-[0.7rem] font-bold uppercase tracking-[0.1em] text-[#C5C2BC]">
+                <label className="mb-2.5 block text-[0.7rem] font-bold uppercase tracking-[0.1em] text-[#444]">
                   Confirm New Password
                 </label>
                 <input className={inputClass} type="password" value={confirmPw} onChange={(e) => setConfirmPw(e.target.value)} required placeholder="Confirm new password" />
@@ -191,8 +191,8 @@ export default function SettingsPage() {
               <button
                 type="submit"
                 disabled={pwSaving}
-                className="w-full rounded-2xl py-3.5 text-[0.85rem] font-semibold text-white transition-all hover:brightness-105 active:scale-[0.98] disabled:opacity-50"
-                style={{ background: "linear-gradient(135deg, #8B7355, #7a6448)", boxShadow: "0 4px 14px rgba(139,115,85,0.25)" }}
+                className="w-full rounded-2xl py-3.5 text-[0.85rem] font-semibold text-white transition-all hover:brightness-110 active:scale-[0.98] disabled:opacity-50"
+                style={{ background: "linear-gradient(135deg, #8B7355, #7a6448)", boxShadow: "0 4px 20px rgba(139,115,85,0.3)" }}
               >
                 {pwSaving ? "Changing..." : "Change Password"}
               </button>
@@ -204,12 +204,12 @@ export default function SettingsPage() {
       {/* Connected Ad Accounts per site */}
       <div className="mt-8">
         <div className="mb-5 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-[14px]" style={{ backgroundColor: "rgba(92,122,138,0.08)" }}>
-            <Megaphone className="h-[18px] w-[18px] text-[#5C7A8A]" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-[14px]" style={{ backgroundColor: "rgba(92,122,138,0.12)" }}>
+            <Megaphone className="h-[18px] w-[18px] text-[#7BA0B4]" />
           </div>
           <div>
-            <h2 className="text-[0.95rem] font-bold text-[#1A1A1A]">Ad Accounts</h2>
-            <p className="text-[0.7rem] text-[#B0ADA8]">Connected ad platforms for each website</p>
+            <h2 className="text-[0.95rem] font-bold text-[#E0E0E0]">Ad Accounts</h2>
+            <p className="text-[0.7rem] text-[#444]">Connected ad platforms for each website</p>
           </div>
         </div>
 
@@ -221,11 +221,11 @@ export default function SettingsPage() {
           </div>
         ) : (
           <div
-            className="rounded-[24px] bg-white px-8 py-12 text-center"
-            style={{ border: "1px solid rgba(0,0,0,0.05)" }}
+            className="rounded-[24px] px-8 py-12 text-center"
+            style={{ backgroundColor: "#141414", border: "1px solid rgba(255,255,255,0.06)" }}
           >
-            <Globe className="mx-auto h-8 w-8 text-[#D0D0D0]" />
-            <p className="mt-3 text-[0.85rem] text-[#A5A29D]">No websites to configure yet.</p>
+            <Globe className="mx-auto h-8 w-8 text-[#333]" />
+            <p className="mt-3 text-[0.85rem] text-[#555]">No websites to configure yet.</p>
           </div>
         )}
       </div>
@@ -275,27 +275,27 @@ function AdAccountsCard({
   };
 
   const inputClass =
-    "w-full rounded-xl border-2 border-[#EEECEA] bg-[#FAF9F7] px-4 py-3 text-[0.82rem] font-medium text-[#1A1A1A] outline-none transition-all placeholder:font-normal placeholder:text-[#D0D0D0] focus:border-[#7B8C6F] focus:bg-white";
+    "w-full rounded-xl border-2 border-[#222] bg-[#111] px-4 py-3 text-[0.82rem] font-medium text-[#E0E0E0] outline-none transition-all placeholder:font-normal placeholder:text-[#444] focus:border-[#7B8C6F] focus:bg-[#141414]";
 
   return (
     <div
-      className="overflow-hidden rounded-[24px] bg-white"
-      style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}
+      className="overflow-hidden rounded-[24px]"
+      style={{ backgroundColor: "#141414", border: "1px solid rgba(255,255,255,0.06)" }}
     >
-      <div className="flex items-center justify-between border-b px-7 py-5" style={{ borderColor: "rgba(0,0,0,0.04)" }}>
+      <div className="flex items-center justify-between border-b px-7 py-5" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(92,122,138,0.08)" }}>
-            <Globe className="h-4 w-4 text-[#5C7A8A]" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(92,122,138,0.12)" }}>
+            <Globe className="h-4 w-4 text-[#7BA0B4]" />
           </div>
-          <h3 className="text-[0.9rem] font-bold text-[#1A1A1A]">{websiteName}</h3>
+          <h3 className="text-[0.9rem] font-bold text-[#E0E0E0]">{websiteName}</h3>
         </div>
         {isAdmin && (
           <button
             onClick={() => setShowAdd(!showAdd)}
             className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-[0.72rem] font-semibold transition-all"
             style={{
-              backgroundColor: showAdd ? "rgba(220,50,50,0.06)" : "rgba(123,140,111,0.06)",
-              color: showAdd ? "#c53030" : "#7B8C6F",
+              backgroundColor: showAdd ? "rgba(220,50,50,0.08)" : "rgba(123,140,111,0.1)",
+              color: showAdd ? "#e55" : "#9AAF8C",
             }}
           >
             <Plus className="h-3.5 w-3.5" style={{ transform: showAdd ? "rotate(45deg)" : "none", transition: "transform 0.2s" }} />
@@ -307,7 +307,7 @@ function AdAccountsCard({
       <div className="p-5">
         {/* Add form */}
         {showAdd && (
-          <form onSubmit={handleAdd} className="mb-5 space-y-3 rounded-2xl border border-dashed p-4" style={{ borderColor: "rgba(0,0,0,0.08)", backgroundColor: "#FDFCFA" }}>
+          <form onSubmit={handleAdd} className="mb-5 space-y-3 rounded-2xl border border-dashed p-4" style={{ borderColor: "rgba(255,255,255,0.08)", backgroundColor: "rgba(255,255,255,0.02)" }}>
             <div className="flex gap-3">
               <select
                 className={inputClass}
@@ -325,7 +325,7 @@ function AdAccountsCard({
             <button
               type="submit"
               disabled={adding}
-              className="w-full rounded-xl py-3 text-[0.82rem] font-semibold text-white transition-all hover:brightness-105 disabled:opacity-50"
+              className="w-full rounded-xl py-3 text-[0.82rem] font-semibold text-white transition-all hover:brightness-110 disabled:opacity-50"
               style={{ background: "linear-gradient(135deg, #5C7A8A, #4a6878)" }}
             >
               {adding ? "Adding..." : "Connect Account"}
@@ -339,21 +339,21 @@ function AdAccountsCard({
             {adAccounts.map((acc) => (
               <div
                 key={acc._id}
-                className="flex items-center justify-between rounded-2xl px-4 py-3.5 transition-colors hover:bg-[#FAF9F7]"
+                className="flex items-center justify-between rounded-2xl px-4 py-3.5 transition-colors hover:bg-white/[0.02]"
               >
                 <div className="flex items-center gap-3">
                   <div
                     className="flex h-9 w-9 items-center justify-center rounded-xl text-[0.65rem] font-bold uppercase"
                     style={{
                       backgroundColor:
-                        acc.platform === "meta" ? "rgba(24,119,242,0.08)" :
-                        acc.platform === "google" ? "rgba(234,67,53,0.08)" :
-                        acc.platform === "tiktok" ? "rgba(0,0,0,0.06)" :
-                        "rgba(0,0,0,0.04)",
+                        acc.platform === "meta" ? "rgba(24,119,242,0.12)" :
+                        acc.platform === "google" ? "rgba(234,67,53,0.12)" :
+                        acc.platform === "tiktok" ? "rgba(255,255,255,0.06)" :
+                        "rgba(255,255,255,0.04)",
                       color:
-                        acc.platform === "meta" ? "#1877F2" :
-                        acc.platform === "google" ? "#EA4335" :
-                        acc.platform === "tiktok" ? "#000" :
+                        acc.platform === "meta" ? "#4A9AF5" :
+                        acc.platform === "google" ? "#EF6B5E" :
+                        acc.platform === "tiktok" ? "#E0E0E0" :
                         "#888",
                     }}
                   >
@@ -361,18 +361,18 @@ function AdAccountsCard({
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="text-[0.85rem] font-semibold text-[#1A1A1A]">{acc.accountName}</span>
+                      <span className="text-[0.85rem] font-semibold text-[#E0E0E0]">{acc.accountName}</span>
                       <span
                         className="rounded-md px-1.5 py-0.5 text-[0.58rem] font-bold uppercase tracking-[0.04em]"
                         style={{
-                          backgroundColor: acc.isActive ? "rgba(123,140,111,0.08)" : "rgba(0,0,0,0.04)",
-                          color: acc.isActive ? "#7B8C6F" : "#BBB",
+                          backgroundColor: acc.isActive ? "rgba(123,140,111,0.12)" : "rgba(255,255,255,0.04)",
+                          color: acc.isActive ? "#9AAF8C" : "#555",
                         }}
                       >
                         {acc.isActive ? "Active" : "Paused"}
                       </span>
                     </div>
-                    <span className="text-[0.72rem] text-[#B0ADA8]">
+                    <span className="text-[0.72rem] text-[#555]">
                       {acc.platform.charAt(0).toUpperCase() + acc.platform.slice(1)} &middot; ID: {acc.accountId}
                     </span>
                   </div>
@@ -382,8 +382,8 @@ function AdAccountsCard({
                     onClick={async () => {
                       if (token) await toggleMut({ sessionToken: token, adAccountId: acc._id as any });
                     }}
-                    className="rounded-xl px-3 py-2 text-[0.68rem] font-semibold transition-all hover:bg-[#F4F1EC]"
-                    style={{ color: acc.isActive ? "#c53030" : "#7B8C6F" }}
+                    className="rounded-xl px-3 py-2 text-[0.68rem] font-semibold transition-all hover:bg-white/[0.04]"
+                    style={{ color: acc.isActive ? "#e55" : "#9AAF8C" }}
                   >
                     {acc.isActive ? "Pause" : "Resume"}
                   </button>
@@ -394,7 +394,7 @@ function AdAccountsCard({
                           await deleteMut({ sessionToken: token, adAccountId: acc._id as any });
                         }
                       }}
-                      className="rounded-xl p-2 text-[#D0D0D0] transition-all hover:bg-red-50 hover:text-red-400"
+                      className="rounded-xl p-2 text-[#444] transition-all hover:bg-red-500/10 hover:text-red-400"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </button>
@@ -404,7 +404,7 @@ function AdAccountsCard({
             ))}
           </div>
         ) : (
-          <p className="py-4 text-center text-[0.82rem] text-[#C5C2BC]">
+          <p className="py-4 text-center text-[0.82rem] text-[#444]">
             No ad accounts connected yet.
           </p>
         )}
