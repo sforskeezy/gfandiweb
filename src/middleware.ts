@@ -4,7 +4,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const sessionToken = request.cookies.get("session")?.value;
 
-  if (pathname.startsWith("/dashboard") || pathname.startsWith("/admin")) {
+  if (pathname.startsWith("/dashboard") || pathname.startsWith("/admin") || pathname.startsWith("/mail")) {
     if (!sessionToken) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
@@ -24,7 +24,7 @@ export async function middleware(request: NextRequest) {
         return response;
       }
 
-      if (pathname.startsWith("/admin") && !data.user.isAdmin) {
+      if ((pathname.startsWith("/admin") || pathname.startsWith("/mail")) && !data.user.isAdmin) {
         return NextResponse.redirect(new URL("/dashboard", request.url));
       }
     } catch {
@@ -36,5 +36,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/admin/:path*"],
+  matcher: ["/dashboard/:path*", "/admin/:path*", "/mail/:path*"],
 };
