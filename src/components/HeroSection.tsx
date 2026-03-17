@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const ROTATING_WORDS = ["brands", "businesses", "companies"];
 
@@ -17,7 +17,7 @@ function RotatingWord() {
   }, []);
 
   return (
-    <span className="relative inline-block overflow-hidden align-bottom" style={{ width: "4.6em", height: "1.12em" }}>
+    <span className="relative inline-block overflow-hidden align-bottom" style={{ width: "4.8em", height: "1.12em" }}>
       <AnimatePresence mode="wait">
         <motion.span
           key={ROTATING_WORDS[index]}
@@ -34,20 +34,13 @@ function RotatingWord() {
   );
 }
 
-const stats = [
-  { value: "50+", label: "Clients Served" },
-  { value: "98%", label: "Retention Rate" },
-  { value: "3x", label: "Average ROI" },
-  { value: "<24hr", label: "Response Time" },
-];
-
 export default function HeroSection({ onBookCall }: { onBookCall?: () => void }) {
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 600], [0, 80]);
   const blobScale = useTransform(scrollY, [0, 400], [1, 1.15]);
 
   return (
-    <section className="relative min-h-screen overflow-hidden px-4 pt-24 pb-8 sm:px-6 sm:pt-28 sm:pb-12">
+    <section className="relative overflow-hidden px-4 pt-24 pb-8 sm:px-6 sm:pt-28 sm:pb-12">
       {/* Animated gradient blobs — parallax */}
       <motion.div style={{ scale: blobScale }} className="pointer-events-none absolute -inset-20 z-0 overflow-visible sm:-inset-32">
         <motion.div
@@ -115,7 +108,6 @@ export default function HeroSection({ onBookCall }: { onBookCall?: () => void })
           style={{
             border: "1.5px solid rgba(255,255,255,0.15)",
             boxShadow: "0 8px 60px rgba(123,140,111,0.25), 0 0 120px rgba(123,140,111,0.1)",
-            minHeight: "min(75vh, 640px)",
           }}
         >
           {/* Noise overlay */}
@@ -126,53 +118,33 @@ export default function HeroSection({ onBookCall }: { onBookCall?: () => void })
           <div className="pointer-events-none absolute -bottom-24 -left-24 h-[300px] w-[300px] rounded-full opacity-15" style={{ background: "radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 70%)" }} />
 
           {/* Content */}
-          <div className="relative z-10 flex min-h-[inherit] flex-col items-center justify-center px-6 py-20 text-center sm:px-12 sm:py-28 lg:px-20 lg:py-32">
-            {/* Tag line */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.35 }}
-              className="mb-8 flex items-center gap-2.5 rounded-full border border-white/15 bg-white/[0.07] px-5 py-2 backdrop-blur-sm"
-            >
-              <div className="h-1.5 w-1.5 rounded-full bg-white/60" />
-              <span className="text-[0.72rem] font-medium uppercase tracking-[0.12em] text-white/60">
-                Strategy · Design · Marketing
-              </span>
-            </motion.div>
-
-            {/* Giant headline — Rise at Seven inspired massive text */}
+          <div className="relative z-10 flex flex-col items-center justify-center px-6 py-20 text-center sm:px-12 sm:py-28 lg:px-20 lg:py-36">
+            {/* Horizontal headline */}
             <motion.h1
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="max-w-[900px] text-[clamp(2.8rem,7.5vw,5.8rem)] font-semibold leading-[1] tracking-[-0.04em] text-white"
-            >
-              We Build
-            </motion.h1>
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.35 }}
-              className="max-w-[900px] text-[clamp(2.8rem,7.5vw,5.8rem)] font-semibold leading-[1] tracking-[-0.04em] text-white"
-            >
-              <RotatingWord /> That
-            </motion.h1>
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.5 }}
-              className="text-[clamp(2.8rem,7.5vw,5.8rem)] italic leading-[1.05] tracking-[-0.04em] text-white"
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-[clamp(2.4rem,6vw,4.5rem)] font-medium leading-[1.08] tracking-[-0.02em] text-white"
               style={{ fontFamily: "var(--font-serif)" }}
             >
-              Actually Sell
+              We build <RotatingWord /> that
             </motion.h1>
+            <motion.span
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.45, ease: "easeOut" }}
+              className="mt-1 block text-[clamp(2.4rem,6vw,4.5rem)] italic leading-[1.08] tracking-[-0.02em] text-white"
+              style={{ fontFamily: "var(--font-serif)" }}
+            >
+              actually sell.
+            </motion.span>
 
             {/* Subtext */}
             <motion.p
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.7 }}
-              className="mt-8 max-w-md text-[1rem] leading-[1.7] text-white/55 sm:text-[1.05rem]"
+              className="mt-8 max-w-lg text-[1rem] leading-[1.7] text-white/70"
             >
               Strategy, branding, and performance marketing for companies
               ready to own their market — not just exist in it.
@@ -180,70 +152,27 @@ export default function HeroSection({ onBookCall }: { onBookCall?: () => void })
 
             {/* CTAs */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.85 }}
-              className="mt-10 flex flex-wrap items-center justify-center gap-3"
+              transition={{ duration: 0.4, delay: 0.9 }}
+              className="mt-10 flex flex-wrap items-center justify-center gap-4"
             >
               <button
                 onClick={onBookCall}
-                className="group flex items-center gap-2.5 rounded-2xl bg-white px-7 py-3.5 text-[0.88rem] font-medium text-[#1A1A1A] transition-all duration-300 hover:shadow-[0_8px_30px_rgba(255,255,255,0.2)]"
+                className="group flex items-center gap-2.5 rounded-full bg-white px-7 py-3.5 text-[0.84rem] font-medium text-[#1A1A1A] transition-all duration-300 hover:shadow-[0_8px_30px_rgba(255,255,255,0.2)]"
               >
                 Book a Call
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
               </button>
               <a
-                href="#services"
-                className="flex items-center gap-2 rounded-2xl border border-white/20 px-7 py-3.5 text-[0.88rem] font-medium text-white/80 transition-all duration-300 hover:border-white/35 hover:bg-white/[0.06] hover:text-white"
+                href="#work"
+                className="flex items-center gap-2 rounded-full border border-white/30 px-7 py-3.5 text-[0.84rem] font-medium text-white transition-all duration-300 hover:border-white/50 hover:bg-white/10"
               >
-                Our Services
+                See Our Work
               </a>
             </motion.div>
           </div>
         </motion.div>
-
-        {/* Floating stat badges outside the card — Rise at Seven-inspired */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.0 }}
-          className="mt-8 grid grid-cols-2 gap-3 sm:mt-10 sm:grid-cols-4 sm:gap-4"
-        >
-          {stats.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1.0 + i * 0.08 }}
-              className="group rounded-2xl border border-[#1A1A1A]/[0.06] bg-white/60 px-5 py-4 backdrop-blur-sm transition-all duration-300 hover:border-[#7B8C6F]/20 hover:bg-white/80 hover:shadow-[0_4px_20px_rgba(123,140,111,0.08)]"
-            >
-              <p className="text-[clamp(1.4rem,2.5vw,1.8rem)] font-semibold tracking-[-0.02em] text-[#1A1A1A] transition-colors duration-300 group-hover:text-[#7B8C6F]">
-                {stat.value}
-              </p>
-              <p className="mt-0.5 text-[0.72rem] font-medium text-[#1A1A1A]/35">
-                {stat.label}
-              </p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </motion.div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 0.6 }}
-        className="relative z-10 mt-10 flex justify-center sm:mt-14"
-      >
-        <motion.a
-          href="#services"
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="flex flex-col items-center gap-2 text-[#1A1A1A]/25 transition-colors duration-300 hover:text-[#7B8C6F]"
-        >
-          <span className="text-[0.68rem] font-medium uppercase tracking-[0.15em]">Scroll</span>
-          <ChevronDown className="h-4 w-4" />
-        </motion.a>
       </motion.div>
     </section>
   );
