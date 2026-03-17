@@ -17,12 +17,36 @@ export default function Home() {
     <div className="relative min-h-screen">
       <div className="relative z-10">
         <Navbar onBookCall={openModal} />
-        <HeroSection onBookCall={openModal} />
-        <DiscoverySection />
-        <MarqueeText />
-        <ServicesSection />
-        <PricingSection />
-        <ContactSection onBookCall={openModal} />
+
+        {/* Hero — full-bleed blurred image */}
+        <HeroSection />
+
+        {/* Discovery — warm base */}
+        <div className="bg-[#ECEAE7]">
+          <DiscoverySection />
+        </div>
+
+        {/* Marquee — white strip */}
+        <div className="border-y border-[#1A1A1A]/[0.06] bg-white">
+          <MarqueeText />
+        </div>
+
+        {/* Services — warm base */}
+        <div className="bg-[#ECEAE7]">
+          <ServicesSection />
+        </div>
+
+        {/* Pricing — white */}
+        <div className="border-y border-[#1A1A1A]/[0.06] bg-white">
+          <PricingSection />
+        </div>
+
+        {/* Contact */}
+        <div className="bg-[#ECEAE7]">
+          <ContactSection onBookCall={openModal} />
+        </div>
+
+        {/* Footer */}
         <Footer />
       </div>
 

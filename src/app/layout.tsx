@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display, DM_Sans } from "next/font/google";
 import ConvexClientProvider from "@/components/ConvexClientProvider";
+import PageLoader from "@/components/PageLoader";
+import PageTransition from "@/components/PageTransition";
 import "./globals.css";
 
 const inter = Inter({
@@ -38,6 +40,8 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${playfair.variable} ${dmSans.variable} font-sans antialiased`}
       >
+        <PageLoader />
+        <PageTransition />
         <ConvexClientProvider>{children}</ConvexClientProvider>
       </body>
     </html>

@@ -1,218 +1,104 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
-import { ArrowRight } from "lucide-react";
-import { InfiniteSlider } from "@/components/ui/infinite-slider";
+import { motion } from "motion/react";
 
-const ROTATING_WORDS = ["brands", "businesses", "companies"];
-
-function RotatingWord() {
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % ROTATING_WORDS.length);
-    }, 2200);
-    return () => clearInterval(timer);
-  }, []);
-
-  return (
-    <span className="relative inline-block overflow-hidden align-bottom" style={{ width: "4.8em", height: "1.12em" }}>
-      <AnimatePresence mode="wait">
-        <motion.span
-          key={ROTATING_WORDS[index]}
-          initial={{ y: "110%", opacity: 0, filter: "blur(6px)" }}
-          animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
-          exit={{ y: "-110%", opacity: 0, filter: "blur(6px)" }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-          className="absolute inset-0 flex items-center justify-center text-white/90"
-        >
-          {ROTATING_WORDS[index]}
-        </motion.span>
-      </AnimatePresence>
-    </span>
-  );
-}
-
-const platformLogos = [
-  { src: "https://cdn.simpleicons.org/google/ffffff", alt: "Google" },
-  { src: "https://cdn.simpleicons.org/facebook/ffffff", alt: "Facebook" },
-  { src: "https://cdn.simpleicons.org/instagram/ffffff", alt: "Instagram" },
-  { src: "https://cdn.simpleicons.org/doordash/ffffff", alt: "DoorDash" },
-  { src: "https://cdn.simpleicons.org/tiktok/ffffff", alt: "TikTok" },
-  { src: "https://cdn.simpleicons.org/youtube/ffffff", alt: "YouTube" },
-  { src: "https://cdn.simpleicons.org/x/ffffff", alt: "X" },
-  { src: "https://cdn.simpleicons.org/linkedin/ffffff", alt: "LinkedIn" },
-  { src: "https://cdn.simpleicons.org/snapchat/ffffff", alt: "Snapchat" },
+const platforms = [
+  { name: "Google", src: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/google.svg" },
+  { name: "ChatGPT", src: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/openai.svg" },
+  { name: "Gemini", src: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/googlegemini.svg" },
+  { name: "TikTok", src: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/tiktok.svg" },
+  { name: "YouTube", src: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/youtube.svg" },
+  { name: "Pinterest", src: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/pinterest.svg" },
+  { name: "GIPHY", src: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/giphy.svg" },
+  { name: "Reddit", src: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/reddit.svg" },
+  { name: "Amazon", src: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/amazon.svg" },
 ];
 
-export default function HeroSection({ onBookCall }: { onBookCall?: () => void }) {
-  const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 600], [0, 80]);
-  const blobScale = useTransform(scrollY, [0, 400], [1, 1.15]);
-
+export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden px-4 pt-24 pb-8 sm:px-6 sm:pt-28 sm:pb-12">
-      {/* Animated gradient blobs — parallax */}
-      <motion.div style={{ scale: blobScale }} className="pointer-events-none absolute -inset-20 z-0 overflow-visible sm:-inset-32">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.8, delay: 0.1 }}
-          className="absolute -top-24 -right-16 sm:-top-36 sm:right-0"
-        >
-          <div
-            className="h-[350px] w-[350px] rounded-full sm:h-[520px] sm:w-[520px]"
-            style={{ background: "radial-gradient(circle, #E8A782 0%, #E8A782aa 60%, transparent 100%)", animation: "blob-breathe 6s ease-in-out infinite" }}
-          />
-          <div className="absolute inset-0 rounded-full" style={{ border: "2px solid rgba(232,167,130,0.18)", animation: "radiate-ring 4s ease-in-out infinite" }} />
-          <div className="absolute -inset-10 rounded-full" style={{ border: "1px solid rgba(232,167,130,0.08)", animation: "radiate-ring-slow 5.5s ease-in-out infinite 1s" }} />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.8, delay: 0.3 }}
-          className="absolute -left-16 top-[15%] sm:-left-24"
-        >
-          <div
-            className="h-[300px] w-[300px] rounded-full sm:h-[450px] sm:w-[450px]"
-            style={{ background: "radial-gradient(circle, #9AAF8C 0%, #9AAF8Caa 60%, transparent 100%)", animation: "blob-breathe-alt 7s ease-in-out infinite 0.5s" }}
-          />
-          <div className="absolute inset-0 rounded-full" style={{ border: "2px solid rgba(154,175,140,0.15)", animation: "radiate-ring 5s ease-in-out infinite 0.5s" }} />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.8, delay: 0.5 }}
-          className="absolute -bottom-16 right-[10%]"
-        >
-          <div
-            className="h-[280px] w-[280px] rounded-full sm:h-[400px] sm:w-[400px]"
-            style={{ background: "radial-gradient(circle, #96AAC8 0%, #96AAC8aa 60%, transparent 100%)", animation: "blob-breathe 5.5s ease-in-out infinite 1s" }}
-          />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.4, delay: 0.7 }}
-          className="absolute -bottom-10 -left-8"
-        >
-          <div
-            className="h-[220px] w-[220px] rounded-full sm:h-[320px] sm:w-[320px]"
-            style={{ background: "radial-gradient(circle, #D2B48C 0%, #D2B48Caa 60%, transparent 100%)", animation: "blob-breathe-alt 6.5s ease-in-out infinite 2s" }}
-          />
-        </motion.div>
-      </motion.div>
-
-      {/* Main green hero card */}
-      <motion.div
-        style={{ y: heroY }}
-        className="relative z-10 mx-auto mt-4 w-full max-w-[1260px] sm:mt-6"
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 40, scale: 0.97 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className="relative overflow-hidden rounded-[28px] bg-[#5D8B68] sm:rounded-[36px]"
+    <section className="relative flex min-h-[100dvh] items-center justify-center overflow-hidden">
+      {/* Blurred background image */}
+      <div className="absolute inset-[-24px]">
+        <img
+          src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=1920&q=80"
+          alt=""
+          className="h-full w-full object-cover"
           style={{
-            border: "1.5px solid rgba(255,255,255,0.15)",
-            boxShadow: "0 8px 60px rgba(93,139,104,0.3), 0 0 120px rgba(93,139,104,0.12)",
+            filter: "blur(40px) saturate(1.3) brightness(1.05)",
+            transform: "scale(1.15)",
           }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-black/15 to-black/30" />
+      </div>
+
+      {/* Content — centered */}
+      <div className="relative z-10 flex flex-col items-center px-6 pt-20 text-center">
+        {/* Credential */}
+        <motion.p
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 2.4 }}
+          className="mb-10 text-[0.58rem] font-semibold uppercase tracking-[0.25em] text-white/50 sm:text-[0.65rem]"
         >
-          {/* Noise overlay */}
-          <div className="pointer-events-none absolute inset-0 opacity-[0.025] mix-blend-overlay" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")" }} />
+          Trusted Performance Marketing Agency
+        </motion.p>
 
-          {/* Inner glows */}
-          <div className="pointer-events-none absolute -top-32 -right-32 h-[400px] w-[400px] rounded-full opacity-20" style={{ background: "radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%)" }} />
-          <div className="pointer-events-none absolute -bottom-24 -left-24 h-[300px] w-[300px] rounded-full opacity-15" style={{ background: "radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 70%)" }} />
+        {/* Main headline */}
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 2.5, ease: [0.22, 1, 0.36, 1] }}
+          className="text-[clamp(3rem,9vw,8rem)] font-bold leading-[0.95] tracking-[-0.04em] text-white"
+        >
+          We Create
+          <br />
+          <span className="inline-flex items-center gap-[0.12em]">
+            Category
+            <span className="relative inline-block h-[0.6em] w-[0.6em] shrink-0 overflow-hidden rounded-[0.12em] ring-2 ring-white/20">
+              <img
+                src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=200&h=200&fit=crop"
+                alt=""
+                className="h-full w-full object-cover"
+              />
+            </span>
+            Leaders
+          </span>
+        </motion.h1>
 
-          {/* Content */}
-          <div className="relative z-10 flex flex-col items-center justify-center px-6 py-20 text-center sm:px-12 sm:py-28 lg:px-20 lg:py-32">
-            {/* Horizontal headline */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-[clamp(2.4rem,6vw,4.5rem)] font-medium leading-[1.08] tracking-[-0.02em] text-white"
-              style={{ fontFamily: "var(--font-serif)" }}
-            >
-              We build <RotatingWord /> that
-            </motion.h1>
-            <motion.span
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.45, ease: "easeOut" }}
-              className="mt-1 block text-[clamp(2.4rem,6vw,4.5rem)] italic leading-[1.08] tracking-[-0.02em] text-white"
-              style={{ fontFamily: "var(--font-serif)" }}
-            >
-              actually sell.
-            </motion.span>
+        {/* Tagline */}
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 2.7 }}
+          className="mt-5 text-[clamp(0.85rem,1.8vw,1.15rem)] italic text-white/55"
+          style={{ fontFamily: "var(--font-serif)" }}
+        >
+          on every searchable platform
+        </motion.p>
+      </div>
 
-            {/* Subtext */}
-            <motion.p
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
-              className="mt-8 max-w-lg text-[1rem] leading-[1.7] text-white/70"
-            >
-              Strategy, branding, and performance marketing for companies
-              ready to own their market — not just exist in it.
-            </motion.p>
-
-            {/* CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.9 }}
-              className="mt-10 flex flex-wrap items-center justify-center gap-4"
-            >
-              <button
-                onClick={onBookCall}
-                className="group flex items-center gap-2.5 rounded-full bg-white px-7 py-3.5 text-[0.84rem] font-medium text-[#1A1A1A] transition-all duration-300 hover:shadow-[0_8px_30px_rgba(255,255,255,0.2)]"
-              >
-                Book a Call
-                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-              </button>
-              <a
-                href="#work"
-                className="flex items-center gap-2 rounded-full border border-white/30 px-7 py-3.5 text-[0.84rem] font-medium text-white transition-all duration-300 hover:border-white/50 hover:bg-white/10"
-              >
-                See Our Work
-              </a>
-            </motion.div>
-
-            {/* Where we will get you — logo slider */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1.1 }}
-              className="mt-14 w-full max-w-lg border-t border-white/10 pt-8"
-            >
-              <p className="mb-5 text-[0.74rem] font-medium uppercase tracking-[0.14em] text-white/40">
-                Where we will get you
-              </p>
-              <div className="relative">
-                <InfiniteSlider gap={40} duration={30} durationOnHover={60} reverse>
-                  {platformLogos.map((logo) => (
-                    <img
-                      key={logo.alt}
-                      src={logo.src}
-                      alt={logo.alt}
-                      loading="lazy"
-                      className="pointer-events-none h-5 w-auto select-none opacity-50 sm:h-6"
-                    />
-                  ))}
-                </InfiniteSlider>
-                <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#5D8B68] to-transparent" />
-                <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#5D8B68] to-transparent" />
-              </div>
-            </motion.div>
-          </div>
-        </motion.div>
+      {/* Platform logos — pinned to bottom */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 2.9 }}
+        className="absolute bottom-6 left-0 right-0 z-10 px-6 sm:bottom-10"
+      >
+        <div className="mx-auto flex max-w-[1100px] flex-wrap items-center justify-center gap-x-6 gap-y-4 sm:gap-x-10">
+          {platforms.map((p) => (
+            <div key={p.name} className="flex items-center gap-2 opacity-60">
+              <img
+                src={p.src}
+                alt={p.name}
+                className="h-4 w-4 brightness-0 invert sm:h-[18px] sm:w-[18px]"
+                loading="lazy"
+              />
+              <span className="text-[0.72rem] font-bold tracking-[-0.01em] text-white sm:text-[0.82rem]">
+                {p.name}
+              </span>
+            </div>
+          ))}
+        </div>
       </motion.div>
     </section>
   );
