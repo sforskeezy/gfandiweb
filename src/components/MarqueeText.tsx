@@ -1,66 +1,49 @@
 "use client";
 
-import { motion } from "motion/react";
-
-function ChevronIcon() {
-  return (
-    <svg
-      viewBox="0 0 40 40"
-      fill="none"
-      className="inline-block h-[0.7em] w-[0.7em] align-middle"
-    >
-      <path
-        d="M10 8L22 20L10 32"
-        stroke="currentColor"
-        strokeWidth="4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M20 8L32 20L20 32"
-        stroke="currentColor"
-        strokeWidth="4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function TargetIcon() {
-  return (
-    <svg
-      viewBox="0 0 40 40"
-      fill="none"
-      className="inline-block h-[0.75em] w-[0.75em] align-middle"
-    >
-      <circle cx="20" cy="20" r="16" stroke="currentColor" strokeWidth="3" />
-      <circle cx="20" cy="20" r="8" stroke="currentColor" strokeWidth="3" />
-      <circle cx="20" cy="20" r="2.5" fill="currentColor" />
-    </svg>
-  );
-}
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "motion/react";
 
 export default function MarqueeText() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const x1 = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
+  const x2 = useTransform(scrollYProgress, [0, 1], ["-50%", "0%"]);
+
+  const phrase1 = "Building Brands That Sell";
+  const phrase2 = "Strategy · Design · Growth";
+
   return (
-    <section className="px-4 py-16 sm:px-6 sm:py-24">
-      <div className="mx-auto max-w-[1200px]">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <p
-            className="text-[clamp(2rem,5.5vw,4.5rem)] leading-[1.15] tracking-[-0.03em] text-[#1A1A1A]"
+    <section ref={ref} className="overflow-hidden py-16 sm:py-24">
+      {/* Row 1 — scrolls left */}
+      <motion.div style={{ x: x1 }} className="flex whitespace-nowrap">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <span
+            key={`a-${i}`}
+            className="mr-6 text-[clamp(3rem,8vw,7rem)] font-semibold leading-none tracking-[-0.04em] text-[#1A1A1A] sm:mr-10"
+          >
+            {phrase1}
+            <span className="mx-4 text-[0.6em] text-[#1A1A1A]/15 sm:mx-6">✦</span>
+          </span>
+        ))}
+      </motion.div>
+
+      {/* Row 2 — scrolls right, italic serif */}
+      <motion.div style={{ x: x2 }} className="mt-2 flex whitespace-nowrap sm:mt-4">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <span
+            key={`b-${i}`}
+            className="mr-6 text-[clamp(3rem,8vw,7rem)] italic leading-none tracking-[-0.04em] text-[#1A1A1A]/10 sm:mr-10"
             style={{ fontFamily: "var(--font-serif)" }}
           >
-            We help <ChevronIcon /> ambitious
-            teams turn bold visions
-            into <TargetIcon /> lasting impact.
-          </p>
-        </motion.div>
-      </div>
+            {phrase2}
+            <span className="mx-4 not-italic text-[0.6em] text-[#1A1A1A]/10 sm:mx-6">✦</span>
+          </span>
+        ))}
+      </motion.div>
     </section>
   );
 }

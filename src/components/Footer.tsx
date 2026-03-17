@@ -24,7 +24,7 @@ export default function Footer() {
   return (
     <footer
       className="relative overflow-hidden px-4 pt-20 pb-10 sm:px-6 sm:pt-28 sm:pb-12"
-      style={{ backgroundColor: "#FAFAF8" }}
+      style={{ backgroundColor: "#DDD9D2" }}
     >
       {/* Soft pastel yellow glow from bottom */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
