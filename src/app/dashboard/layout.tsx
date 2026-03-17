@@ -64,8 +64,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: "#080B07", fontFamily: "var(--font-dm), sans-serif" }}>
-        <div className="h-7 w-7 animate-spin rounded-full border-2 border-[#1a1f18] border-t-[#7B8C6F]" />
+      <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: "#F6F7F4", fontFamily: "var(--font-dm), sans-serif" }}>
+        <div className="h-7 w-7 animate-spin rounded-full border-2 border-[#E5E8E0] border-t-[#7B8C6F]" />
       </div>
     );
   }
@@ -81,19 +81,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <div
         className="relative min-h-screen"
         style={{
-          backgroundColor: "#080B07",
+          backgroundColor: "#F6F7F4",
           fontFamily: "var(--font-dm), sans-serif",
-          backgroundImage: "radial-gradient(ellipse 80% 60% at 50% -10%, rgba(123,140,111,0.08) 0%, transparent 60%)",
         }}
       >
         {/* Top nav */}
         <nav
           className="sticky top-0 z-50 px-4 sm:px-6 lg:px-8"
-          style={{ backgroundColor: "rgba(8,11,7,0.8)", backdropFilter: "blur(20px)" }}
+          style={{ backgroundColor: "rgba(255,255,255,0.85)", backdropFilter: "blur(20px)" }}
         >
           <div className="mx-auto flex h-14 max-w-[1100px] items-center justify-between">
             <div className="flex items-center gap-4">
-              <a href="/dashboard" className="text-[0.95rem] font-bold tracking-[-0.03em] text-[#D0D0D0]">
+              <a href="/dashboard" className="text-[0.95rem] font-bold tracking-[-0.03em] text-[#2A2A2A]">
                 6POINT
               </a>
 
@@ -106,7 +105,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                       href={link.href}
                       className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[0.78rem] font-medium transition-colors"
                       style={{
-                        color: link.active ? "#C8D4BE" : "#4A4A4A",
+                        color: link.active ? "#5A6D50" : "#AAA",
                         backgroundColor: link.active ? "rgba(123,140,111,0.1)" : "transparent",
                       }}
                     >
@@ -118,7 +117,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 {user?.isAdmin && (
                   <a
                     href="/admin"
-                    className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[0.78rem] font-medium text-[#4A4A4A] transition-colors hover:text-[#777]"
+                    className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[0.78rem] font-medium text-[#AAA] transition-colors hover:text-[#777]"
                   >
                     <Shield className="h-3.5 w-3.5" />
                     Admin
@@ -131,14 +130,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <div className="hidden items-center gap-2.5 sm:flex">
                 <div
                   className="flex h-7 w-7 items-center justify-center rounded-full text-[0.58rem] font-bold text-white"
-                  style={{ background: "linear-gradient(135deg, #8FA382, #6B7A60)" }}
+                  style={{ background: "linear-gradient(135deg, #8FA382, #7B8C6F)" }}
                 >
                   {user?.name?.charAt(0).toUpperCase()}
                 </div>
-                <span className="text-[0.78rem] font-medium text-[#666]">{user?.name}</span>
+                <span className="text-[0.78rem] font-medium text-[#888]">{user?.name}</span>
                 <button
                   onClick={handleLogout}
-                  className="ml-1 flex h-7 w-7 items-center justify-center rounded-lg text-[#3A3A3A] transition-colors hover:text-[#777]"
+                  className="ml-1 flex h-7 w-7 items-center justify-center rounded-lg text-[#CCC] transition-colors hover:text-[#888]"
                   title="Logout"
                 >
                   <LogOut className="h-3.5 w-3.5" />
@@ -147,20 +146,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
               <button
                 onClick={() => setMobileNav(!mobileNav)}
-                className="flex h-8 w-8 items-center justify-center rounded-lg text-[#555] sm:hidden"
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-[#999] sm:hidden"
               >
                 {mobileNav ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </button>
             </div>
           </div>
-          <div className="h-px" style={{ background: "linear-gradient(to right, transparent, rgba(123,140,111,0.12) 30%, rgba(123,140,111,0.12) 70%, transparent)" }} />
+          <div className="h-px" style={{ background: "linear-gradient(to right, transparent, rgba(123,140,111,0.15) 30%, rgba(123,140,111,0.15) 70%, transparent)" }} />
         </nav>
 
         {/* Mobile nav */}
         {mobileNav && (
           <div
             className="fixed inset-x-0 top-14 z-40 border-b p-4 sm:hidden"
-            style={{ backgroundColor: "rgba(8,11,7,0.95)", backdropFilter: "blur(20px)", borderColor: "rgba(123,140,111,0.08)" }}
+            style={{ backgroundColor: "rgba(255,255,255,0.95)", backdropFilter: "blur(20px)", borderColor: "rgba(123,140,111,0.1)" }}
           >
             <div className="space-y-0.5">
               {navLinks.map((link) => {
@@ -171,8 +170,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     href={link.href}
                     className="flex items-center gap-3 rounded-xl px-4 py-3 text-[0.85rem] font-medium"
                     style={{
-                      color: link.active ? "#C8D4BE" : "#555",
-                      backgroundColor: link.active ? "rgba(123,140,111,0.1)" : "transparent",
+                      color: link.active ? "#5A6D50" : "#AAA",
+                      backgroundColor: link.active ? "rgba(123,140,111,0.08)" : "transparent",
                     }}
                   >
                     <Icon className="h-4 w-4" />
@@ -181,20 +180,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 );
               })}
               {user?.isAdmin && (
-                <a href="/admin" className="flex items-center gap-3 rounded-xl px-4 py-3 text-[0.85rem] font-medium text-[#555]">
+                <a href="/admin" className="flex items-center gap-3 rounded-xl px-4 py-3 text-[0.85rem] font-medium text-[#AAA]">
                   <Shield className="h-4 w-4" />
                   Admin
                 </a>
               )}
             </div>
-            <div className="mt-3 flex items-center justify-between border-t pt-3" style={{ borderColor: "rgba(123,140,111,0.08)" }}>
+            <div className="mt-3 flex items-center justify-between border-t pt-3" style={{ borderColor: "rgba(123,140,111,0.1)" }}>
               <div className="flex items-center gap-2">
-                <div className="flex h-7 w-7 items-center justify-center rounded-full text-[0.58rem] font-bold text-white" style={{ background: "linear-gradient(135deg, #8FA382, #6B7A60)" }}>
+                <div className="flex h-7 w-7 items-center justify-center rounded-full text-[0.58rem] font-bold text-white" style={{ background: "linear-gradient(135deg, #8FA382, #7B8C6F)" }}>
                   {user?.name?.charAt(0).toUpperCase()}
                 </div>
-                <span className="text-[0.8rem] font-medium text-[#666]">{user?.name}</span>
+                <span className="text-[0.8rem] font-medium text-[#888]">{user?.name}</span>
               </div>
-              <button onClick={handleLogout} className="text-[0.75rem] font-medium text-[#555]">Logout</button>
+              <button onClick={handleLogout} className="text-[0.75rem] font-medium text-[#AAA]">Logout</button>
             </div>
           </div>
         )}
