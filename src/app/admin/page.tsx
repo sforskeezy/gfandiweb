@@ -73,7 +73,7 @@ export default function AdminPage() {
   };
 
   const inputClass =
-    "w-full rounded-2xl border-2 border-[#EEECEA] bg-[#FAF9F7] px-5 py-3.5 text-[0.85rem] font-medium text-[#1A1A1A] outline-none transition-all placeholder:font-normal placeholder:text-[#D0D0D0] focus:border-[#7B8C6F] focus:bg-white focus:shadow-[0_0_0_4px_rgba(123,140,111,0.06)]";
+    "w-full rounded-2xl border-2 border-[#222] bg-[#111] px-5 py-3.5 text-[0.85rem] font-medium text-[#E0E0E0] outline-none transition-all placeholder:font-normal placeholder:text-[#444] focus:border-[#7B8C6F] focus:bg-[#141414] focus:shadow-[0_0_0_4px_rgba(123,140,111,0.08)]";
 
   return (
     <div>
@@ -81,14 +81,14 @@ export default function AdminPage() {
       <div className="mb-10">
         <div className="mb-4 flex items-center gap-2">
           <div className="h-2 w-2 rounded-full bg-[#7B8C6F]" />
-          <p className="text-[0.72rem] font-bold uppercase tracking-[0.12em] text-[#B0ADA8]">
+          <p className="text-[0.72rem] font-bold uppercase tracking-[0.12em] text-[#555]">
             Administration
           </p>
         </div>
-        <h1 className="text-[clamp(1.6rem,3.5vw,2.2rem)] font-bold tracking-[-0.04em] text-[#1A1A1A]">
+        <h1 className="text-[clamp(1.6rem,3.5vw,2.2rem)] font-bold tracking-[-0.04em] text-[#F0F0F0]">
           Admin Panel
         </h1>
-        <p className="mt-2 text-[0.88rem] text-[#A5A29D]">
+        <p className="mt-2 text-[0.88rem] text-[#555]">
           Manage users and websites from one place.
         </p>
       </div>
@@ -96,41 +96,41 @@ export default function AdminPage() {
       {/* Quick stats */}
       <div className="mb-8 flex flex-wrap gap-4">
         <div
-          className="flex items-center gap-3 rounded-2xl bg-white px-5 py-3.5"
-          style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 1px 4px rgba(0,0,0,0.03)" }}
+          className="flex items-center gap-3 rounded-2xl px-5 py-3.5"
+          style={{ backgroundColor: "#141414", border: "1px solid rgba(255,255,255,0.06)" }}
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(123,140,111,0.08)" }}>
-            <Users className="h-4 w-4 text-[#7B8C6F]" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(123,140,111,0.12)" }}>
+            <Users className="h-4 w-4 text-[#9AAF8C]" />
           </div>
           <div>
-            <p className="text-[0.62rem] font-bold uppercase tracking-[0.08em] text-[#C5C2BC]">Users</p>
-            <p className="text-[1.1rem] font-bold text-[#1A1A1A]">{users?.length ?? 0}</p>
+            <p className="text-[0.62rem] font-bold uppercase tracking-[0.08em] text-[#444]">Users</p>
+            <p className="text-[1.1rem] font-bold text-[#F0F0F0]">{users?.length ?? 0}</p>
           </div>
         </div>
         <div
-          className="flex items-center gap-3 rounded-2xl bg-white px-5 py-3.5"
-          style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 1px 4px rgba(0,0,0,0.03)" }}
+          className="flex items-center gap-3 rounded-2xl px-5 py-3.5"
+          style={{ backgroundColor: "#141414", border: "1px solid rgba(255,255,255,0.06)" }}
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(92,122,138,0.08)" }}>
-            <Globe className="h-4 w-4 text-[#5C7A8A]" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(92,122,138,0.12)" }}>
+            <Globe className="h-4 w-4 text-[#7BA0B4]" />
           </div>
           <div>
-            <p className="text-[0.62rem] font-bold uppercase tracking-[0.08em] text-[#C5C2BC]">Websites</p>
-            <p className="text-[1.1rem] font-bold text-[#1A1A1A]">{allWebsites?.length ?? 0}</p>
+            <p className="text-[0.62rem] font-bold uppercase tracking-[0.08em] text-[#444]">Websites</p>
+            <p className="text-[1.1rem] font-bold text-[#F0F0F0]">{allWebsites?.length ?? 0}</p>
           </div>
         </div>
         <div
-          className="flex items-center gap-3 rounded-2xl bg-white px-5 py-3.5"
-          style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 1px 4px rgba(0,0,0,0.03)" }}
+          className="flex items-center gap-3 rounded-2xl px-5 py-3.5"
+          style={{ backgroundColor: "#141414", border: "1px solid rgba(255,255,255,0.06)" }}
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(232,167,130,0.08)" }}>
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(232,167,130,0.12)" }}>
             <Inbox className="h-4 w-4 text-[#E8A782]" />
           </div>
           <div>
-            <p className="text-[0.62rem] font-bold uppercase tracking-[0.08em] text-[#C5C2BC]">Inbox</p>
-            <p className="text-[1.1rem] font-bold text-[#1A1A1A]">
+            <p className="text-[0.62rem] font-bold uppercase tracking-[0.08em] text-[#444]">Inbox</p>
+            <p className="text-[1.1rem] font-bold text-[#F0F0F0]">
               {applications?.filter((a) => a.status === "new").length ?? 0}
-              <span className="ml-1 text-[0.65rem] font-medium text-[#C5C2BC]">new</span>
+              <span className="ml-1 text-[0.65rem] font-medium text-[#555]">new</span>
             </p>
           </div>
         </div>
@@ -140,22 +140,22 @@ export default function AdminPage() {
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Create User */}
         <div
-          className="overflow-hidden rounded-[24px] bg-white"
-          style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}
+          className="overflow-hidden rounded-[24px]"
+          style={{ backgroundColor: "#141414", border: "1px solid rgba(255,255,255,0.06)" }}
         >
-          <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(0,0,0,0.04)" }}>
-            <div className="flex h-10 w-10 items-center justify-center rounded-[14px]" style={{ backgroundColor: "rgba(123,140,111,0.08)" }}>
-              <UserPlus className="h-[18px] w-[18px] text-[#7B8C6F]" />
+          <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+            <div className="flex h-10 w-10 items-center justify-center rounded-[14px]" style={{ backgroundColor: "rgba(123,140,111,0.12)" }}>
+              <UserPlus className="h-[18px] w-[18px] text-[#9AAF8C]" />
             </div>
             <div>
-              <h2 className="text-[0.95rem] font-bold text-[#1A1A1A]">Create User</h2>
-              <p className="text-[0.7rem] text-[#B0ADA8]">Add a new client account</p>
+              <h2 className="text-[0.95rem] font-bold text-[#E0E0E0]">Create User</h2>
+              <p className="text-[0.7rem] text-[#444]">Add a new client account</p>
             </div>
           </div>
 
           <div className="p-6">
             {userMsg && (
-              <div className="mb-5 rounded-2xl px-4 py-3 text-[0.8rem] font-semibold" style={{ backgroundColor: "rgba(123,140,111,0.06)", color: "#5a6d50" }}>
+              <div className="mb-5 rounded-2xl px-4 py-3 text-[0.8rem] font-semibold" style={{ backgroundColor: "rgba(123,140,111,0.1)", color: "#9AAF8C" }}>
                 {userMsg}
               </div>
             )}
@@ -166,8 +166,8 @@ export default function AdminPage() {
               <input className={inputClass} type="password" placeholder="Password" value={newUser.password} onChange={(e) => setNewUser({ ...newUser, password: e.target.value })} required />
               <button
                 type="submit"
-                className="w-full rounded-2xl py-3.5 text-[0.85rem] font-semibold text-white transition-all hover:brightness-105 active:scale-[0.98]"
-                style={{ background: "linear-gradient(135deg, #7B8C6F, #6A7A5F)", boxShadow: "0 4px 14px rgba(123,140,111,0.25)" }}
+                className="w-full rounded-2xl py-3.5 text-[0.85rem] font-semibold text-white transition-all hover:brightness-110 active:scale-[0.98]"
+                style={{ background: "linear-gradient(135deg, #7B8C6F, #6A7A5F)", boxShadow: "0 4px 20px rgba(123,140,111,0.3)" }}
               >
                 Create User
               </button>
@@ -177,22 +177,22 @@ export default function AdminPage() {
 
         {/* Add Website */}
         <div
-          className="overflow-hidden rounded-[24px] bg-white"
-          style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}
+          className="overflow-hidden rounded-[24px]"
+          style={{ backgroundColor: "#141414", border: "1px solid rgba(255,255,255,0.06)" }}
         >
-          <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(0,0,0,0.04)" }}>
-            <div className="flex h-10 w-10 items-center justify-center rounded-[14px]" style={{ backgroundColor: "rgba(92,122,138,0.08)" }}>
-              <Globe className="h-[18px] w-[18px] text-[#5C7A8A]" />
+          <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+            <div className="flex h-10 w-10 items-center justify-center rounded-[14px]" style={{ backgroundColor: "rgba(92,122,138,0.12)" }}>
+              <Globe className="h-[18px] w-[18px] text-[#7BA0B4]" />
             </div>
             <div>
-              <h2 className="text-[0.95rem] font-bold text-[#1A1A1A]">Add Website</h2>
-              <p className="text-[0.7rem] text-[#B0ADA8]">Assign a website to a client</p>
+              <h2 className="text-[0.95rem] font-bold text-[#E0E0E0]">Add Website</h2>
+              <p className="text-[0.7rem] text-[#444]">Assign a website to a client</p>
             </div>
           </div>
 
           <div className="p-6">
             {siteMsg && (
-              <div className="mb-5 rounded-2xl px-4 py-3 text-[0.8rem] font-semibold" style={{ backgroundColor: "rgba(92,122,138,0.06)", color: "#4a6a7a" }}>
+              <div className="mb-5 rounded-2xl px-4 py-3 text-[0.8rem] font-semibold" style={{ backgroundColor: "rgba(92,122,138,0.1)", color: "#7BA0B4" }}>
                 {siteMsg}
               </div>
             )}
@@ -208,8 +208,8 @@ export default function AdminPage() {
               <input className={inputClass} placeholder="Website URL (https://...)" value={newSite.url} onChange={(e) => setNewSite({ ...newSite, url: e.target.value })} required />
               <button
                 type="submit"
-                className="w-full rounded-2xl py-3.5 text-[0.85rem] font-semibold text-white transition-all hover:brightness-105 active:scale-[0.98]"
-                style={{ background: "linear-gradient(135deg, #5C7A8A, #4a6878)", boxShadow: "0 4px 14px rgba(92,122,138,0.25)" }}
+                className="w-full rounded-2xl py-3.5 text-[0.85rem] font-semibold text-white transition-all hover:brightness-110 active:scale-[0.98]"
+                style={{ background: "linear-gradient(135deg, #5C7A8A, #4a6878)", boxShadow: "0 4px 20px rgba(92,122,138,0.3)" }}
               >
                 Add Website
               </button>
@@ -220,15 +220,15 @@ export default function AdminPage() {
 
       {/* Users list */}
       <div
-        className="mt-8 overflow-hidden rounded-[24px] bg-white"
-        style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}
+        className="mt-8 overflow-hidden rounded-[24px]"
+        style={{ backgroundColor: "#141414", border: "1px solid rgba(255,255,255,0.06)" }}
       >
-        <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(0,0,0,0.04)" }}>
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(123,140,111,0.08)" }}>
-            <Users className="h-4 w-4 text-[#7B8C6F]" />
+        <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(123,140,111,0.12)" }}>
+            <Users className="h-4 w-4 text-[#9AAF8C]" />
           </div>
-          <h2 className="text-[0.9rem] font-bold text-[#1A1A1A]">All Users</h2>
-          <span className="ml-auto rounded-lg px-2.5 py-1 text-[0.68rem] font-bold text-[#B0ADA8]" style={{ backgroundColor: "#F4F1EC" }}>
+          <h2 className="text-[0.9rem] font-bold text-[#E0E0E0]">All Users</h2>
+          <span className="ml-auto rounded-lg px-2.5 py-1 text-[0.68rem] font-bold text-[#555]" style={{ backgroundColor: "rgba(255,255,255,0.04)" }}>
             {users?.length ?? 0}
           </span>
         </div>
@@ -238,31 +238,31 @@ export default function AdminPage() {
               {users.map((u) => (
                 <div
                   key={u._id}
-                  className="flex items-center justify-between rounded-2xl px-5 py-4 transition-colors hover:bg-[#FAF9F7]"
+                  className="flex items-center justify-between rounded-2xl px-5 py-4 transition-colors hover:bg-white/[0.02]"
                 >
                   <div className="flex items-center gap-3">
                     <div
                       className="flex h-9 w-9 items-center justify-center rounded-full text-[0.65rem] font-bold text-white"
-                      style={{ background: u.isAdmin ? "linear-gradient(135deg, #9AAF8C, #7B8C6F)" : "linear-gradient(135deg, #B0ADA8, #999)" }}
+                      style={{ background: u.isAdmin ? "linear-gradient(135deg, #9AAF8C, #7B8C6F)" : "linear-gradient(135deg, #555, #444)" }}
                     >
                       {u.name.charAt(0).toUpperCase()}
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-[0.88rem] font-semibold text-[#1A1A1A]">{u.name}</span>
+                        <span className="text-[0.88rem] font-semibold text-[#E0E0E0]">{u.name}</span>
                         {u.isAdmin && (
-                          <span className="rounded-md px-2 py-0.5 text-[0.6rem] font-bold uppercase tracking-[0.04em]" style={{ backgroundColor: "rgba(123,140,111,0.08)", color: "#7B8C6F" }}>
+                          <span className="rounded-md px-2 py-0.5 text-[0.6rem] font-bold uppercase tracking-[0.04em]" style={{ backgroundColor: "rgba(123,140,111,0.12)", color: "#9AAF8C" }}>
                             Admin
                           </span>
                         )}
                       </div>
-                      <span className="text-[0.75rem] text-[#B0ADA8]">@{u.username}</span>
+                      <span className="text-[0.75rem] text-[#555]">@{u.username}</span>
                     </div>
                   </div>
                   {!u.isAdmin && (
                     <button
                       onClick={() => handleDeleteUser(u._id as Id<"users">)}
-                      className="rounded-xl p-2.5 text-[#D0D0D0] transition-all hover:bg-red-50 hover:text-red-400"
+                      className="rounded-xl p-2.5 text-[#444] transition-all hover:bg-red-500/10 hover:text-red-400"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
@@ -271,22 +271,22 @@ export default function AdminPage() {
               ))}
             </div>
           ) : (
-            <p className="py-8 text-center text-[0.85rem] text-[#C5C2BC]">No users yet</p>
+            <p className="py-8 text-center text-[0.85rem] text-[#444]">No users yet</p>
           )}
         </div>
       </div>
 
       {/* Websites list */}
       <div
-        className="mt-6 overflow-hidden rounded-[24px] bg-white"
-        style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}
+        className="mt-6 overflow-hidden rounded-[24px]"
+        style={{ backgroundColor: "#141414", border: "1px solid rgba(255,255,255,0.06)" }}
       >
-        <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(0,0,0,0.04)" }}>
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(92,122,138,0.08)" }}>
-            <Globe className="h-4 w-4 text-[#5C7A8A]" />
+        <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(92,122,138,0.12)" }}>
+            <Globe className="h-4 w-4 text-[#7BA0B4]" />
           </div>
-          <h2 className="text-[0.9rem] font-bold text-[#1A1A1A]">All Websites</h2>
-          <span className="ml-auto rounded-lg px-2.5 py-1 text-[0.68rem] font-bold text-[#B0ADA8]" style={{ backgroundColor: "#F4F1EC" }}>
+          <h2 className="text-[0.9rem] font-bold text-[#E0E0E0]">All Websites</h2>
+          <span className="ml-auto rounded-lg px-2.5 py-1 text-[0.68rem] font-bold text-[#555]" style={{ backgroundColor: "rgba(255,255,255,0.04)" }}>
             {allWebsites?.length ?? 0}
           </span>
         </div>
@@ -296,37 +296,37 @@ export default function AdminPage() {
               {allWebsites.map((w) => (
                 <div
                   key={w._id}
-                  className="flex items-center justify-between rounded-2xl px-5 py-4 transition-colors hover:bg-[#FAF9F7]"
+                  className="flex items-center justify-between rounded-2xl px-5 py-4 transition-colors hover:bg-white/[0.02]"
                 >
                   <div className="flex items-center gap-3.5 min-w-0">
                     <div
                       className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[14px]"
-                      style={{ backgroundColor: "rgba(92,122,138,0.08)" }}
+                      style={{ backgroundColor: "rgba(92,122,138,0.12)" }}
                     >
-                      <Globe className="h-[18px] w-[18px] text-[#5C7A8A]" />
+                      <Globe className="h-[18px] w-[18px] text-[#7BA0B4]" />
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="text-[0.88rem] font-semibold text-[#1A1A1A]">{w.name}</span>
-                        <span className="rounded-md px-2 py-0.5 text-[0.62rem] font-semibold text-[#B0ADA8]" style={{ backgroundColor: "#F4F1EC" }}>
+                        <span className="text-[0.88rem] font-semibold text-[#E0E0E0]">{w.name}</span>
+                        <span className="rounded-md px-2 py-0.5 text-[0.62rem] font-semibold text-[#555]" style={{ backgroundColor: "rgba(255,255,255,0.04)" }}>
                           {w.ownerName}
                         </span>
                       </div>
-                      <p className="truncate text-[0.75rem] text-[#B0ADA8]">{w.url}</p>
-                      <p className="font-mono text-[0.65rem] text-[#D0D0D0]">{w.trackingId}</p>
+                      <p className="truncate text-[0.75rem] text-[#555]">{w.url}</p>
+                      <p className="font-mono text-[0.65rem] text-[#333]">{w.trackingId}</p>
                     </div>
                   </div>
                   <div className="ml-4 flex shrink-0 items-center gap-1">
                     <a
                       href={`/dashboard/site/${w._id}`}
-                      className="rounded-xl p-2.5 text-[#C5C2BC] transition-all hover:bg-[#F4F1EC] hover:text-[#7B8C6F]"
+                      className="rounded-xl p-2.5 text-[#555] transition-all hover:bg-white/[0.04] hover:text-[#9AAF8C]"
                       title="View analytics"
                     >
                       <Eye className="h-4 w-4" />
                     </a>
                     <button
                       onClick={() => handleDeleteWebsite(w._id as Id<"websites">)}
-                      className="rounded-xl p-2.5 text-[#D0D0D0] transition-all hover:bg-red-50 hover:text-red-400"
+                      className="rounded-xl p-2.5 text-[#444] transition-all hover:bg-red-500/10 hover:text-red-400"
                       title="Delete website"
                     >
                       <Trash2 className="h-4 w-4" />
@@ -336,22 +336,22 @@ export default function AdminPage() {
               ))}
             </div>
           ) : (
-            <p className="py-8 text-center text-[0.85rem] text-[#C5C2BC]">No websites yet</p>
+            <p className="py-8 text-center text-[0.85rem] text-[#444]">No websites yet</p>
           )}
         </div>
       </div>
 
       {/* Applications & Bookings Inbox */}
       <div
-        className="mt-8 overflow-hidden rounded-[24px] bg-white"
-        style={{ border: "1px solid rgba(0,0,0,0.05)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}
+        className="mt-8 overflow-hidden rounded-[24px]"
+        style={{ backgroundColor: "#141414", border: "1px solid rgba(255,255,255,0.06)" }}
       >
-        <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(0,0,0,0.04)" }}>
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(232,167,130,0.08)" }}>
+        <div className="flex items-center gap-3 border-b px-7 py-5" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(232,167,130,0.12)" }}>
             <Inbox className="h-4 w-4 text-[#E8A782]" />
           </div>
-          <h2 className="text-[0.9rem] font-bold text-[#1A1A1A]">Inbox</h2>
-          <span className="ml-auto rounded-lg px-2.5 py-1 text-[0.68rem] font-bold text-[#B0ADA8]" style={{ backgroundColor: "#F4F1EC" }}>
+          <h2 className="text-[0.9rem] font-bold text-[#E0E0E0]">Inbox</h2>
+          <span className="ml-auto rounded-lg px-2.5 py-1 text-[0.68rem] font-bold text-[#555]" style={{ backgroundColor: "rgba(255,255,255,0.04)" }}>
             {applications?.length ?? 0}
           </span>
         </div>
@@ -369,7 +369,7 @@ export default function AdminPage() {
               ))}
             </div>
           ) : (
-            <p className="py-8 text-center text-[0.85rem] text-[#C5C2BC]">No submissions yet</p>
+            <p className="py-8 text-center text-[0.85rem] text-[#444]">No submissions yet</p>
           )}
         </div>
       </div>
@@ -463,21 +463,21 @@ function InboxItem({
   };
 
   const inputClass =
-    "w-full rounded-xl border-2 border-[#EEECEA] bg-[#FAF9F7] px-4 py-3 text-[0.82rem] font-medium text-[#1A1A1A] outline-none transition-all placeholder:font-normal placeholder:text-[#D0D0D0] focus:border-[#7B8C6F] focus:bg-white";
+    "w-full rounded-xl border-2 border-[#222] bg-[#111] px-4 py-3 text-[0.82rem] font-medium text-[#E0E0E0] outline-none transition-all placeholder:font-normal placeholder:text-[#444] focus:border-[#7B8C6F] focus:bg-[#141414]";
 
   return (
-    <div className="rounded-2xl px-5 py-4 transition-colors hover:bg-[#FAF9F7]">
+    <div className="rounded-2xl px-5 py-4 transition-colors hover:bg-white/[0.02]">
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[0.88rem] font-semibold text-[#1A1A1A]">
+            <span className="text-[0.88rem] font-semibold text-[#E0E0E0]">
               {app.firstName} {app.lastName}
             </span>
             <span
               className="flex items-center gap-1 rounded-md px-2 py-0.5 text-[0.6rem] font-bold uppercase tracking-[0.04em]"
               style={{
-                backgroundColor: app.type === "booking" ? "rgba(92,122,138,0.08)" : "rgba(123,140,111,0.08)",
-                color: app.type === "booking" ? "#5C7A8A" : "#7B8C6F",
+                backgroundColor: app.type === "booking" ? "rgba(92,122,138,0.12)" : "rgba(123,140,111,0.12)",
+                color: app.type === "booking" ? "#7BA0B4" : "#9AAF8C",
               }}
             >
               {app.type === "booking" ? <><CalendarDays className="h-3 w-3" /> Booking</> : <><Inbox className="h-3 w-3" /> Application</>}
@@ -486,13 +486,13 @@ function InboxItem({
               className="flex items-center gap-1 rounded-md px-2 py-0.5 text-[0.6rem] font-bold uppercase tracking-[0.04em]"
               style={{
                 backgroundColor:
-                  app.status === "new" ? "rgba(232,167,130,0.1)" :
-                  app.status === "contacted" ? "rgba(92,122,138,0.08)" :
-                  app.status === "closed" ? "rgba(0,0,0,0.04)" : "rgba(123,140,111,0.08)",
+                  app.status === "new" ? "rgba(232,167,130,0.12)" :
+                  app.status === "contacted" ? "rgba(92,122,138,0.12)" :
+                  app.status === "closed" ? "rgba(255,255,255,0.04)" : "rgba(123,140,111,0.12)",
                 color:
                   app.status === "new" ? "#E8A782" :
-                  app.status === "contacted" ? "#5C7A8A" :
-                  app.status === "closed" ? "#999" : "#7B8C6F",
+                  app.status === "contacted" ? "#7BA0B4" :
+                  app.status === "closed" ? "#555" : "#9AAF8C",
               }}
             >
               {app.status === "new" && <Clock className="h-3 w-3" />}
@@ -501,14 +501,14 @@ function InboxItem({
             </span>
           </div>
 
-          <p className="mt-1 text-[0.78rem] text-[#B0ADA8]">
+          <p className="mt-1 text-[0.78rem] text-[#555]">
             {app.email}
             {app.phone && <> &middot; {app.phone}</>}
             {app.businessName && <> &middot; {app.businessName}</>}
           </p>
 
           {app.packageTier && app.packageTier !== "none" && (
-            <p className="mt-1 text-[0.72rem] font-semibold text-[#7B8C6F]">
+            <p className="mt-1 text-[0.72rem] font-semibold text-[#9AAF8C]">
               {app.packageTier.charAt(0).toUpperCase() + app.packageTier.slice(1)} Package
             </p>
           )}
@@ -516,7 +516,7 @@ function InboxItem({
           {app.services && app.services.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1.5">
               {app.services.map((s: string) => (
-                <span key={s} className="rounded-full bg-[#F4F1EC] px-2.5 py-1 text-[0.65rem] font-medium text-[#888]">
+                <span key={s} className="rounded-full px-2.5 py-1 text-[0.65rem] font-medium text-[#666]" style={{ backgroundColor: "rgba(255,255,255,0.04)" }}>
                   {s}
                 </span>
               ))}
@@ -524,12 +524,12 @@ function InboxItem({
           )}
 
           {app.details && (
-            <p className="mt-2 text-[0.78rem] leading-relaxed text-[#999]">
+            <p className="mt-2 text-[0.78rem] leading-relaxed text-[#666]">
               &ldquo;{app.details}&rdquo;
             </p>
           )}
 
-          <p className="mt-2 text-[0.65rem] text-[#D0D0D0]">
+          <p className="mt-2 text-[0.65rem] text-[#333]">
             {new Date(app.createdAt).toLocaleDateString("en-US", {
               month: "short",
               day: "numeric",
@@ -543,8 +543,8 @@ function InboxItem({
         <div className="flex shrink-0 items-center gap-1">
           <button
             onClick={() => setReplyOpen(!replyOpen)}
-            className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-[0.68rem] font-semibold transition-all hover:bg-[#F4F1EC]"
-            style={{ color: replyOpen ? "#c53030" : "#5C7A8A" }}
+            className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-[0.68rem] font-semibold transition-all hover:bg-white/[0.04]"
+            style={{ color: replyOpen ? "#e55" : "#7BA0B4" }}
             title="Reply via email"
           >
             <Mail className="h-4 w-4" />
@@ -555,7 +555,7 @@ function InboxItem({
               onClick={async () => {
                 if (token) await updateStatusMut({ sessionToken: token, applicationId: app._id as any, status: "contacted" });
               }}
-              className="rounded-xl px-3 py-2 text-[0.68rem] font-semibold text-[#5C7A8A] transition-all hover:bg-[#F4F1EC]"
+              className="rounded-xl px-3 py-2 text-[0.68rem] font-semibold text-[#7BA0B4] transition-all hover:bg-white/[0.04]"
               title="Mark as contacted"
             >
               <Check className="h-4 w-4" />
@@ -566,7 +566,7 @@ function InboxItem({
               onClick={async () => {
                 if (token) await updateStatusMut({ sessionToken: token, applicationId: app._id as any, status: "closed" });
               }}
-              className="rounded-xl px-3 py-2 text-[0.68rem] font-semibold text-[#7B8C6F] transition-all hover:bg-[#F4F1EC]"
+              className="rounded-xl px-3 py-2 text-[0.68rem] font-semibold text-[#9AAF8C] transition-all hover:bg-white/[0.04]"
               title="Mark as closed"
             >
               <Check className="h-4 w-4" />
@@ -578,7 +578,7 @@ function InboxItem({
                 await removeAppMut({ sessionToken: token, applicationId: app._id as any });
               }
             }}
-            className="rounded-xl p-2.5 text-[#D0D0D0] transition-all hover:bg-red-50 hover:text-red-400"
+            className="rounded-xl p-2.5 text-[#444] transition-all hover:bg-red-500/10 hover:text-red-400"
             title="Delete"
           >
             <Trash2 className="h-4 w-4" />
@@ -588,39 +588,39 @@ function InboxItem({
 
       {/* Reply panel */}
       {replyOpen && (
-        <div className="mt-4 rounded-2xl border border-dashed p-4" style={{ borderColor: "rgba(0,0,0,0.08)", backgroundColor: "#FDFCFA" }}>
+        <div className="mt-4 rounded-2xl border border-dashed p-4" style={{ borderColor: "rgba(255,255,255,0.08)", backgroundColor: "rgba(255,255,255,0.02)" }}>
           {sent ? (
-            <div className="flex items-center gap-2 py-4 text-center text-[0.85rem] font-semibold text-[#7B8C6F]">
+            <div className="flex items-center gap-2 py-4 text-center text-[0.85rem] font-semibold text-[#9AAF8C]">
               <Check className="h-5 w-5" />
               Email sent to {app.email}!
             </div>
           ) : (
             <>
               <div className="mb-3 flex items-center justify-between">
-                <p className="text-[0.72rem] font-bold text-[#B0ADA8]">
-                  Replying to <span className="text-[#1A1A1A]">{app.email}</span>
+                <p className="text-[0.72rem] font-bold text-[#555]">
+                  Replying to <span className="text-[#E0E0E0]">{app.email}</span>
                 </p>
                 <div className="relative">
                   <button
                     onClick={() => setPresetOpen(!presetOpen)}
-                    className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[0.72rem] font-semibold transition-all hover:bg-[#F4F1EC]"
-                    style={{ backgroundColor: "rgba(123,140,111,0.06)", color: "#7B8C6F" }}
+                    className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[0.72rem] font-semibold transition-all hover:bg-white/[0.04]"
+                    style={{ backgroundColor: "rgba(123,140,111,0.1)", color: "#9AAF8C" }}
                   >
                     Templates
                     <ChevronDown className="h-3 w-3" style={{ transform: presetOpen ? "rotate(180deg)" : "none", transition: "transform 0.2s" }} />
                   </button>
                   {presetOpen && (
                     <div
-                      className="absolute right-0 top-full z-20 mt-1 w-64 overflow-hidden rounded-xl bg-white py-1"
-                      style={{ border: "1px solid rgba(0,0,0,0.08)", boxShadow: "0 8px 24px rgba(0,0,0,0.1)" }}
+                      className="absolute right-0 top-full z-20 mt-1 w-64 overflow-hidden rounded-xl py-1"
+                      style={{ backgroundColor: "#1A1A1A", border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 8px 24px rgba(0,0,0,0.4)" }}
                     >
                       {PRESET_EMAILS.map((preset, i) => (
                         <button
                           key={i}
                           onClick={() => loadPreset(preset)}
-                          className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-[0.78rem] font-medium text-[#666] transition-colors hover:bg-[#FAF9F7] hover:text-[#1A1A1A]"
+                          className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-[0.78rem] font-medium text-[#888] transition-colors hover:bg-white/[0.04] hover:text-[#E0E0E0]"
                         >
-                          <Mail className="h-3.5 w-3.5 shrink-0 text-[#C5C2BC]" />
+                          <Mail className="h-3.5 w-3.5 shrink-0 text-[#444]" />
                           {preset.label}
                         </button>
                       ))}
@@ -646,8 +646,8 @@ function InboxItem({
                 <button
                   onClick={handleSend}
                   disabled={sending || !subject || !body}
-                  className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-[0.82rem] font-semibold text-white transition-all hover:brightness-105 disabled:opacity-40"
-                  style={{ background: "linear-gradient(135deg, #7B8C6F, #6A7A5F)" }}
+                  className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-[0.82rem] font-semibold text-white transition-all hover:brightness-110 disabled:opacity-40"
+                  style={{ background: "linear-gradient(135deg, #7B8C6F, #6A7A5F)", boxShadow: "0 4px 16px rgba(123,140,111,0.25)" }}
                 >
                   {sending ? (
                     <><div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/20 border-t-white" /> Sending...</>
