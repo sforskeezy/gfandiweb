@@ -4,38 +4,6 @@ import { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 
-function LiquidButton({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <a
-      href={href}
-      className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-[#5D8B68]/25 px-7 py-3.5 text-[0.84rem] font-medium transition-all duration-500 hover:border-[#5D8B68]/40 hover:shadow-[0_4px_20px_rgba(93,139,104,0.15)]"
-    >
-      {/* Liquid fill container */}
-      <div className="absolute inset-0 overflow-hidden rounded-full">
-        {/* The liquid body — rises on hover */}
-        <div className="absolute inset-x-0 bottom-0 h-[45%] bg-[#5D8B68]/[0.12] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:h-full group-hover:bg-[#5D8B68]">
-          {/* Wave surface — the rotating oval that creates the wave illusion */}
-          <div
-            className="absolute -top-[2px] left-1/2 h-[20px] w-[300%] rounded-[45%] bg-[#ECEAE7] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:bg-[#5D8B68]"
-            style={{ animation: "liquid-wave 3s linear infinite" }}
-          />
-          {/* Secondary wave for depth */}
-          <div
-            className="absolute -top-[1px] left-1/2 h-[18px] w-[300%] rounded-[40%] bg-[#ECEAE7]/60 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:bg-[#5D8B68]/80"
-            style={{ animation: "liquid-wave 2.2s linear infinite reverse" }}
-          />
-        </div>
-      </div>
-
-      {/* Text content */}
-      <span className="relative z-10 text-[#1A1A1A]/60 transition-colors duration-500 group-hover:text-white">
-        {children}
-      </span>
-      <ArrowUpRight className="relative z-10 h-3.5 w-3.5 text-[#1A1A1A]/40 transition-all duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
-    </a>
-  );
-}
-
 export default function DiscoverySection() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-10%" });
@@ -104,8 +72,26 @@ export default function DiscoverySection() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="mt-12 flex flex-wrap items-center justify-center gap-4"
         >
-          <LiquidButton href="#contact">Our Story</LiquidButton>
-          <LiquidButton href="#services">Our Services</LiquidButton>
+          <motion.a
+            href="#contact"
+            whileTap={{ scale: 0.92 }}
+            whileHover={{ scale: 1.03, boxShadow: "0 6px 28px rgba(93,139,104,0.35)" }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            className="inline-flex items-center gap-2 rounded-full bg-[#5D8B68] px-7 py-3.5 text-[0.84rem] font-semibold text-white shadow-[0_4px_20px_rgba(93,139,104,0.2)]"
+          >
+            Our Story
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </motion.a>
+          <motion.a
+            href="#services"
+            whileTap={{ scale: 0.92 }}
+            whileHover={{ scale: 1.03 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            className="group inline-flex items-center gap-2 rounded-full border border-[#1A1A1A]/10 px-7 py-3.5 text-[0.84rem] font-medium text-[#1A1A1A]/55 transition-colors duration-300 hover:border-[#1A1A1A]/20 hover:text-[#1A1A1A]"
+          >
+            Our Services
+            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </motion.a>
         </motion.div>
       </div>
     </section>

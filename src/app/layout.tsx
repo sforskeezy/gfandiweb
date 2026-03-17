@@ -28,6 +28,10 @@ export const metadata: Metadata = {
   title: "6POINT Solutions | Marketing That Actually Grows Your Business",
   description:
     "We help businesses scale with powerful branding, modern websites, and performance-driven marketing strategies.",
+  icons: {
+    icon: "/d2b8263f-f484-4783-8fd0-daf49e85220b.png",
+    apple: "/d2b8263f-f484-4783-8fd0-daf49e85220b.png",
+  },
 };
 
 export default function RootLayout({

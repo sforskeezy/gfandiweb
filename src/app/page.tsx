@@ -1,5 +1,7 @@
 "use client";
 
+import { useRef } from "react";
+import { motion, useInView } from "motion/react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import DiscoverySection from "@/components/DiscoverySection";
@@ -10,6 +12,31 @@ import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import BookingModal, { useBookingModal } from "@/components/BookingModal";
 
+function ScrollReveal({
+  children,
+  className,
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 60 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 export default function Home() {
   const { open, openModal, closeModal } = useBookingModal();
 
@@ -18,35 +45,28 @@ export default function Home() {
       <div className="relative z-10">
         <Navbar onBookCall={openModal} />
 
-        {/* Hero — full-bleed blurred image */}
         <HeroSection />
 
-        {/* Discovery — warm base */}
-        <div className="bg-[#ECEAE7]">
+        <ScrollReveal className="bg-[#ECEAE7]">
           <DiscoverySection />
-        </div>
+        </ScrollReveal>
 
-        {/* Marquee — white strip */}
-        <div className="border-y border-[#1A1A1A]/[0.06] bg-white">
+        <ScrollReveal className="border-y border-[#1A1A1A]/[0.06] bg-white">
           <MarqueeText />
-        </div>
+        </ScrollReveal>
 
-        {/* Services — warm base */}
-        <div className="bg-[#ECEAE7]">
+        <ScrollReveal className="bg-[#ECEAE7]">
           <ServicesSection />
-        </div>
+        </ScrollReveal>
 
-        {/* Pricing — white */}
-        <div className="border-y border-[#1A1A1A]/[0.06] bg-white">
+        <ScrollReveal className="border-y border-[#1A1A1A]/[0.06] bg-white">
           <PricingSection />
-        </div>
+        </ScrollReveal>
 
-        {/* Contact */}
-        <div className="bg-[#ECEAE7]">
+        <ScrollReveal className="bg-[#ECEAE7]">
           <ContactSection onBookCall={openModal} />
-        </div>
+        </ScrollReveal>
 
-        {/* Footer */}
         <Footer />
       </div>
 

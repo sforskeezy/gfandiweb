@@ -1,11 +1,14 @@
 "use client";
 
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useInView } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 
 const footerLinks = [
   {
     heading: "Navigate",
     links: [
+      { label: "Services", href: "#services" },
       { label: "Pricing", href: "#pricing" },
       { label: "Contact", href: "#contact" },
     ],
@@ -18,153 +21,125 @@ const footerLinks = [
       { label: "TikTok", href: "#" },
     ],
   },
+  {
+    heading: "Contact",
+    links: [
+      { label: "hello@6pointsolutions.com", href: "mailto:hello@6pointstrategies.com" },
+    ],
+  },
+  {
+    heading: "Legal",
+    links: [
+      { label: "Privacy Policy", href: "#" },
+      { label: "Terms of Service", href: "#" },
+    ],
+  },
 ];
 
 export default function Footer() {
+  const footerRef = useRef<HTMLElement>(null);
+  const bigTextRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(footerRef, { once: true, margin: "-10%" });
+
+  const { scrollYProgress } = useScroll({
+    target: bigTextRef,
+    offset: ["start end", "end end"],
+  });
+
+  const textY = useTransform(scrollYProgress, [0, 1], [100, 0]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.3, 1], [0, 0.6, 1]);
+  const textScale = useTransform(scrollYProgress, [0, 1], [0.85, 1]);
+
   return (
-    <footer
-      className="relative overflow-hidden px-4 pt-20 pb-10 sm:px-6 sm:pt-28 sm:pb-12"
-      style={{ backgroundColor: "#E4E2DF" }}
-    >
-      {/* Soft pastel yellow glow from bottom */}
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        {/* Wide soft wash */}
-        <div
-          className="absolute bottom-0 left-1/2"
-          style={{
-            width: "200%",
-            height: "100%",
-            transform: "translateX(-50%)",
-            background:
-              "radial-gradient(ellipse 65% 70% at 50% 100%, rgba(253,240,180,0.55) 0%, rgba(254,249,220,0.35) 30%, rgba(255,253,240,0.15) 55%, transparent 80%)",
-          }}
-        />
-        {/* Warmer center accent */}
-        <div
-          className="absolute bottom-0 left-1/2"
-          style={{
-            width: "120%",
-            height: "60%",
-            transform: "translateX(-50%)",
-            background:
-              "radial-gradient(ellipse 50% 60% at 50% 100%, rgba(253,230,160,0.4) 0%, rgba(254,243,200,0.2) 40%, transparent 70%)",
-          }}
-        />
-        {/* Very soft peach tint on edges */}
-        <div
-          className="absolute bottom-0 left-1/2"
-          style={{
-            width: "180%",
-            height: "80%",
-            transform: "translateX(-50%)",
-            background:
-              "radial-gradient(ellipse 80% 50% at 50% 100%, rgba(255,235,200,0.12) 0%, transparent 60%)",
-          }}
-        />
+    <footer ref={footerRef} className="relative overflow-hidden bg-[#1A1A1A]">
+      {/* Top section — links */}
+      <div className="relative z-10 px-4 pt-20 sm:px-6 sm:pt-28 lg:px-8">
+        <div className="mx-auto w-full max-w-[1200px]">
+          {/* Brand heading */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7 }}
+            className="mb-16 sm:mb-20"
+          >
+            <h2 className="text-[clamp(2.2rem,5vw,3.8rem)] font-semibold leading-[1.05] tracking-[-0.03em] text-white">
+              Ready to{" "}
+              <span className="italic" style={{ fontFamily: "var(--font-serif)" }}>
+                grow?
+              </span>
+            </h2>
+            <p className="mt-4 max-w-md text-[0.95rem] leading-[1.7] text-white/30">
+              Strategy, branding, and performance marketing — all under one roof.
+            </p>
+          </motion.div>
+
+          {/* Links grid */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="grid grid-cols-2 gap-10 sm:grid-cols-4 sm:gap-8"
+          >
+            {footerLinks.map((col) => (
+              <div key={col.heading}>
+                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-white/20">
+                  {col.heading}
+                </p>
+                <div className="mt-4 flex flex-col gap-3">
+                  {col.links.map((link) => (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      className="group flex items-center gap-1.5 text-[0.85rem] text-white/35 transition-colors duration-200 hover:text-white"
+                    >
+                      {link.label}
+                      <ArrowUpRight className="h-3.5 w-3.5 opacity-0 transition-all duration-200 group-hover:opacity-100" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </motion.div>
+
+          {/* Divider */}
+          <div className="mt-16 h-px w-full bg-white/[0.06]" />
+        </div>
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-[1200px]">
-        {/* Brand heading */}
-        <div className="mb-16 sm:mb-20">
-          <h2
-            className="text-[clamp(2.2rem,5vw,3.8rem)] font-semibold leading-[1.05] tracking-[-0.03em]"
-            style={{ color: "#1A1A1A" }}
-          >
-            6POINT{" "}
-            <span className="italic" style={{ fontFamily: "var(--font-serif)" }}>
-              Solutions
-            </span>
-          </h2>
-          <p
-            className="mt-4 max-w-md text-[0.95rem] leading-[1.7]"
-            style={{ color: "rgba(26,26,26,0.35)" }}
-          >
-            Strategy, branding, and performance marketing — all under one roof.
-          </p>
-        </div>
-
-        {/* Links grid */}
-        <div className="grid grid-cols-2 gap-10 sm:grid-cols-4 sm:gap-8">
-          {footerLinks.map((col) => (
-            <div key={col.heading}>
-              <p
-                className="text-[0.68rem] font-semibold uppercase tracking-[0.14em]"
-                style={{ color: "rgba(26,26,26,0.22)" }}
-              >
-                {col.heading}
-              </p>
-              <div className="mt-4 flex flex-col gap-3">
-                {col.links.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    className="group flex items-center gap-1.5 text-[0.85rem] transition-colors duration-150 hover:text-[#1A1A1A]"
-                    style={{ color: "rgba(26,26,26,0.4)" }}
-                  >
-                    {link.label}
-                    <ArrowUpRight className="h-3.5 w-3.5 opacity-0 transition-all duration-200 group-hover:opacity-100" />
-                  </a>
-                ))}
-              </div>
-            </div>
-          ))}
-
-          {/* Contact column */}
-          <div>
-            <p
-              className="text-[0.68rem] font-semibold uppercase tracking-[0.14em]"
-              style={{ color: "rgba(26,26,26,0.22)" }}
-            >
-              Contact
-            </p>
-            <div className="mt-4 flex flex-col gap-3">
-              <a
-                href="mailto:hello@6pointstrategies.com"
-                className="text-[0.85rem] transition-colors duration-150 hover:text-[#1A1A1A]"
-                style={{ color: "rgba(26,26,26,0.4)" }}
-              >
-                hello@6pointstrategies.com
-              </a>
-            </div>
-          </div>
-
-          {/* Legal column */}
-          <div>
-            <p
-              className="text-[0.68rem] font-semibold uppercase tracking-[0.14em]"
-              style={{ color: "rgba(26,26,26,0.22)" }}
-            >
-              Legal
-            </p>
-            <div className="mt-4 flex flex-col gap-3">
-              <a
-                href="#"
-                className="text-[0.85rem] transition-colors duration-150 hover:text-[#1A1A1A]"
-                style={{ color: "rgba(26,26,26,0.4)" }}
-              >
-                Privacy Policy
-              </a>
-              <a
-                href="#"
-                className="text-[0.85rem] transition-colors duration-150 hover:text-[#1A1A1A]"
-                style={{ color: "rgba(26,26,26,0.4)" }}
-              >
-                Terms of Service
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom bar */}
-        <div
-          className="mt-16 flex flex-col items-center justify-between gap-4 pt-6 sm:flex-row"
-          style={{ borderTop: "1px solid rgba(26,26,26,0.06)" }}
+      {/* Massive brand text — scroll reveal */}
+      <div ref={bigTextRef} className="relative px-4 pt-16 pb-8 sm:px-6 sm:pt-20 sm:pb-12">
+        <motion.div
+          style={{ y: textY, opacity: textOpacity, scale: textScale }}
+          className="mx-auto w-full max-w-[1200px]"
         >
-          <p className="text-[0.72rem]" style={{ color: "rgba(26,26,26,0.2)" }}>
+          <div className="select-none text-center text-[clamp(4rem,15vw,14rem)] font-black leading-[0.85] tracking-[-0.06em] text-white/[0.04]">
+            6POINT
+          </div>
+        </motion.div>
+
+        {/* Bottom bar — copyright */}
+        <div className="mx-auto mt-10 flex w-full max-w-[1200px] flex-col items-center justify-between gap-4 sm:flex-row">
+          <p className="text-[0.72rem] text-white/15">
             &copy; {new Date().getFullYear()} 6POINT Solutions. All rights reserved.
           </p>
+          <a
+            href="#"
+            className="text-[0.72rem] text-white/15 transition-colors hover:text-white/30"
+          >
+            Back to top ↑
+          </a>
         </div>
       </div>
+
+      {/* Green glow at bottom */}
+      <div
+        className="pointer-events-none absolute bottom-0 left-1/2 h-[400px] w-[800px]"
+        style={{
+          transform: "translateX(-50%) translateY(50%)",
+          background: "radial-gradient(ellipse, rgba(93,139,104,0.15) 0%, transparent 70%)",
+          animation: "footer-glow-pulse 4s ease-in-out infinite",
+        }}
+      />
     </footer>
   );
 }
