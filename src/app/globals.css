@@ -120,6 +120,15 @@
   }
 }
 
+@keyframes liquid-wave {
+  0% {
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, 0) rotate(360deg);
+  }
+}
+
 @keyframes logo-spin {
   0% {
     transform: rotate(0deg);
