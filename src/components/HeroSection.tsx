@@ -36,15 +36,22 @@ function RotatingWord() {
 }
 
 const platformLogos = [
-  { src: "https://svgl.app/library/google.svg", alt: "Google" },
-  { src: "https://svgl.app/library/meta.svg", alt: "Facebook" },
-  { src: "https://svgl.app/library/instagram.svg", alt: "Instagram" },
-  { src: "https://svgl.app/library/tiktok.svg", alt: "TikTok" },
-  { src: "https://svgl.app/library/youtube.svg", alt: "YouTube" },
-  { src: "https://svgl.app/library/x.svg", alt: "X" },
-  { src: "https://svgl.app/library/linkedin.svg", alt: "LinkedIn" },
-  { src: "https://svgl.app/library/snapchat.svg", alt: "Snapchat" },
-  { src: "https://svgl.app/library/pinterest.svg", alt: "Pinterest" },
+  { src: "https://cdn.simpleicons.org/google/ffffff", alt: "Google" },
+  { src: "https://cdn.simpleicons.org/facebook/ffffff", alt: "Facebook" },
+  { src: "https://cdn.simpleicons.org/instagram/ffffff", alt: "Instagram" },
+  { src: "https://cdn.simpleicons.org/doordash/ffffff", alt: "DoorDash" },
+  { src: "https://cdn.simpleicons.org/tiktok/ffffff", alt: "TikTok" },
+  { src: "https://cdn.simpleicons.org/youtube/ffffff", alt: "YouTube" },
+  { src: "https://cdn.simpleicons.org/x/ffffff", alt: "X" },
+  { src: "https://cdn.simpleicons.org/linkedin/ffffff", alt: "LinkedIn" },
+  { src: "https://cdn.simpleicons.org/snapchat/ffffff", alt: "Snapchat" },
+];
+
+const floatingBadges = [
+  { label: "50+ Clients", x: "-6%", y: "18%", delay: 0.9 },
+  { label: "98% Retention", x: "94%", y: "25%", delay: 1.05 },
+  { label: "3x Avg ROI", x: "-4%", y: "72%", delay: 1.2 },
+  { label: "<24hr Response", x: "92%", y: "78%", delay: 1.35 },
 ];
 
 export default function HeroSection({ onBookCall }: { onBookCall?: () => void }) {
@@ -113,6 +120,26 @@ export default function HeroSection({ onBookCall }: { onBookCall?: () => void })
         style={{ y: heroY }}
         className="relative z-10 mx-auto mt-4 w-full max-w-[1260px] sm:mt-6"
       >
+        {/* Floating stat badges around the box (desktop only) */}
+        {floatingBadges.map((badge) => (
+          <motion.div
+            key={badge.label}
+            initial={{ opacity: 0, scale: 0.8, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: badge.delay, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute z-20 hidden lg:block"
+            style={{ left: badge.x, top: badge.y }}
+          >
+            <motion.div
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: badge.delay * 2 }}
+              className="rounded-full border border-[#1A1A1A]/[0.06] bg-white/80 px-4 py-2 text-[0.72rem] font-semibold tracking-[-0.01em] text-[#1A1A1A]/70 shadow-[0_4px_20px_rgba(0,0,0,0.06)] backdrop-blur-md"
+            >
+              {badge.label}
+            </motion.div>
+          </motion.div>
+        ))}
+
         <motion.div
           initial={{ opacity: 0, y: 40, scale: 0.97 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -129,6 +156,16 @@ export default function HeroSection({ onBookCall }: { onBookCall?: () => void })
           {/* Inner glows */}
           <div className="pointer-events-none absolute -top-32 -right-32 h-[400px] w-[400px] rounded-full opacity-20" style={{ background: "radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%)" }} />
           <div className="pointer-events-none absolute -bottom-24 -left-24 h-[300px] w-[300px] rounded-full opacity-15" style={{ background: "radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 70%)" }} />
+
+          {/* Large watermark asterisk logo */}
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            <img
+              src="/d2b8263f-f484-4783-8fd0-daf49e85220b.png"
+              alt=""
+              className="h-[60%] w-auto max-w-[60%] object-contain opacity-[0.04] brightness-0 invert"
+              style={{ animation: "logo-spin 20s linear infinite" }}
+            />
+          </div>
 
           {/* Content */}
           <div className="relative z-10 flex flex-col items-center justify-center px-6 py-20 text-center sm:px-12 sm:py-28 lg:px-20 lg:py-32">
@@ -196,14 +233,14 @@ export default function HeroSection({ onBookCall }: { onBookCall?: () => void })
                 Where we will get you
               </p>
               <div className="relative">
-                <InfiniteSlider gap={36} duration={30} durationOnHover={60} reverse>
+                <InfiniteSlider gap={40} duration={30} durationOnHover={60} reverse>
                   {platformLogos.map((logo) => (
                     <img
                       key={logo.alt}
                       src={logo.src}
                       alt={logo.alt}
                       loading="lazy"
-                      className="pointer-events-none h-5 w-auto select-none brightness-0 invert opacity-50 transition-opacity duration-300 hover:opacity-80 sm:h-6"
+                      className="pointer-events-none h-5 w-auto select-none opacity-50 sm:h-6"
                     />
                   ))}
                 </InfiniteSlider>
