@@ -9,8 +9,12 @@ export default function DiscoverySection() {
   const inView = useInView(ref, { once: true, margin: "-10%" });
 
   return (
-    <section ref={ref} className="px-4 py-16 sm:px-6 sm:py-24">
-      <div className="mx-auto w-full max-w-[1200px]">
+    <section ref={ref} className="relative overflow-hidden px-4 py-16 sm:px-6 sm:py-24">
+      {/* Background glow */}
+      <div className="pointer-events-none absolute -bottom-28 left-1/4 h-[550px] w-[550px] rounded-full opacity-[0.12]" style={{ background: "radial-gradient(circle, #D2B48C, transparent 70%)" }} />
+      <div className="pointer-events-none absolute -top-20 -right-20 h-[400px] w-[400px] rounded-full opacity-[0.08]" style={{ background: "radial-gradient(circle, #5D8B68, transparent 70%)" }} />
+
+      <div className="relative mx-auto w-full max-w-[1200px]">
         {/* Split layout: description left, big heading right */}
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-12">
           {/* Left — description */}

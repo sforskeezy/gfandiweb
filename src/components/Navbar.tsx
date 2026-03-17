@@ -37,28 +37,40 @@ export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed top-0 left-0 right-0 z-50 px-4 pt-4 sm:px-6 sm:pt-5"
+        className="fixed top-0 left-0 right-0 z-50 px-3 pt-3 sm:px-5 sm:pt-4"
       >
         <nav
-          className={`mx-auto flex w-full max-w-[1260px] items-center justify-between rounded-2xl px-5 py-3 transition-all duration-500 sm:px-7 sm:py-3.5 ${
+          className={`relative mx-auto flex w-full max-w-[1200px] items-center justify-between px-4 py-2.5 transition-all duration-500 sm:px-6 sm:py-3 ${
             scrolled
-              ? "bg-[#ECEAE7]/80 shadow-[0_4px_30px_rgba(0,0,0,0.06)] ring-1 ring-black/[0.04] backdrop-blur-2xl"
-              : "bg-[#ECEAE7]/40 backdrop-blur-lg"
+              ? "rounded-2xl bg-[#1A1A1A]/[0.9] shadow-[0_8px_40px_rgba(0,0,0,0.15)] ring-1 ring-white/[0.06] backdrop-blur-2xl"
+              : "rounded-2xl bg-[#1A1A1A]/[0.65] backdrop-blur-xl"
           }`}
         >
-          {/* Logo */}
-          <a href="#" className="group flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#5D8B68]">
-              <span className="text-[0.7rem] font-bold leading-none text-white">6P</span>
-            </div>
-            <span className="text-[1.15rem] font-semibold tracking-[-0.03em] text-[#1A1A1A]">
+          {/* Green accent line */}
+          <div
+            className="pointer-events-none absolute -bottom-px left-1/2 h-[1px] w-3/4 -translate-x-1/2 transition-opacity duration-500"
+            style={{
+              background: "linear-gradient(90deg, transparent, rgba(93,139,104,0.6), transparent)",
+              opacity: scrolled ? 1 : 0.3,
+            }}
+          />
+
+          {/* Logo — spinning asterisk + wordmark */}
+          <a href="#" className="group flex items-center gap-3">
+            <img
+              src="/d2b8263f-f484-4783-8fd0-daf49e85220b.png"
+              alt="6POINT"
+              className="h-7 w-7 brightness-0 invert sm:h-8 sm:w-8"
+              style={{ animation: "logo-spin 5s cubic-bezier(0.3, 0, 0.1, 1) infinite" }}
+            />
+            <span className="text-[1.1rem] font-semibold tracking-[-0.04em] text-white sm:text-[1.2rem]">
               6POINT
             </span>
           </a>
 
           {/* Center links */}
           <div
-            className="hidden items-center gap-1 lg:flex"
+            className="hidden items-center lg:flex"
             onMouseLeave={() => setHovered(null)}
           >
             {navLinks.map((link) => (
@@ -66,13 +78,13 @@ export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
                 key={link.label}
                 href={link.href}
                 onMouseEnter={() => setHovered(link.label)}
-                className="relative px-5 py-2 text-[0.88rem] font-medium text-[#1A1A1A]/60 transition-colors duration-200 hover:text-[#1A1A1A]"
+                className="relative px-4 py-2 text-[0.84rem] font-medium text-white/45 transition-colors duration-200 hover:text-white"
               >
                 {hovered === link.label && (
                   <motion.span
                     layoutId="nav-hover"
-                    className="absolute inset-0 rounded-xl bg-[#5D8B68]/[0.07]"
-                    transition={{ type: "spring", bounce: 0.15, duration: 0.45 }}
+                    className="absolute inset-0 rounded-lg bg-white/[0.08]"
+                    transition={{ type: "spring", bounce: 0.12, duration: 0.4 }}
                   />
                 )}
                 <span className="relative z-10">{link.label}</span>
@@ -81,17 +93,17 @@ export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
           </div>
 
           {/* Right side */}
-          <div className="hidden items-center gap-2.5 lg:flex">
+          <div className="hidden items-center gap-3 lg:flex">
             <a
               href="/login"
-              className="flex items-center gap-1.5 px-4 py-2 text-[0.84rem] font-medium text-[#1A1A1A]/50 transition-colors duration-200 hover:text-[#1A1A1A]"
+              className="flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-[0.82rem] font-medium text-white/35 transition-all duration-200 hover:bg-white/[0.05] hover:text-white/70"
             >
               <LogIn className="h-3.5 w-3.5" />
               Login
             </a>
             <button
               onClick={onBookCall}
-              className="group flex items-center gap-2 rounded-xl bg-[#5D8B68] px-6 py-2.5 text-[0.84rem] font-medium text-white transition-all duration-300 hover:bg-[#4E7A58] hover:shadow-[0_4px_20px_rgba(93,139,104,0.3)]"
+              className="group flex items-center gap-2 rounded-lg bg-[#5D8B68] px-5 py-2 text-[0.82rem] font-medium text-white transition-all duration-300 hover:bg-[#4E7A58] hover:shadow-[0_0_24px_rgba(93,139,104,0.45)]"
             >
               Get in Touch
               <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -101,17 +113,17 @@ export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
           {/* Mobile hamburger */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="relative z-50 rounded-xl p-2.5 transition-colors hover:bg-black/5 lg:hidden"
+            className="relative z-50 rounded-lg p-2 transition-colors hover:bg-white/10 lg:hidden"
             aria-label="Toggle menu"
           >
             <AnimatePresence mode="wait">
               {mobileOpen ? (
                 <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.2 }}>
-                  <X className="h-5 w-5 text-[#1A1A1A]" />
+                  <X className="h-5 w-5 text-white" />
                 </motion.div>
               ) : (
                 <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.2 }}>
-                  <Menu className="h-5 w-5 text-[#1A1A1A]" />
+                  <Menu className="h-5 w-5 text-white" />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -127,8 +139,10 @@ export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-[#ECEAE7] lg:hidden"
+            className="fixed inset-0 z-40 bg-[#1A1A1A] lg:hidden"
           >
+            <div className="pointer-events-none absolute -top-20 -right-20 h-[300px] w-[300px] rounded-full opacity-20" style={{ background: "radial-gradient(circle, #5D8B68, transparent 70%)" }} />
+
             <div className="flex h-full flex-col justify-between px-8 pt-28 pb-12">
               <div className="flex flex-col gap-1">
                 {navLinks.map((link, i) => (
@@ -139,12 +153,12 @@ export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.06, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                    className="group flex items-center justify-between border-b border-[#1A1A1A]/[0.06] py-5"
+                    className="group flex items-center justify-between border-b border-white/[0.06] py-5"
                   >
-                    <span className="text-[1.8rem] font-medium tracking-[-0.02em] text-[#1A1A1A]">
+                    <span className="text-[1.8rem] font-medium tracking-[-0.02em] text-white">
                       {link.label}
                     </span>
-                    <ArrowRight className="h-5 w-5 text-[#1A1A1A]/20 transition-all duration-200 group-hover:translate-x-1 group-hover:text-[#5D8B68]" />
+                    <ArrowRight className="h-5 w-5 text-white/20 transition-all duration-200 group-hover:translate-x-1 group-hover:text-[#5D8B68]" />
                   </motion.a>
                 ))}
               </div>
@@ -168,7 +182,7 @@ export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
                 <a
                   href="/login"
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-center gap-2 rounded-2xl border border-[#1A1A1A]/10 py-4 text-[0.95rem] font-medium text-[#1A1A1A]/60"
+                  className="flex items-center justify-center gap-2 rounded-2xl border border-white/10 py-4 text-[0.95rem] font-medium text-white/60"
                 >
                   <LogIn className="h-4 w-4" />
                   Client Login
