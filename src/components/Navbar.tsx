@@ -42,8 +42,8 @@ export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
         <nav
           className={`mx-auto flex w-full max-w-[1260px] items-center justify-between rounded-2xl px-5 py-3 transition-all duration-500 sm:px-7 sm:py-3.5 ${
             scrolled
-              ? "bg-white/80 shadow-[0_4px_30px_rgba(0,0,0,0.06)] ring-1 ring-black/[0.04] backdrop-blur-2xl"
-              : "bg-white/40 backdrop-blur-lg"
+              ? "bg-[#ECEAE7]/80 shadow-[0_4px_30px_rgba(0,0,0,0.06)] ring-1 ring-black/[0.04] backdrop-blur-2xl"
+              : "bg-[#ECEAE7]/40 backdrop-blur-lg"
           }`}
         >
           {/* Logo */}
@@ -127,7 +127,7 @@ export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-white lg:hidden"
+            className="fixed inset-0 z-40 bg-[#ECEAE7] lg:hidden"
           >
             <div className="flex h-full flex-col justify-between px-8 pt-28 pb-12">
               <div className="flex flex-col gap-1">
