@@ -97,7 +97,7 @@ export default function PricingSection() {
               className={`relative flex flex-col rounded-[24px] p-8 ${
                 plan.accent
                   ? "bg-[#7B8C6F] text-white"
-                  : "bg-[#F2EFE9] text-[#1A1A1A]"
+                  : "bg-[#F6F4F0] text-[#1A1A1A]"
               }`}
               style={
                 plan.accent

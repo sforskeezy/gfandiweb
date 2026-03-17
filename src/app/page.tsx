@@ -13,7 +13,7 @@ export default function Home() {
   const { open, openModal, closeModal } = useBookingModal();
 
   return (
-    <div className="relative min-h-screen" style={{ backgroundColor: "#E8E4DD" }}>
+    <div className="relative min-h-screen">
       <div className="relative z-10">
         <Navbar onBookCall={openModal} />
         <HeroSection onBookCall={openModal} />

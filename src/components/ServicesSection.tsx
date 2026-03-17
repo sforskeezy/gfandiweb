@@ -2,15 +2,23 @@
 
 import { useState, useRef } from "react";
 import { motion, useInView } from "motion/react";
-import { ArrowUpRight } from "lucide-react";
+import {
+  ArrowUpRight,
+  Globe,
+  Lightbulb,
+  BarChart3,
+  Share2,
+  Search,
+  PieChart,
+} from "lucide-react";
 
 const services = [
-  { title: "Web Design & Development", href: "#contact" },
-  { title: "Brand Strategy", href: "#contact" },
-  { title: "Performance Marketing", href: "#contact" },
-  { title: "Content & Social", href: "#contact" },
-  { title: "SEO & Growth", href: "#contact" },
-  { title: "Analytics & Reporting", href: "#contact" },
+  { title: "Web Design & Development", href: "#contact", icon: Globe },
+  { title: "Brand Strategy", href: "#contact", icon: Lightbulb },
+  { title: "Performance Marketing", href: "#contact", icon: BarChart3 },
+  { title: "Content & Social", href: "#contact", icon: Share2 },
+  { title: "SEO & Growth", href: "#contact", icon: Search },
+  { title: "Analytics & Reporting", href: "#contact", icon: PieChart },
 ];
 
 export default function ServicesSection() {
@@ -31,9 +39,7 @@ export default function ServicesSection() {
           transition={{ duration: 0.7 }}
           className="mb-14 flex items-end justify-between sm:mb-20"
         >
-          <h2
-            className="text-[clamp(2.2rem,6vw,4.5rem)] font-semibold leading-[1.05] tracking-[-0.03em] text-[#1A1A1A]"
-          >
+          <h2 className="text-[clamp(2.2rem,6vw,4.5rem)] font-semibold leading-[1.05] tracking-[-0.03em] text-[#1A1A1A]">
             Our{" "}
             <span className="italic" style={{ fontFamily: "var(--font-serif)" }}>
               Services
@@ -109,13 +115,15 @@ function ServiceRow({
   onLeave,
   inView,
 }: {
-  service: { title: string; href: string };
+  service: { title: string; href: string; icon: React.ComponentType<{ className?: string }> };
   index: number;
   hovered: boolean;
   onHover: () => void;
   onLeave: () => void;
   inView: boolean;
 }) {
+  const Icon = service.icon;
+
   return (
     <motion.a
       href={service.href}
@@ -131,33 +139,54 @@ function ServiceRow({
         className="absolute inset-x-1 inset-y-1 rounded-2xl"
         initial={false}
         animate={{
-          backgroundColor: hovered ? "rgba(26,26,26,0.04)" : "rgba(26,26,26,0)",
+          backgroundColor: hovered ? "rgba(123,140,111,0.08)" : "rgba(123,140,111,0)",
           scale: hovered ? 1 : 0.98,
         }}
-        transition={{ duration: 0.25 }}
+        transition={{ duration: 0.3 }}
       />
 
       <div className="relative z-10 flex w-full items-center justify-between px-3 sm:px-5">
         <div className="flex items-center gap-3">
-          {/* Arrow that appears on hover */}
+          {/* Icon */}
           <motion.div
             initial={false}
             animate={{
-              width: hovered ? 32 : 0,
-              opacity: hovered ? 1 : 0,
+              backgroundColor: hovered ? "#7B8C6F" : "rgba(123,140,111,0.1)",
+              scale: hovered ? 1.1 : 1,
             }}
-            transition={{ duration: 0.25 }}
-            className="flex h-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#1A1A1A]"
+            transition={{ duration: 0.3 }}
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl"
           >
-            <ArrowUpRight className="h-4 w-4 text-white" />
+            <Icon
+              className={`h-4 w-4 transition-colors duration-300 ${
+                hovered ? "text-white" : "text-[#7B8C6F]"
+              }`}
+            />
           </motion.div>
 
-          <span
-            className="text-[clamp(1.1rem,2.5vw,1.65rem)] font-semibold tracking-[-0.02em] text-[#1A1A1A] transition-colors duration-200 group-hover:text-[#1A1A1A]"
+          <motion.span
+            initial={false}
+            animate={{ x: hovered ? 4 : 0 }}
+            transition={{ duration: 0.3 }}
+            className="text-[clamp(1.1rem,2.5vw,1.65rem)] font-semibold tracking-[-0.02em] text-[#1A1A1A] transition-colors duration-200"
           >
             {service.title}
-          </span>
+          </motion.span>
         </div>
+
+        {/* Arrow that appears on hover */}
+        <motion.div
+          initial={false}
+          animate={{
+            width: hovered ? 36 : 0,
+            opacity: hovered ? 1 : 0,
+            rotate: hovered ? 0 : -45,
+          }}
+          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          className="flex h-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#7B8C6F]"
+        >
+          <ArrowUpRight className="h-4 w-4 text-white" />
+        </motion.div>
       </div>
     </motion.a>
   );

@@ -33,8 +33,8 @@ export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
         <nav
           className={`flex w-full max-w-[1100px] items-center justify-between rounded-full border-b px-5 py-3.5 transition-all duration-500 sm:px-8 sm:py-4 ${
             scrolled
-              ? "border-[#1A1A1A]/[0.06] bg-[#E8E4DD]/80 shadow-[0_2px_20px_rgba(0,0,0,0.06)] ring-1 ring-black/[0.04] backdrop-blur-xl"
-              : "border-[#1A1A1A]/[0.06] bg-[#E8E4DD]/50 backdrop-blur-md"
+              ? "border-[#1A1A1A]/[0.06] bg-[#f0ede8]/80 shadow-[0_2px_20px_rgba(0,0,0,0.06)] ring-1 ring-black/[0.04] backdrop-blur-xl"
+              : "border-[#1A1A1A]/[0.06] bg-[#f0ede8]/50 backdrop-blur-md"
           }`}
         >
           <a href="#" className="pl-2">
@@ -103,7 +103,7 @@ export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-7 bg-[#E8E4DD]/95 backdrop-blur-2xl md:hidden"
+            className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-7 bg-white/95 backdrop-blur-2xl md:hidden"
           >
             {navLinks.map((link, i) => (
               <motion.a
