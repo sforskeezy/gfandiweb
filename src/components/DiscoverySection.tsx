@@ -1,8 +1,37 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
+
+const DESCRIPTION = "A full-service team of strategists, designers, and marketers engineering brand relevancy & category signals for both the internet and people";
+
+function TypewriterText({ text, started }: { text: string; started: boolean }) {
+  const [displayCount, setDisplayCount] = useState(0);
+
+  useEffect(() => {
+    if (!started) return;
+    setDisplayCount(0);
+    let i = 0;
+    const interval = setInterval(() => {
+      i++;
+      setDisplayCount(i);
+      if (i >= text.length) clearInterval(interval);
+    }, 22);
+    return () => clearInterval(interval);
+  }, [started, text]);
+
+  if (!started) return null;
+
+  return (
+    <span>
+      {text.slice(0, displayCount)}
+      {displayCount < text.length && (
+        <span className="ml-0.5 inline-block h-[1.1em] w-[2px] animate-pulse bg-[#5D8B68]" />
+      )}
+    </span>
+  );
+}
 
 export default function DiscoverySection() {
   const ref = useRef<HTMLDivElement>(null);
@@ -17,16 +46,14 @@ export default function DiscoverySection() {
       <div className="relative mx-auto w-full max-w-[1200px]">
         {/* Split layout: description left, big heading right */}
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-12">
-          {/* Left — description */}
+          {/* Left — description with typewriter */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="max-w-sm text-[0.95rem] leading-[1.75] text-[#1A1A1A]/45 md:pb-2"
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="max-w-md text-[1.05rem] font-medium leading-[1.8] text-[#1A1A1A]/65 md:pb-2"
           >
-            A full-service team of strategists, designers, and marketers
-            engineering brand relevancy &amp; category signals for both the
-            internet and people
+            <TypewriterText text={DESCRIPTION} started={inView} />
           </motion.p>
 
           {/* Right — big heading with overlapping image */}

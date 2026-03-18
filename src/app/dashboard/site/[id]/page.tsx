@@ -7,7 +7,7 @@ import { Id } from "../../../../../convex/_generated/dataModel";
 import { useSession } from "../../layout";
 import { ArrowLeft, Eye, Users, Globe, ExternalLink, Copy, Check, TrendingUp, FileText } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
   AreaChart,
   Area,
@@ -18,6 +18,12 @@ import {
   BarChart,
   Bar,
 } from "recharts";
+import { generateInsights, analyzeFunnel } from "@/utils/insights";
+import type { MetricsSnapshot } from "@/utils/insights";
+import InsightsPanel from "@/components/dashboard/InsightsPanel";
+import FunnelAnalysis from "@/components/dashboard/FunnelAnalysis";
+import GoalTracker from "@/components/dashboard/GoalTracker";
+import AlertBanner from "@/components/dashboard/AlertBanner";
 
 export default function SiteAnalyticsPage() {
   const params = useParams();
@@ -143,6 +149,9 @@ export default function SiteAnalyticsPage() {
         </div>
       </div>
 
+      {/* AI Insights, Funnel, Goals — powered by mock data structured for future backend */}
+      <AnalyticsExtras totalViews={totals?.totalViews ?? 0} uniqueVisitors={totals?.uniqueVisitors ?? 0} />
+
       {/* Top pages & referrers */}
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="overflow-hidden rounded-2xl bg-white" style={{ border: "1px solid rgba(123,140,111,0.1)" }}>
@@ -217,6 +226,44 @@ export default function SiteAnalyticsPage() {
               {copied ? "Copied!" : "Copy"}
             </button>
           </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AnalyticsExtras({ totalViews, uniqueVisitors }: { totalViews: number; uniqueVisitors: number }) {
+  const metrics: MetricsSnapshot = useMemo(() => ({
+    leads: { current: 72, previous: 95 },
+    cpl: { current: 34.50, previous: 28.10 },
+    impressions: Math.max(totalViews * 14, 24500),
+    clicks: Math.max(totalViews * 3, 4800),
+    conversions: Math.max(Math.round(uniqueVisitors * 0.08), 18),
+    channels: [
+      { name: "Facebook Ads", leads: 32, cpl: 28.40 },
+      { name: "Google Ads", leads: 24, cpl: 36.80 },
+      { name: "Instagram", leads: 10, cpl: 42.10 },
+      { name: "Organic", leads: 6, cpl: 0 },
+    ],
+  }), [totalViews, uniqueVisitors]);
+
+  const insights = useMemo(() => generateInsights(metrics), [metrics]);
+  const funnel = useMemo(() => analyzeFunnel(metrics.impressions, metrics.clicks, metrics.leads.current, metrics.conversions), [metrics]);
+
+  const goals = useMemo(() => [
+    { label: "Monthly Leads", current: metrics.leads.current, target: 100 },
+    { label: "Monthly Conversions", current: metrics.conversions, target: 30 },
+  ], [metrics]);
+
+  return (
+    <div className="mb-6">
+      <AlertBanner insights={insights} />
+
+      <div className="grid gap-5 lg:grid-cols-2">
+        <InsightsPanel insights={insights} />
+        <div className="space-y-5">
+          <GoalTracker goals={goals} />
+          <FunnelAnalysis stages={funnel} />
         </div>
       </div>
     </div>
