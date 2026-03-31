@@ -20,13 +20,10 @@ export default function PageTransition() {
       const el = overlayRef.current;
       if (!el) return;
 
+      // Quick opacity flash instead of slow black wipe
       const run = async () => {
         el.style.display = "block";
-        el.style.transformOrigin = "bottom";
-        await animate(el, { scaleY: [0, 1] }, { duration: 0.35, ease: [0.22, 1, 0.36, 1] });
-        await new Promise((r) => setTimeout(r, 100));
-        el.style.transformOrigin = "top";
-        await animate(el, { scaleY: [1, 0] }, { duration: 0.35, ease: [0.22, 1, 0.36, 1] });
+        await animate(el, { opacity: [0, 0.15, 0] }, { duration: 0.25, ease: "easeInOut" });
         el.style.display = "none";
       };
       run();
@@ -36,8 +33,8 @@ export default function PageTransition() {
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-[9999] bg-[#1A1A1A]"
-      style={{ display: "none", transform: "scaleY(0)" }}
+      className="fixed inset-0 z-[9999] pointer-events-none"
+      style={{ display: "none", opacity: 0, backgroundColor: "#1A1A1A" }}
     />
   );
 }

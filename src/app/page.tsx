@@ -15,25 +15,25 @@ import BookingModal, { useBookingModal } from "@/components/BookingModal";
 function ScrollReveal({
   children,
   className,
-  delay = 0,
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const inView = useInView(ref, { once: true, margin: "-40px" });
 
   return (
-    <motion.div
+    <div
       ref={ref}
-      initial={{ opacity: 0, y: 60 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
       className={className}
+      style={{
+        opacity: inView ? 1 : 0,
+        transition: "opacity 0.4s ease",
+      }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 

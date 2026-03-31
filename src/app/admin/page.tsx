@@ -6,7 +6,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
 import { useAdminSession } from "./layout";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import {
   UserPlus, Globe, Trash2, Eye, Users, Inbox, CalendarDays,
   Check, Clock, Send, ChevronDown, Mail, Copy, ExternalLink,

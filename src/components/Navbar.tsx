@@ -89,7 +89,6 @@ export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
               src="/d2b8263f-f484-4783-8fd0-daf49e85220b.png"
               alt="6POINT"
               className="h-7 w-7 brightness-0 invert sm:h-8 sm:w-8"
-              style={{ animation: "logo-spin 5s cubic-bezier(0.3, 0, 0.1, 1) infinite" }}
             />
             <span className="text-[1.1rem] font-semibold tracking-[-0.04em] text-white sm:text-[1.2rem]">
               6POINT

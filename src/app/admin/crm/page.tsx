@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useAdminSession } from "../layout";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import {
@@ -279,7 +279,7 @@ export default function CRMPage() {
       </AnimatePresence>
 
       <AnimatePresence mode="wait">
-        {view === "calls" ? (
+        {view === "calls" && (
           <motion.div key="calls" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
             {/* Filters + search */}
             <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -317,7 +317,9 @@ export default function CRMPage() {
               </div>
             </Panel>
           </motion.div>
-        ) : (
+        )}
+
+        {view === "appts" && (
           <motion.div key="appts" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
             {/* Filters */}
             <div className="mb-4 flex flex-wrap gap-1.5">
