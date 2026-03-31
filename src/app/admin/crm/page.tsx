@@ -545,7 +545,7 @@ function ApptRow({ appt, onStatus, onDelete }: { appt: Appointment; onStatus: (s
         </div>
       </div>
 
-      <button onClick={onDelete} className="shrink-0 rounded-lg p-2 text-white/10 opacity-0 transition-all hover:bg-white/[0.04] hover:text-red-400/70 group-hover:opacity-100">
+      <button onClick={onDelete} className="shrink-0 rounded-lg p-2 text-white/10 opacity-100 sm:opacity-0 transition-all hover:bg-white/[0.04] hover:text-red-400/70 group-hover:opacity-100">
         <Trash2 className="h-3.5 w-3.5" />
       </button>
     </div>
@@ -946,7 +946,7 @@ function AnalysisTool() {
 
       {/* Report body */}
       <Panel>
-        <div className="p-6 sm:p-8">
+        <div className="p-4 sm:p-6 md:p-8">
           <ReportRenderer content={report} />
         </div>
       </Panel>
@@ -1017,28 +1017,25 @@ function ReportRenderer({ content }: { content: string }) {
           <div key={i} className="mt-8 mb-4">
             <h2 className="text-[0.95rem] font-bold text-white/80">{headingText}</h2>
             <div className="mt-1.5 h-px w-12 mb-5" style={{ background: "rgba(255,255,255,0.1)" }} />
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-3 grid-cols-2 sm:grid-cols-2 lg:grid-cols-4">
               {others.map((s, si) => {
                 const c = s.score >= 70 ? "#5B9A6B" : s.score >= 40 ? "#C4A35A" : "#C45A5A";
                 return (
-                  <div key={si} className="rounded-xl p-4 text-center" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
-                    <div className="relative mx-auto mb-2 h-16 w-16">
-                      <svg viewBox="0 0 36 36" className="h-16 w-16 -rotate-90">
-                        <circle cx="18" cy="18" r="15.5" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="3" />
-                        <motion.circle cx="18" cy="18" r="15.5" fill="none" stroke={c} strokeWidth="3" strokeLinecap="round"
-                          strokeDasharray={`${s.score * 0.974} 100`} initial={{ strokeDasharray: "0 100" }}
-                          animate={{ strokeDasharray: `${s.score * 0.974} 100` }} transition={{ duration: 1.2, ease: "easeOut" }} />
-                      </svg>
-                      <span className="absolute inset-0 flex items-center justify-center text-[0.82rem] font-bold font-mono" style={{ color: c }}>{s.score}</span>
+                  <div key={si} className="rounded-xl p-3 sm:p-4" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-[0.62rem] sm:text-[0.68rem] font-medium text-white/35 truncate pr-2">{s.label}</span>
+                      <span className="text-[0.82rem] font-bold font-mono shrink-0" style={{ color: c }}>{s.score}</span>
                     </div>
-                    <span className="text-[0.68rem] font-medium text-white/35">{s.label}</span>
+                    <div className="h-1.5 w-full rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.04)" }}>
+                      <div className="h-full rounded-full transition-all duration-1000 ease-out" style={{ width: `${s.score}%`, background: c }} />
+                    </div>
                   </div>
                 );
               })}
             </div>
             {overall && (
-              <div className="mt-4 flex items-center justify-between rounded-xl px-5 py-3" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
-                <span className="text-[0.82rem] font-semibold text-white/50">Overall Score</span>
+              <div className="mt-4 flex items-center justify-between rounded-xl px-4 sm:px-5 py-3" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
+                <span className="text-[0.78rem] sm:text-[0.82rem] font-semibold text-white/50">Overall Score</span>
                 <span className="text-[1.3rem] font-bold font-mono" style={{ color: overall.score >= 70 ? "#5B9A6B" : overall.score >= 40 ? "#C4A35A" : "#C45A5A" }}>{overall.score}<span className="text-[0.7rem] text-white/20">/100</span></span>
               </div>
             )}
