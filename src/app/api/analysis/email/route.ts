@@ -2,7 +2,7 @@ import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const FROM_EMAIL = process.env.FROM_EMAIL || "6POINT Solutions <hello@6pointsolutions.com>";
+const FROM_EMAIL = process.env.FROM_EMAIL || "6POINT Solutions <onboarding@resend.dev>";
 const RAPIDAPI_KEY = "5c7ce818cfmsh7e1944115367b76p17808fjsn0956139896ed";
 
 /* ── Rewrite for client consumption ── */

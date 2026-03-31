@@ -124,5 +124,6 @@ export default defineSchema({
     status: v.string(), // "new" | "qualified" | "nurturing" | "converted" | "lost"
     createdAt: v.number(),
     createdByUser: v.string(),
+    assignedTo: v.optional(v.string()), // username of the staff member assigned to this lead
   }).index("by_createdAt", ["createdAt"]),
 });

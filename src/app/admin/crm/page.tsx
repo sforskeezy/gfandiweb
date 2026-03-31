@@ -53,6 +53,7 @@ type Lead = {
   _id: string; name: string; email: string; company: string; source: string;
   score: number; status: string;
   notes: string; createdAt: number; createdByUser: string;
+  assignedTo?: string;
 };
 
 const CALL_STATUSES = ["new", "contacted", "follow-up", "converted", "lost"] as const;
@@ -133,14 +134,17 @@ export default function CRMPage() {
   const removeApptMut = useMutation(api.crm.removeAppointment);
   const addLeadMut = useMutation(api.crm.addLead);
   const updateLeadStatusMut = useMutation(api.crm.updateLeadStatus);
+  const assignLeadMut = useMutation(api.crm.assignLead);
   const removeLeadMut = useMutation(api.crm.removeLead);
+  const staffUsers = useQuery(api.crm.listStaffUsers) || [];
+  const isAdmin = user?.role === "admin" || user?.isAdmin;
 
   const [view, setView] = useState<"calls" | "appts" | "leads" | "analysis">("calls");
   const [callFilter, setCallFilter] = useState("all");
   const [apptFilter, setApptFilter] = useState("all");
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [leadForm, setLeadForm] = useState({ name: "", email: "", company: "", source: "", notes: "" });
+  const [leadForm, setLeadForm] = useState({ name: "", email: "", company: "", source: "", notes: "", assignTo: "" });
 
   // ── Call form
   const [callForm, setCallForm] = useState({ contactName: "", phone: "", company: "", notes: "" });
@@ -161,8 +165,8 @@ export default function CRMPage() {
   };
   const addLead = async (e: React.FormEvent) => {
     e.preventDefault();
-    await addLeadMut({ ...leadForm, createdByUser: username });
-    setLeadForm({ name: "", email: "", company: "", source: "", notes: "" });
+    await addLeadMut({ ...{ name: leadForm.name, email: leadForm.email, company: leadForm.company, source: leadForm.source, notes: leadForm.notes }, createdByUser: username, assignedTo: leadForm.assignTo || undefined });
+    setLeadForm({ name: "", email: "", company: "", source: "", notes: "", assignTo: "" });
     setShowForm(false);
   };
 
@@ -265,6 +269,15 @@ export default function CRMPage() {
                     <input className={inputCls} placeholder="Company" value={leadForm.company} onChange={(e) => setLeadForm({ ...leadForm, company: e.target.value })} />
                     <input className={inputCls} placeholder="Source (e.g. Referral, Website)" value={leadForm.source} onChange={(e) => setLeadForm({ ...leadForm, source: e.target.value })} />
                     <input className={`${inputCls} sm:col-span-2`} placeholder="Notes" value={leadForm.notes} onChange={(e) => setLeadForm({ ...leadForm, notes: e.target.value })} />
+                    {isAdmin && staffUsers.length > 0 && (
+                      <div className="relative sm:col-span-2">
+                        <select className={`${inputCls} appearance-none pr-10`} value={leadForm.assignTo} onChange={(e) => setLeadForm({ ...leadForm, assignTo: e.target.value })}>
+                          <option value="">Assign to (optional)</option>
+                          {staffUsers.map((su) => <option key={su.username} value={su.username}>{su.name} (@{su.username}) — {su.role}</option>)}
+                        </select>
+                        <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/20" />
+                      </div>
+                    )}
                     <button type="submit" className="sm:col-span-2 flex items-center justify-center gap-2 rounded-xl py-3 text-[0.82rem] font-semibold text-white/90 transition-all hover:brightness-110 active:scale-[0.98]" style={{ background: "rgba(180,155,120,0.2)", border: "1px solid rgba(180,155,120,0.25)" }}>
                       <Users2 className="h-4 w-4" /> Add Lead
                     </button>
@@ -351,12 +364,15 @@ export default function CRMPage() {
         )}
 
         {/* ─── Lead Tracker View ─── */}
-        {view === "leads" && (
+        {view === "leads" && (() => {
+          // Staff only see leads assigned to them; admins see all
+          const visibleLeads = isAdmin ? leads : leads.filter((l) => l.assignedTo === username);
+          return (
           <motion.div key="leads" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
             <Panel>
-              <PanelHead icon={Users2} title="Lead Pipeline" count={leads.length} />
+              <PanelHead icon={Users2} title="Lead Pipeline" count={visibleLeads.length} />
               <div className="divide-y divide-white/[0.04]">
-                {leads.length > 0 ? leads.map((lead) => {
+                {visibleLeads.length > 0 ? visibleLeads.map((lead) => {
                   const sc = leadStatusConfig[lead.status] || leadStatusConfig.new;
                   return (
                     <div key={lead._id} className="group flex items-center gap-4 px-6 py-4 transition-colors hover:bg-white/[0.015]">
@@ -375,6 +391,11 @@ export default function CRMPage() {
                           <span className="flex items-center gap-0.5 rounded px-1.5 py-0.5 text-[0.6rem] font-bold" style={{ background: `${lead.score >= 70 ? "rgba(107,143,113,0.12)" : lead.score >= 40 ? "rgba(180,155,120,0.12)" : "rgba(180,120,120,0.12)"}`, color: lead.score >= 70 ? "#6B8F71" : lead.score >= 40 ? "#B49B78" : "#B47878" }}>
                             <Star className="h-2.5 w-2.5" /> {lead.score}
                           </span>
+                          {lead.assignedTo && (
+                            <span className="rounded px-1.5 py-0.5 text-[0.58rem] font-semibold" style={{ background: "rgba(93,139,104,0.15)", color: "#8AB695", border: "1px solid rgba(93,139,104,0.2)" }}>
+                              → @{lead.assignedTo}
+                            </span>
+                          )}
                         </div>
                         <div className="mt-0.5 flex items-center gap-3 text-[0.72rem] text-white/25">
                           {lead.email && <span className="flex items-center gap-1"><Mail className="h-3 w-3" /> {lead.email}</span>}
@@ -382,6 +403,20 @@ export default function CRMPage() {
                           <span>{new Date(lead.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
                         </div>
                       </div>
+                      {/* Assign dropdown — admins only */}
+                      {isAdmin && staffUsers.length > 0 && (
+                        <div className="relative shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <select
+                            className="h-7 appearance-none rounded-lg bg-white/[0.04] px-2 pr-6 text-[0.65rem] font-medium text-white/40 outline-none border border-white/[0.06] cursor-pointer hover:bg-white/[0.07]"
+                            value={lead.assignedTo || ""}
+                            onChange={(e) => assignLeadMut({ id: lead._id as any, assignedTo: e.target.value })}
+                          >
+                            <option value="">Assign</option>
+                            {staffUsers.map((su) => <option key={su.username} value={su.username}>{su.name}</option>)}
+                          </select>
+                          <ChevronDown className="pointer-events-none absolute right-1.5 top-1/2 h-3 w-3 -translate-y-1/2 text-white/15" />
+                        </div>
+                      )}
                       <div className="flex gap-1">
                         {(["new","qualified","nurturing","converted","lost"] as const).map((s) => (
                           <button key={s} onClick={() => updateLeadStatusMut({ id: lead._id as any, status: s })}
@@ -398,13 +433,14 @@ export default function CRMPage() {
                 }) : (
                   <div className="flex flex-col items-center py-16 text-center">
                     <Users2 className="mb-3 h-8 w-8 text-white/10" />
-                    <p className="text-[0.82rem] text-white/25">No leads yet — add your first lead above</p>
+                    <p className="text-[0.82rem] text-white/25">{isAdmin ? "No leads yet — add your first lead above" : "No leads assigned to you yet"}</p>
                   </div>
                 )}
               </div>
             </Panel>
           </motion.div>
-        )}
+          );
+        })()}
 
         {/* ─── Business Analysis View ─── */}
         {view === "analysis" && (
@@ -957,7 +993,6 @@ function AnalysisTool() {
           <div className="flex items-center gap-2 mb-3">
             <Mail className="h-3.5 w-3.5 text-white/25" />
             <span className="text-[0.78rem] font-semibold text-white/50">Email Report</span>
-            <span className="text-[0.58rem] text-white/15">via Resend</span>
           </div>
           <div className="flex gap-2">
             <input className={inputCls + " flex-1"} type="email" placeholder="recipient@email.com" value={emailTo} onChange={(e) => setEmailTo(e.target.value)} />

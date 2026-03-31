@@ -116,6 +116,7 @@ export const addLead = mutation({
     source: v.string(),
     notes: v.string(),
     createdByUser: v.string(),
+    assignedTo: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     return await ctx.db.insert("crmLeads", {
@@ -137,9 +138,29 @@ export const updateLeadStatus = mutation({
   },
 });
 
+export const assignLead = mutation({
+  args: {
+    id: v.id("crmLeads"),
+    assignedTo: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.id, { assignedTo: args.assignedTo });
+  },
+});
+
 export const removeLead = mutation({
   args: { id: v.id("crmLeads") },
   handler: async (ctx, args) => {
     await ctx.db.delete(args.id);
+  },
+});
+
+// List all staff/admin users for lead assignment dropdown
+export const listStaffUsers = query({
+  handler: async (ctx) => {
+    const users = await ctx.db.query("users").collect();
+    return users
+      .filter((u) => u.role === "staff" || u.role === "admin" || u.isAdmin)
+      .map((u) => ({ username: u.username, name: u.name, role: u.role || (u.isAdmin ? "admin" : "client") }));
   },
 });
