@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useAdminSession } from "../layout";
 import { motion, AnimatePresence } from "motion/react";
 import { useMutation, useQuery } from "convex/react";
@@ -182,8 +182,107 @@ export default function CRMPage() {
     .filter((c) => !search || c.contactName.toLowerCase().includes(search.toLowerCase()) || c.company.toLowerCase().includes(search.toLowerCase()) || c.phone.includes(search));
   const filteredAppts = appts.filter((a) => apptFilter === "all" || a.status === apptFilter);
 
+  // ── Lead assignment notifications ──
+  type LeadNotif = { id: string; leadName: string; company: string; assignedBy: string; ts: number };
+  const [notifications, setNotifications] = useState<LeadNotif[]>([]);
+  const seenLeadIdsRef = useRef<Set<string>>(new Set());
+  const initialLoadRef = useRef(true);
+
+  const playNotifSound = useCallback(() => {
+    try {
+      const ctx = new AudioContext();
+      const playTone = (freq: number, start: number, dur: number, vol: number) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(vol, ctx.currentTime + start);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + start + dur);
+        osc.connect(gain).connect(ctx.destination);
+        osc.start(ctx.currentTime + start);
+        osc.stop(ctx.currentTime + start + dur);
+      };
+      playTone(880, 0, 0.15, 0.3);
+      playTone(1174.66, 0.12, 0.2, 0.25);
+      playTone(1318.51, 0.28, 0.3, 0.2);
+    } catch { /* audio not available */ }
+  }, []);
+
+  const dismissNotif = useCallback((id: string) => {
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
+  }, []);
+
+  useEffect(() => {
+    if (!leads.length) return;
+    // On first load, just record all existing IDs
+    if (initialLoadRef.current) {
+      leads.forEach((l) => seenLeadIdsRef.current.add(l._id));
+      initialLoadRef.current = false;
+      return;
+    }
+    // Check for new leads assigned to this user
+    const newLeads = leads.filter(
+      (l) => !seenLeadIdsRef.current.has(l._id) && l.assignedTo === username
+    );
+    if (newLeads.length > 0) {
+      playNotifSound();
+      const newNotifs = newLeads.map((l) => ({
+        id: l._id,
+        leadName: l.name,
+        company: l.company,
+        assignedBy: l.createdByUser,
+        ts: Date.now(),
+      }));
+      setNotifications((prev) => [...newNotifs, ...prev].slice(0, 5));
+      // Auto-dismiss after 6s
+      newNotifs.forEach((n) => setTimeout(() => dismissNotif(n.id), 6000));
+    }
+    leads.forEach((l) => seenLeadIdsRef.current.add(l._id));
+  }, [leads, username, playNotifSound, dismissNotif]);
+
   return (
     <div>
+      {/* ── Lead assignment notification toasts ── */}
+      <div className="fixed top-4 right-4 z-[200] flex flex-col gap-3 pointer-events-none" style={{ maxWidth: 380 }}>
+        <AnimatePresence>
+          {notifications.map((n) => (
+            <motion.div
+              key={n.id}
+              initial={{ opacity: 0, x: 80, scale: 0.85 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 80, scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 400, damping: 28 }}
+              className="pointer-events-auto relative overflow-hidden rounded-2xl shadow-2xl"
+              style={{ background: "rgba(14,14,16,0.97)", border: "1px solid rgba(93,139,104,0.25)", backdropFilter: "blur(20px)" }}
+            >
+              {/* Top green accent bar */}
+              <div className="h-[3px] w-full" style={{ background: "linear-gradient(90deg, #5D8B68, #8AB695, #5D8B68)" }} />
+              <div className="flex items-start gap-3 px-4 py-3.5">
+                {/* Pulse icon */}
+                <div className="relative mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl" style={{ background: "rgba(93,139,104,0.15)" }}>
+                  <div className="absolute inset-0 animate-ping rounded-xl" style={{ background: "rgba(93,139,104,0.15)" }} />
+                  <Target className="relative h-4 w-4" style={{ color: "#8AB695" }} />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em]" style={{ color: "#8AB695" }}>New Lead Assigned</p>
+                  <p className="mt-0.5 text-[0.88rem] font-bold text-white/90 truncate">{n.leadName}{n.company ? ` · ${n.company}` : ""}</p>
+                  <p className="mt-0.5 text-[0.72rem] text-white/30">Assigned by <span className="font-semibold text-white/50">@{n.assignedBy}</span></p>
+                </div>
+                <button onClick={() => dismissNotif(n.id)} className="shrink-0 mt-0.5 rounded-lg p-1.5 text-white/15 transition-colors hover:bg-white/[0.05] hover:text-white/40">
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </div>
+              {/* Progress bar / auto-dismiss timer */}
+              <motion.div
+                initial={{ width: "100%" }}
+                animate={{ width: "0%" }}
+                transition={{ duration: 6, ease: "linear" }}
+                className="h-[2px]" style={{ background: "rgba(93,139,104,0.4)" }}
+              />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
       {/* ─── Header ─── */}
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
