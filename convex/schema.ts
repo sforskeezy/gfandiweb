@@ -90,4 +90,39 @@ export default defineSchema({
     createdAt: v.number(),
     createdBy: v.optional(v.string()),
   }).index("by_createdAt", ["createdAt"]),
+
+  coldCalls: defineTable({
+    contactName: v.string(),
+    phone: v.string(),
+    company: v.string(),
+    notes: v.string(),
+    status: v.string(), // "new" | "contacted" | "follow-up" | "converted" | "lost"
+    createdAt: v.number(),
+    createdByUser: v.string(), // username of the user who created it
+  }).index("by_createdAt", ["createdAt"]),
+
+  appointments: defineTable({
+    contactName: v.string(),
+    company: v.string(),
+    email: v.string(),
+    date: v.string(),
+    time: v.string(),
+    type: v.string(), // "discovery" | "proposal" | "follow-up" | "onboarding" | "other"
+    notes: v.string(),
+    status: v.string(), // "scheduled" | "completed" | "cancelled" | "no-show"
+    createdAt: v.number(),
+    createdByUser: v.string(),
+  }).index("by_createdAt", ["createdAt"]),
+
+  crmLeads: defineTable({
+    name: v.string(),
+    email: v.string(),
+    company: v.string(),
+    source: v.string(),
+    score: v.number(),
+    notes: v.string(),
+    status: v.string(), // "new" | "qualified" | "nurturing" | "converted" | "lost"
+    createdAt: v.number(),
+    createdByUser: v.string(),
+  }).index("by_createdAt", ["createdAt"]),
 });

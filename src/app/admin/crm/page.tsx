@@ -38,21 +38,21 @@ function AnimatedNumber({ value }: { value: number }) {
 
 /* ─── Types ─── */
 type ColdCall = {
-  id: string; contactName: string; phone: string; company: string;
-  notes: string; status: "new" | "contacted" | "follow-up" | "converted" | "lost";
-  createdAt: number;
+  _id: string; contactName: string; phone: string; company: string;
+  notes: string; status: string;
+  createdAt: number; createdByUser: string;
 };
 type Appointment = {
-  id: string; contactName: string; company: string; email: string; date: string;
-  time: string; type: "discovery" | "proposal" | "follow-up" | "onboarding" | "other";
-  notes: string; status: "scheduled" | "completed" | "cancelled" | "no-show";
-  createdAt: number;
+  _id: string; contactName: string; company: string; email: string; date: string;
+  time: string; type: string;
+  notes: string; status: string;
+  createdAt: number; createdByUser: string;
 };
 
 type Lead = {
-  id: string; name: string; email: string; company: string; source: string;
-  score: number; status: "new" | "qualified" | "nurturing" | "converted" | "lost";
-  notes: string; createdAt: number;
+  _id: string; name: string; email: string; company: string; source: string;
+  score: number; status: string;
+  notes: string; createdAt: number; createdByUser: string;
 };
 
 const CALL_STATUSES = ["new", "contacted", "follow-up", "converted", "lost"] as const;
@@ -83,26 +83,7 @@ const apptTypeConfig: Record<string, { label: string; color: string }> = {
   other:       { label: "Other", color: "#6A6A6A" },
 };
 
-/* ─── localStorage hook ─── */
-function useCRMData() {
-  const [calls, setCalls] = useState<ColdCall[]>([]);
-  const [appts, setAppts] = useState<Appointment[]>([]);
-  const [leads, setLeads] = useState<Lead[]>([]);
-  useEffect(() => {
-    try {
-      const c = localStorage.getItem("crm_cold_calls");
-      const a = localStorage.getItem("crm_appointments");
-      const l = localStorage.getItem("crm_leads");
-      if (c) setCalls(JSON.parse(c));
-      if (a) setAppts(JSON.parse(a));
-      if (l) setLeads(JSON.parse(l));
-    } catch { /* ignore */ }
-  }, []);
-  const saveCalls = (v: ColdCall[]) => { setCalls(v); localStorage.setItem("crm_cold_calls", JSON.stringify(v)); };
-  const saveAppts = (v: Appointment[]) => { setAppts(v); localStorage.setItem("crm_appointments", JSON.stringify(v)); };
-  const saveLeads = (v: Lead[]) => { setLeads(v); localStorage.setItem("crm_leads", JSON.stringify(v)); };
-  return { calls, saveCalls, appts, saveAppts, leads, saveLeads };
-}
+/* ─── Convex CRM data (synced across all devices) ─── */
 
 /* ─── Shared UI ─── */
 const inputCls = "w-full rounded-xl bg-white/[0.04] px-4 py-3 text-[0.85rem] font-medium text-white/90 outline-none transition-all duration-200 placeholder:text-white/20 focus:bg-white/[0.07] focus:ring-1 focus:ring-white/10 border border-white/[0.06] focus:border-white/[0.12]";
@@ -135,8 +116,25 @@ const leadStatusConfig: Record<string, { bg: string; color: string; border: stri
 };
 
 export default function CRMPage() {
-  useAdminSession(); // require admin auth
-  const { calls, saveCalls, appts, saveAppts, leads, saveLeads } = useCRMData();
+  const { user } = useAdminSession(); // require admin auth
+  const username = user?.username || "unknown";
+
+  // ── Convex queries (real-time, synced across devices)
+  const calls = (useQuery(api.crm.listCalls) || []) as ColdCall[];
+  const appts = (useQuery(api.crm.listAppointments) || []) as Appointment[];
+  const leads = (useQuery(api.crm.listLeads) || []) as Lead[];
+
+  // ── Convex mutations
+  const addCallMut = useMutation(api.crm.addCall);
+  const updateCallStatusMut = useMutation(api.crm.updateCallStatus);
+  const removeCallMut = useMutation(api.crm.removeCall);
+  const addApptMut = useMutation(api.crm.addAppointment);
+  const updateApptStatusMut = useMutation(api.crm.updateApptStatus);
+  const removeApptMut = useMutation(api.crm.removeAppointment);
+  const addLeadMut = useMutation(api.crm.addLead);
+  const updateLeadStatusMut = useMutation(api.crm.updateLeadStatus);
+  const removeLeadMut = useMutation(api.crm.removeLead);
+
   const [view, setView] = useState<"calls" | "appts" | "leads" | "analysis">("calls");
   const [callFilter, setCallFilter] = useState("all");
   const [apptFilter, setApptFilter] = useState("all");
@@ -146,24 +144,24 @@ export default function CRMPage() {
 
   // ── Call form
   const [callForm, setCallForm] = useState({ contactName: "", phone: "", company: "", notes: "" });
-  const addCall = (e: React.FormEvent) => {
+  const addCall = async (e: React.FormEvent) => {
     e.preventDefault();
-    saveCalls([{ ...callForm, id: crypto.randomUUID(), status: "new", createdAt: Date.now() }, ...calls]);
+    await addCallMut({ ...callForm, createdByUser: username });
     setCallForm({ contactName: "", phone: "", company: "", notes: "" });
     setShowForm(false);
   };
 
   // ── Appt form
-  const [apptForm, setApptForm] = useState({ contactName: "", company: "", email: "", date: "", time: "", type: "discovery" as Appointment["type"], notes: "" });
-  const addAppt = (e: React.FormEvent) => {
+  const [apptForm, setApptForm] = useState({ contactName: "", company: "", email: "", date: "", time: "", type: "discovery", notes: "" });
+  const addAppt = async (e: React.FormEvent) => {
     e.preventDefault();
-    saveAppts([{ ...apptForm, id: crypto.randomUUID(), status: "scheduled", createdAt: Date.now() }, ...appts]);
+    await addApptMut({ ...apptForm, createdByUser: username });
     setApptForm({ contactName: "", company: "", email: "", date: "", time: "", type: "discovery", notes: "" });
     setShowForm(false);
   };
-  const addLead = (e: React.FormEvent) => {
+  const addLead = async (e: React.FormEvent) => {
     e.preventDefault();
-    saveLeads([{ ...leadForm, id: crypto.randomUUID(), score: 50, status: "new", createdAt: Date.now() }, ...leads]);
+    await addLeadMut({ ...leadForm, createdByUser: username });
     setLeadForm({ name: "", email: "", company: "", source: "", notes: "" });
     setShowForm(false);
   };
@@ -304,9 +302,9 @@ export default function CRMPage() {
               <PanelHead icon={Phone} title="Cold Calls" count={filteredCalls.length} />
               <div className="divide-y divide-white/[0.04]">
                 {filteredCalls.length > 0 ? filteredCalls.map((call) => (
-                  <CallRow key={call.id} call={call}
-                    onStatus={(s) => saveCalls(calls.map((c) => c.id === call.id ? { ...c, status: s } : c))}
-                    onDelete={() => { if (confirm("Delete this call?")) saveCalls(calls.filter((c) => c.id !== call.id)); }}
+                  <CallRow key={call._id} call={call}
+                    onStatus={(s) => updateCallStatusMut({ id: call._id as any, status: s })}
+                    onDelete={() => { if (confirm("Delete this call?")) removeCallMut({ id: call._id as any }); }}
                   />
                 )) : (
                   <div className="flex flex-col items-center py-16 text-center">
@@ -337,9 +335,9 @@ export default function CRMPage() {
               <PanelHead icon={Calendar} title="Appointments" count={filteredAppts.length} />
               <div className="divide-y divide-white/[0.04]">
                 {filteredAppts.length > 0 ? filteredAppts.map((appt) => (
-                  <ApptRow key={appt.id} appt={appt}
-                    onStatus={(s) => saveAppts(appts.map((a) => a.id === appt.id ? { ...a, status: s } : a))}
-                    onDelete={() => { if (confirm("Delete this appointment?")) saveAppts(appts.filter((a) => a.id !== appt.id)); }}
+                  <ApptRow key={appt._id} appt={appt}
+                    onStatus={(s) => updateApptStatusMut({ id: appt._id as any, status: s })}
+                    onDelete={() => { if (confirm("Delete this appointment?")) removeApptMut({ id: appt._id as any }); }}
                   />
                 )) : (
                   <div className="flex flex-col items-center py-16 text-center">
@@ -361,7 +359,7 @@ export default function CRMPage() {
                 {leads.length > 0 ? leads.map((lead) => {
                   const sc = leadStatusConfig[lead.status] || leadStatusConfig.new;
                   return (
-                    <div key={lead.id} className="group flex items-center gap-4 px-6 py-4 transition-colors hover:bg-white/[0.015]">
+                    <div key={lead._id} className="group flex items-center gap-4 px-6 py-4 transition-colors hover:bg-white/[0.015]">
                       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-[0.8rem] font-bold" style={{ background: sc.bg, color: sc.color, border: `1px solid ${sc.border}` }}>
                         {lead.name.charAt(0).toUpperCase()}
                       </div>
@@ -386,12 +384,12 @@ export default function CRMPage() {
                       </div>
                       <div className="flex gap-1">
                         {(["new","qualified","nurturing","converted","lost"] as const).map((s) => (
-                          <button key={s} onClick={() => saveLeads(leads.map((l) => l.id === lead.id ? { ...l, status: s } : l))}
+                          <button key={s} onClick={() => updateLeadStatusMut({ id: lead._id as any, status: s })}
                             className="h-2 w-2 rounded-full transition-all hover:scale-150" title={leadStatusConfig[s].label}
                             style={{ background: lead.status === s ? leadStatusConfig[s].color : "rgba(255,255,255,0.08)", border: `1px solid ${lead.status === s ? leadStatusConfig[s].border : "rgba(255,255,255,0.06)"}` }} />
                         ))}
                       </div>
-                      <button onClick={() => { if (confirm("Delete this lead?")) saveLeads(leads.filter((l) => l.id !== lead.id)); }}
+                      <button onClick={() => { if (confirm("Delete this lead?")) removeLeadMut({ id: lead._id as any }); }}
                         className="shrink-0 rounded-lg p-2 text-white/10 opacity-0 transition-all hover:bg-white/[0.04] hover:text-red-400/70 group-hover:opacity-100">
                         <Trash2 className="h-3.5 w-3.5" />
                       </button>
@@ -435,7 +433,7 @@ function StatMini({ icon: Icon, label, value, suffix, color }: { icon: any; labe
 }
 
 /* ═══════════════════════ CALL ROW ═══════════════════════ */
-function CallRow({ call, onStatus, onDelete }: { call: ColdCall; onStatus: (s: ColdCall["status"]) => void; onDelete: () => void }) {
+function CallRow({ call, onStatus, onDelete }: { call: ColdCall; onStatus: (s: string) => void; onDelete: () => void }) {
   const [open, setOpen] = useState(false);
   const sc = callStatusConfig[call.status] || callStatusConfig.new;
   const StatusIcon = sc.icon;
@@ -492,7 +490,7 @@ function CallRow({ call, onStatus, onDelete }: { call: ColdCall; onStatus: (s: C
 }
 
 /* ═══════════════════════ APPT ROW ═══════════════════════ */
-function ApptRow({ appt, onStatus, onDelete }: { appt: Appointment; onStatus: (s: Appointment["status"]) => void; onDelete: () => void }) {
+function ApptRow({ appt, onStatus, onDelete }: { appt: Appointment; onStatus: (s: string) => void; onDelete: () => void }) {
   const [open, setOpen] = useState(false);
   const sc = apptStatusConfig[appt.status] || apptStatusConfig.scheduled;
   const StatusIcon = sc.icon;

@@ -13,6 +13,7 @@ import type * as analyses from "../analyses.js";
 import type * as analytics from "../analytics.js";
 import type * as applications from "../applications.js";
 import type * as auth from "../auth.js";
+import type * as crm from "../crm.js";
 import type * as profile from "../profile.js";
 import type * as users from "../users.js";
 import type * as websites from "../websites.js";
@@ -29,6 +30,7 @@ declare const fullApi: ApiFromModules<{
   analytics: typeof analytics;
   applications: typeof applications;
   auth: typeof auth;
+  crm: typeof crm;
   profile: typeof profile;
   users: typeof users;
   websites: typeof websites;
