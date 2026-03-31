@@ -113,12 +113,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {/* Left: brand + nav */}
             <div className="flex items-center gap-5">
               <a href="/admin" className="flex items-center gap-2">
-                <div
-                  className="flex h-8 w-8 items-center justify-center rounded-lg"
-                  style={{ background: "linear-gradient(135deg, #7B8C6F, #5a6d50)" }}
-                >
-                  <span className="text-[0.6rem] font-black tracking-tight text-white">6P</span>
-                </div>
+                <img
+                  src="/d2b8263f-f484-4783-8fd0-daf49e85220b.png"
+                  alt="6POINT"
+                  className="h-8 w-8 brightness-0 invert"
+                />
                 <span className="text-[1rem] font-bold tracking-[-0.03em] text-[#E8E8E8]">
                   6POINT
                 </span>

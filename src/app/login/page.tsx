@@ -99,7 +99,6 @@ export default function LoginPage() {
               src="/d2b8263f-f484-4783-8fd0-daf49e85220b.png"
               alt="6POINT"
               className="h-8 w-8 brightness-0 invert"
-              style={{ animation: "logo-spin 5s cubic-bezier(0.3, 0, 0.1, 1) infinite" }}
             />
             <span className="text-[1rem] font-bold tracking-[-0.04em] text-white">6POINT</span>
           </a>

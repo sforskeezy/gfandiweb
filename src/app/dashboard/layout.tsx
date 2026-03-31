@@ -106,7 +106,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         >
           <div className="mx-auto flex h-14 max-w-[1100px] items-center justify-between">
             <div className="flex items-center gap-4">
-              <a href="/dashboard" className="text-[0.95rem] font-bold tracking-[-0.03em] text-[#2A2A2A]">
+              <a href="/dashboard" className="flex items-center gap-2 text-[0.95rem] font-bold tracking-[-0.03em] text-[#2A2A2A]">
+                <img
+                  src="/d2b8263f-f484-4783-8fd0-daf49e85220b.png"
+                  alt="6POINT"
+                  className="h-7 w-7"
+                />
                 6POINT
               </a>
 

@@ -75,9 +75,11 @@ export default function MailLayout({ children }: { children: React.ReactNode }) 
           <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between">
             <div className="flex items-center gap-5">
               <a href="/admin" className="flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg" style={{ background: "linear-gradient(135deg, #5D8B68, #4a7254)" }}>
-                  <span className="text-[0.6rem] font-black tracking-tight text-white">6P</span>
-                </div>
+                <img
+                  src="/d2b8263f-f484-4783-8fd0-daf49e85220b.png"
+                  alt="6POINT"
+                  className="h-8 w-8 brightness-0 invert"
+                />
                 <span className="text-[1rem] font-bold tracking-[-0.03em] text-[#E8E8E8]">6POINT</span>
               </a>
 
