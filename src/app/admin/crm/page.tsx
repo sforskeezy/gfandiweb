@@ -243,7 +243,7 @@ export default function CRMPage() {
   return (
     <div>
       {/* ── Lead assignment notification toasts ── */}
-      <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:bottom-auto sm:top-4 sm:right-4 z-[200] flex flex-col gap-3 pointer-events-none" style={{ maxWidth: 380 }}>
+      <div className="fixed right-4 left-4 sm:left-auto z-40 flex flex-col gap-3 pointer-events-none" style={{ top: 72, maxWidth: 380 }}>
         <AnimatePresence>
           {notifications.map((n) => (
             <motion.div
