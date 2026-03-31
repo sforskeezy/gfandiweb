@@ -2,7 +2,7 @@
 
 import { useState, useEffect, createContext, useContext, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { LogOut, LayoutDashboard, Shield, Menu, X, Phone } from "lucide-react";
+import { LogOut, LayoutDashboard, Shield, Menu, X, Phone, Wallet } from "lucide-react";
 
 type User = {
   id: string;
@@ -156,6 +156,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     CRM
                   </a>
                 )}
+                <a
+                  href="/admin/payout"
+                  className="flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-[0.78rem] font-medium text-[#555] transition-all duration-200 hover:text-[#888]"
+                >
+                  <Wallet className="h-3.5 w-3.5" />
+                  Payout
+                </a>
               </div>
             </div>
 
@@ -221,6 +228,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <Phone className="h-4 w-4" /> CRM
                 </a>
               )}
+              <a href="/admin/payout" className="flex items-center gap-3 rounded-2xl px-4 py-3.5 text-[0.88rem] font-medium text-[#666]">
+                <Wallet className="h-4 w-4" /> Payout
+              </a>
             </div>
             <div className="mt-4 flex items-center justify-between border-t pt-4" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
               <div className="flex items-center gap-2.5">

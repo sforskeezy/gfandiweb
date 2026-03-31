@@ -126,4 +126,15 @@ export default defineSchema({
     createdByUser: v.string(),
     assignedTo: v.optional(v.string()), // username of the staff member assigned to this lead
   }).index("by_createdAt", ["createdAt"]),
+
+  commissions: defineTable({
+    username: v.string(),         // staff user who gets paid
+    amount: v.number(),           // dollar amount
+    description: v.string(),      // what it's for
+    status: v.string(),           // "pending" | "paid"
+    createdAt: v.number(),
+    paidAt: v.optional(v.number()),
+    createdBy: v.string(),        // admin who submitted it
+  }).index("by_username", ["username"])
+    .index("by_createdAt", ["createdAt"]),
 });
