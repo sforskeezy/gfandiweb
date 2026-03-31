@@ -151,3 +151,45 @@
     transform: translate(-50%, 55%) scale(1.05);
   }
 }
+
+/* ─── Admin Dashboard Animations ─── */
+
+@keyframes admin-glow-breathe {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes admin-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.admin-shimmer-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-shimmer-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.08),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: admin-shimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}

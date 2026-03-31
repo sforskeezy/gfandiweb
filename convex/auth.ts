@@ -51,10 +51,12 @@ export const login = mutation({
       expiresAt,
     });
 
+    const role = user.role || (user.isAdmin ? "admin" : "client");
+    const permissions = user.permissions || (user.isAdmin ? ["dashboard","crm","websites","inbox","users"] : ["dashboard"]);
     return {
       success: true,
       token,
-      user: { id: user._id, name: user.name, username: user.username, isAdmin: user.isAdmin },
+      user: { id: user._id, name: user.name, username: user.username, isAdmin: user.isAdmin, role, permissions },
     };
   },
 });
@@ -89,11 +91,15 @@ export const getSession = query({
     const user = await ctx.db.get(session.userId);
     if (!user) return null;
 
+    const role = user.role || (user.isAdmin ? "admin" : "client");
+    const permissions = user.permissions || (user.isAdmin ? ["dashboard","crm","websites","inbox","users"] : ["dashboard"]);
     return {
       id: user._id,
       name: user.name,
       username: user.username,
       isAdmin: user.isAdmin,
+      role,
+      permissions,
     };
   },
 });

@@ -13,7 +13,7 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [focused, setFocused] = useState<string | null>(null);
-  const [welcomeState, setWelcomeState] = useState<{ show: boolean; name: string; isAdmin: boolean } | null>(null);
+  const [welcomeState, setWelcomeState] = useState<{ show: boolean; name: string; isAdmin: boolean; role: string } | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,9 +29,10 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (data.success) {
-        setWelcomeState({ show: true, name: data.user.name, isAdmin: data.user.isAdmin });
+        const role = data.user.role || (data.user.isAdmin ? "admin" : "client");
+        setWelcomeState({ show: true, name: data.user.name, isAdmin: data.user.isAdmin, role });
         setTimeout(() => {
-          router.push(data.user.isAdmin ? "/admin" : "/dashboard");
+          router.push(role === "admin" ? "/admin" : "/dashboard");
         }, 2200);
       } else {
         setError(data.error || "Login failed");
@@ -48,68 +49,41 @@ export default function LoginPage() {
       {/* Welcome overlay */}
       <AnimatePresence>
         {welcomeState?.show && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0A0A0A]"
-          >
-            {/* Green glow pulse */}
-            <motion.div
-              initial={{ scale: 0.5, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0A0A0A]">
+            <motion.div initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 1.2, ease: "easeOut" }}
               className="pointer-events-none absolute h-[600px] w-[600px] rounded-full"
-              style={{ background: "radial-gradient(circle, rgba(93,139,104,0.15) 0%, transparent 60%)" }}
-            />
-
+              style={{ background: "radial-gradient(circle, rgba(93,139,104,0.15) 0%, transparent 60%)" }} />
             <div className="relative z-10 flex flex-col items-center text-center">
-              <motion.div
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              >
+              <motion.div initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}>
                 <CheckCircle2 className="h-12 w-12 text-[#5D8B68]" />
               </motion.div>
-
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+              <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-6 text-[0.75rem] font-semibold uppercase tracking-[0.2em] text-white/25"
-              >
+                className="mt-6 text-[0.75rem] font-semibold uppercase tracking-[0.2em] text-white/25">
                 Welcome back
               </motion.p>
-
-              <motion.h1
-                initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
+              <motion.h1 initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 transition={{ duration: 0.7, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-3 text-[clamp(2.4rem,6vw,4rem)] font-bold tracking-[-0.04em] text-white"
-              >
+                className="mt-3 text-[clamp(2.4rem,6vw,4rem)] font-bold tracking-[-0.04em] text-white">
                 {welcomeState.name}
               </motion.h1>
-
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: 60 }}
+              <motion.div initial={{ width: 0 }} animate={{ width: 60 }}
                 transition={{ duration: 0.5, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-5 h-[2px] rounded-full bg-[#5D8B68]/40"
-              />
-
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                className="mt-5 h-[2px] rounded-full bg-[#5D8B68]/40" />
+              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 1.1 }}
-                className="mt-4 text-[0.82rem] text-white/25"
-              >
-                Redirecting to your {welcomeState.isAdmin ? "admin panel" : "dashboard"}...
+                className="mt-4 text-[0.82rem] text-white/25">
+                Redirecting to your {welcomeState.role === "admin" ? "admin panel" : "dashboard"}...
               </motion.p>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Left — hero image */}
       <div className="relative hidden overflow-hidden lg:block">
         <img
           src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=1920&q=80"

@@ -24,8 +24,12 @@ export async function middleware(request: NextRequest) {
         return response;
       }
 
-      if ((pathname.startsWith("/admin") || pathname.startsWith("/mail")) && !data.user.isAdmin) {
-        return NextResponse.redirect(new URL("/dashboard", request.url));
+      // Admin/mail access: allow admin role OR staff role
+      if ((pathname.startsWith("/admin") || pathname.startsWith("/mail"))) {
+        const role = data.user.role || (data.user.isAdmin ? "admin" : "client");
+        if (role !== "admin" && role !== "staff") {
+          return NextResponse.redirect(new URL("/dashboard", request.url));
+        }
       }
     } catch {
       return NextResponse.redirect(new URL("/login", request.url));

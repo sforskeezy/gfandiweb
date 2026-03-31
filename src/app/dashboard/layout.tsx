@@ -2,13 +2,15 @@
 
 import { useState, useEffect, createContext, useContext, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { LogOut, LayoutDashboard, Shield, Megaphone, Settings, Menu, X } from "lucide-react";
+import { LogOut, LayoutDashboard, Shield, Megaphone, Settings, Menu, X, Phone } from "lucide-react";
 
 type User = {
   id: string;
   name: string;
   username: string;
   isAdmin: boolean;
+  role?: string;
+  permissions?: string[];
 };
 
 type SessionCtx = {
@@ -33,7 +35,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       const res = await fetch("/api/auth/session");
       const data = await res.json();
       if (data.user) {
-        setUser(data.user);
+        setUser({
+          ...data.user,
+          role: data.user.role || (data.user.isAdmin ? "admin" : "client"),
+          permissions: data.user.permissions || (data.user.isAdmin ? ["dashboard","crm","websites","inbox","users"] : ["dashboard"]),
+        });
         setToken(data.token);
       } else {
         router.push("/login");
@@ -58,6 +64,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     router.push("/login");
   };
 
+  const role = user?.role || (user?.isAdmin ? "admin" : "client");
+  const isStaff = role === "staff";
+
   const isOnDashboard = pathname === "/dashboard" || pathname.startsWith("/dashboard/site/");
   const isOnAds = pathname === "/dashboard/ads";
   const isOnSettings = pathname === "/dashboard/settings";
@@ -70,11 +79,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     );
   }
 
-  const navLinks = [
+  // Build nav links based on role
+  const navLinks: { href: string; label: string; icon: any; active: boolean }[] = [
     { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, active: isOnDashboard },
-    { href: "/dashboard/ads", label: "Ads", icon: Megaphone, active: isOnAds },
-    { href: "/dashboard/settings", label: "Settings", icon: Settings, active: isOnSettings },
   ];
+
+  // Staff only sees Dashboard + CRM, no Ads or Settings
+  if (!isStaff) {
+    navLinks.push({ href: "/dashboard/ads", label: "Ads", icon: Megaphone, active: isOnAds });
+    navLinks.push({ href: "/dashboard/settings", label: "Settings", icon: Settings, active: isOnSettings });
+  }
 
   return (
     <SessionContext.Provider value={{ user, token, loading }}>
@@ -114,6 +128,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     </a>
                   );
                 })}
+                {/* CRM link for staff */}
+                {isStaff && (
+                  <a
+                    href="/admin/crm"
+                    className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[0.78rem] font-medium text-[#AAA] transition-colors hover:text-[#777]"
+                  >
+                    <Phone className="h-3.5 w-3.5" />
+                    CRM
+                  </a>
+                )}
+                {/* Admin link for admins only */}
                 {user?.isAdmin && (
                   <a
                     href="/admin"
@@ -179,6 +204,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   </a>
                 );
               })}
+              {isStaff && (
+                <a href="/admin/crm" className="flex items-center gap-3 rounded-xl px-4 py-3 text-[0.85rem] font-medium text-[#AAA]">
+                  <Phone className="h-4 w-4" />
+                  CRM
+                </a>
+              )}
               {user?.isAdmin && (
                 <a href="/admin" className="flex items-center gap-3 rounded-xl px-4 py-3 text-[0.85rem] font-medium text-[#AAA]">
                   <Shield className="h-4 w-4" />

@@ -3,11 +3,14 @@
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useSession } from "./layout";
-import { Globe, ArrowRight, ExternalLink } from "lucide-react";
+import { Globe, ArrowRight, ExternalLink, Eye } from "lucide-react";
 import Link from "next/link";
 
 export default function DashboardPage() {
   const { user, token } = useSession();
+
+  const role = user?.role || (user?.isAdmin ? "admin" : "client");
+  const isStaff = role === "staff";
 
   const websites = useQuery(
     api.websites.listWebsites,
@@ -22,6 +25,19 @@ export default function DashboardPage() {
         </h1>
       </div>
 
+      {/* Staff info banner */}
+      {isStaff && (
+        <div
+          className="mb-6 flex items-start gap-3 rounded-xl px-5 py-4"
+          style={{ backgroundColor: "rgba(220,60,60,0.06)", border: "1px solid rgba(220,60,60,0.15)" }}
+        >
+          <Eye className="mt-0.5 h-5 w-5 shrink-0" style={{ color: "#C94040" }} />
+          <p className="text-[0.82rem] font-semibold leading-relaxed" style={{ color: "#C94040" }}>
+            SINCE YOU ARE A STAFF ACCOUNT YOU CAN SEE ALL ACTIVE CLIENT WEBSITES AND VIEW THEIR ANALYTICS BY CLICKING THE <span className="inline-flex items-center gap-0.5"><Eye className="inline h-3.5 w-3.5" /></span>
+          </p>
+        </div>
+      )}
+
       {websites === undefined ? (
         <div className="flex items-center gap-3 py-20 text-[0.85rem] text-[#BBB]">
           <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#E5E8E0] border-t-[#7B8C6F]" />
@@ -35,7 +51,7 @@ export default function DashboardPage() {
           <Globe className="mx-auto h-8 w-8 text-[#CCC]" />
           <p className="mt-4 text-[0.95rem] font-medium text-[#666]">No websites yet</p>
           <p className="mt-1.5 text-[0.82rem] text-[#AAA]">
-            Your admin will add your websites here.
+            {isStaff ? "No client websites have been set up yet." : "Your admin will add your websites here."}
           </p>
         </div>
       ) : (
@@ -65,7 +81,8 @@ export default function DashboardPage() {
               </div>
 
               <div className="flex shrink-0 items-center gap-2 text-[0.76rem] font-medium text-[#CCC] transition-colors group-hover:text-[#7B8C6F]">
-                <span className="hidden sm:inline">Analytics</span>
+                <Eye className="h-4 w-4" />
+                <span className="hidden sm:inline">View Analytics</span>
                 <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
               </div>
             </Link>

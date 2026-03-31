@@ -2,13 +2,15 @@
 
 import { useState, useEffect, createContext, useContext, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { LogOut, LayoutDashboard, Shield, Menu, X } from "lucide-react";
+import { LogOut, LayoutDashboard, Shield, Menu, X, Phone } from "lucide-react";
 
 type User = {
   id: string;
   name: string;
   username: string;
   isAdmin: boolean;
+  role: string;
+  permissions: string[];
 };
 
 type SessionCtx = {
@@ -31,8 +33,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     try {
       const res = await fetch("/api/auth/session");
       const data = await res.json();
-      if (data.user?.isAdmin) {
-        setUser(data.user);
+      const role = data.user?.role || (data.user?.isAdmin ? "admin" : "client");
+      if (role === "admin" || role === "staff") {
+        setUser({
+          ...data.user,
+          role,
+          permissions: data.user.permissions || (data.user.isAdmin ? ["dashboard","crm","websites","inbox","users"] : ["dashboard"]),
+        });
         setToken(data.token);
       } else {
         router.push("/dashboard");
@@ -53,10 +60,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     router.push("/login");
   };
 
+  const hasPerm = (perm: string) => user?.permissions?.includes(perm) ?? false;
+
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: "#0A0A0A", fontFamily: "var(--font-dm), sans-serif" }}>
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#1A1A1A] border-t-[#7B8C6F]" />
+        <div className="flex flex-col items-center gap-4">
+          <div className="relative h-10 w-10">
+            <div className="absolute inset-0 animate-spin rounded-full border-2 border-[#1A1A1A] border-t-[#7B8C6F]" />
+            <div className="absolute inset-1 animate-spin rounded-full border-2 border-transparent border-b-[#5C7A8A] opacity-50" style={{ animationDirection: "reverse", animationDuration: "1.5s" }} />
+          </div>
+          <p className="text-[0.7rem] font-medium tracking-[0.1em] text-[#333] uppercase">Loading</p>
+        </div>
       </div>
     );
   }
@@ -64,19 +79,28 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <AdminSessionContext.Provider value={{ user, token, loading }}>
       <div className="relative min-h-screen" style={{ backgroundColor: "#0A0A0A", fontFamily: "var(--font-dm), sans-serif" }}>
-        {/* Ambient glows */}
+        {/* Grid pattern overlay */}
+        <div
+          className="pointer-events-none fixed inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)`,
+            backgroundSize: "60px 60px",
+          }}
+        />
+
+        {/* Ambient glows with breathing */}
         <div className="pointer-events-none fixed inset-0 overflow-hidden">
           <div
             className="absolute -top-[300px] left-[10%] h-[700px] w-[700px] rounded-full"
-            style={{ background: "radial-gradient(circle, rgba(123,140,111,0.10) 0%, transparent 55%)" }}
+            style={{ background: "radial-gradient(circle, rgba(123,140,111,0.10) 0%, transparent 55%)", animation: "admin-glow-breathe 8s ease-in-out infinite" }}
           />
           <div
             className="absolute -bottom-[100px] right-[-10%] h-[600px] w-[600px] rounded-full"
-            style={{ background: "radial-gradient(circle, rgba(92,122,138,0.07) 0%, transparent 55%)" }}
+            style={{ background: "radial-gradient(circle, rgba(92,122,138,0.07) 0%, transparent 55%)", animation: "admin-glow-breathe 10s ease-in-out infinite 2s" }}
           />
           <div
             className="absolute top-[40%] left-[50%] h-[500px] w-[500px] rounded-full"
-            style={{ background: "radial-gradient(circle, rgba(232,167,130,0.04) 0%, transparent 55%)" }}
+            style={{ background: "radial-gradient(circle, rgba(232,167,130,0.04) 0%, transparent 55%)", animation: "admin-glow-breathe 12s ease-in-out infinite 4s" }}
           />
         </div>
 
@@ -114,14 +138,25 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <LayoutDashboard className="h-3.5 w-3.5" />
                   Dashboard
                 </a>
-                <a
-                  href="/admin"
-                  className="flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-[0.78rem] font-medium transition-all duration-200"
-                  style={{ backgroundColor: "rgba(123,140,111,0.12)", color: "#9AAF8C" }}
-                >
-                  <Shield className="h-3.5 w-3.5" />
-                  Admin
-                </a>
+                {user?.role === "admin" && (
+                  <a
+                    href="/admin"
+                    className="flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-[0.78rem] font-medium transition-all duration-200"
+                    style={{ backgroundColor: "rgba(123,140,111,0.12)", color: "#9AAF8C" }}
+                  >
+                    <Shield className="h-3.5 w-3.5" />
+                    Admin
+                  </a>
+                )}
+                {hasPerm("crm") && (
+                  <a
+                    href="/admin/crm"
+                    className="flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-[0.78rem] font-medium text-[#555] transition-all duration-200 hover:text-[#888]"
+                  >
+                    <Phone className="h-3.5 w-3.5" />
+                    CRM
+                  </a>
+                )}
               </div>
             </div>
 
@@ -137,7 +172,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   </div>
                   <div className="flex flex-col">
                     <span className="text-[0.78rem] font-semibold text-[#CCC]">{user?.name}</span>
-                    <span className="text-[0.62rem] text-[#444]">@{user?.username}</span>
+                    <span className="text-[0.62rem] text-[#444]">@{user?.username} · {user?.role}</span>
                   </div>
                 </div>
                 <button
@@ -173,13 +208,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <a href="/dashboard" className="flex items-center gap-3 rounded-2xl px-4 py-3.5 text-[0.88rem] font-medium text-[#666]">
                 <LayoutDashboard className="h-4 w-4" /> Dashboard
               </a>
-              <a
-                href="/admin"
-                className="flex items-center gap-3 rounded-2xl px-4 py-3.5 text-[0.88rem] font-medium"
-                style={{ backgroundColor: "rgba(123,140,111,0.12)", color: "#9AAF8C" }}
-              >
-                <Shield className="h-4 w-4" /> Admin
-              </a>
+              {user?.role === "admin" && (
+                <a
+                  href="/admin"
+                  className="flex items-center gap-3 rounded-2xl px-4 py-3.5 text-[0.88rem] font-medium"
+                  style={{ backgroundColor: "rgba(123,140,111,0.12)", color: "#9AAF8C" }}
+                >
+                  <Shield className="h-4 w-4" /> Admin
+                </a>
+              )}
+              {hasPerm("crm") && (
+                <a href="/admin/crm" className="flex items-center gap-3 rounded-2xl px-4 py-3.5 text-[0.88rem] font-medium text-[#666]">
+                  <Phone className="h-4 w-4" /> CRM
+                </a>
+              )}
             </div>
             <div className="mt-4 flex items-center justify-between border-t pt-4" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
               <div className="flex items-center gap-2.5">
@@ -191,7 +233,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 </div>
                 <div className="flex flex-col">
                   <span className="text-[0.82rem] font-semibold text-[#CCC]">{user?.name}</span>
-                  <span className="text-[0.68rem] text-[#444]">@{user?.username}</span>
+                  <span className="text-[0.68rem] text-[#444]">@{user?.username} · {user?.role}</span>
                 </div>
               </div>
               <button

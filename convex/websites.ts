@@ -55,6 +55,7 @@ export const listWebsites = query({
     const currentUser = await ctx.db.get(session.userId);
     if (!currentUser) return [];
 
+    // Admins can query by userId, or get all
     if (userId && currentUser.isAdmin) {
       return await ctx.db
         .query("websites")
@@ -62,6 +63,13 @@ export const listWebsites = query({
         .collect();
     }
 
+    // Staff users see ALL client websites
+    const role = currentUser.role || (currentUser.isAdmin ? "admin" : "client");
+    if (role === "staff" || currentUser.isAdmin) {
+      return await ctx.db.query("websites").collect();
+    }
+
+    // Regular clients see only their own
     return await ctx.db
       .query("websites")
       .withIndex("by_userId", (q) => q.eq("userId", session.userId))

@@ -8,6 +8,8 @@ export default defineSchema({
     passwordHash: v.string(),
     salt: v.string(),
     isAdmin: v.boolean(),
+    role: v.optional(v.string()),         // "admin" | "staff" | "client"
+    permissions: v.optional(v.array(v.string())), // ["dashboard","crm","websites","inbox","users"]
   }).index("by_username", ["username"]),
 
   sessions: defineTable({
@@ -73,4 +75,19 @@ export default defineSchema({
     createdAt: v.number(),
   })
     .index("by_websiteId", ["websiteId"]),
+
+  analyses: defineTable({
+    businessName: v.string(),
+    location: v.optional(v.string()),
+    website: v.optional(v.string()),
+    report: v.string(),
+    sources: v.object({
+      google: v.boolean(),
+      facebook: v.boolean(),
+      twitter: v.boolean(),
+      exa: v.boolean(),
+    }),
+    createdAt: v.number(),
+    createdBy: v.optional(v.string()),
+  }).index("by_createdAt", ["createdAt"]),
 });
