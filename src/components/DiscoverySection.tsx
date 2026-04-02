@@ -1,37 +1,65 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import { motion, useInView } from "motion/react";
+import { useRef } from "react";
+import { motion, useInView, useScroll, useTransform } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 
 const DESCRIPTION = "A full-service team of strategists, designers, and marketers engineering brand relevancy & category signals for both the internet and people";
 
-function TypewriterText({ text, started }: { text: string; started: boolean }) {
-  const [displayCount, setDisplayCount] = useState(0);
+function ScrollText({ text }: { text: string }) {
+  const container = useRef<HTMLParagraphElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ["start 85%", "end 60%"],
+  });
 
-  useEffect(() => {
-    if (!started) return;
-    setDisplayCount(0);
-    let i = 0;
-    const interval = setInterval(() => {
-      i++;
-      setDisplayCount(i);
-      if (i >= text.length) clearInterval(interval);
-    }, 22);
-    return () => clearInterval(interval);
-  }, [started, text]);
-
-  if (!started) return null;
-
+  const words = text.split(" ");
+  
   return (
-    <span>
-      {text.slice(0, displayCount)}
-      {displayCount < text.length && (
-        <span className="ml-0.5 inline-block h-[1.1em] w-[2px] animate-pulse bg-[#5D8B68]" />
-      )}
+    <p 
+      ref={container}
+      className="max-w-md text-[1.1rem] sm:text-[1.2rem] font-semibold leading-[1.7] md:pb-2 flex flex-wrap gap-x-1.5 gap-y-1"
+    >
+      {words.map((word, i) => {
+        const start = i / words.length;
+        const end = start + (1 / words.length);
+        
+        return (
+          <ScrollWord key={i} word={word} progress={scrollYProgress} range={[start, end]} />
+        );
+      })}
+    </p>
+  );
+}
+
+function ScrollWord({ word, progress, range }: { word: string, progress: any, range: [number, number] }) {
+  const characters = word.split("");
+  const amount = range[1] - range[0];
+  const step = amount / word.length;
+  
+  return (
+    <span className="relative inline-block">
+      {characters.map((char, i) => {
+        const charStart = range[0] + (step * i);
+        const charEnd = range[0] + (step * (i + 1));
+        return (
+          <ScrollChar key={i} char={char} progress={progress} range={[charStart, charEnd]} />
+        );
+      })}
     </span>
   );
 }
+
+function ScrollChar({ char, progress, range }: { char: string, progress: any, range: [number, number] }) {
+  const opacity = useTransform(progress, range, [0.15, 1]);
+  const color = useTransform(progress, range, ["rgba(26,26,26,0.15)", "rgba(26,26,26,1)"]);
+  
+  return (
+    <motion.span style={{ color }}>{char}</motion.span>
+  );
+}
+
 
 export default function DiscoverySection() {
   const ref = useRef<HTMLDivElement>(null);
@@ -45,16 +73,11 @@ export default function DiscoverySection() {
 
       <div className="relative mx-auto w-full max-w-[1200px]">
         {/* Split layout: description left, big heading right */}
-        <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-12">
-          {/* Left — description with typewriter */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className="max-w-md text-[1.05rem] font-medium leading-[1.8] text-[#1A1A1A]/65 md:pb-2"
-          >
-            <TypewriterText text={DESCRIPTION} started={inView} />
-          </motion.p>
+        <div className="flex flex-col gap-10 md:flex-row md:items-center md:justify-between md:gap-12">
+          {/* Left — description with Scroll effect */}
+          <div className="relative w-full md:w-[45%] lg:w-[40%]">
+            <ScrollText text={DESCRIPTION} />
+          </div>
 
           {/* Right — big heading with overlapping image */}
           <motion.div
@@ -92,12 +115,12 @@ export default function DiscoverySection() {
           </motion.div>
         </div>
 
-        {/* CTA buttons — centered, liquid fill */}
+        {/* CTA buttons — centered */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-12 flex flex-wrap items-center justify-center gap-4"
+          className="mt-16 flex flex-wrap items-center justify-center gap-4"
         >
           <motion.a
             href="#contact"
@@ -110,13 +133,13 @@ export default function DiscoverySection() {
             <ArrowUpRight className="h-3.5 w-3.5" />
           </motion.a>
           <motion.a
-            href="#services"
+            href="/apply"
             whileTap={{ scale: 0.92 }}
             whileHover={{ scale: 1.03 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
             className="group inline-flex items-center gap-2 rounded-full border border-[#1A1A1A]/10 px-7 py-3.5 text-[0.84rem] font-medium text-[#1A1A1A]/55 transition-colors duration-300 hover:border-[#1A1A1A]/20 hover:text-[#1A1A1A]"
           >
-            Our Services
+            Get a Quote
             <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </motion.a>
         </motion.div>

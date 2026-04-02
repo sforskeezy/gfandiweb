@@ -299,7 +299,7 @@ function ApplyPageInner() {
                           value={form.businessName}
                           onChange={(e) => setForm({ ...form, businessName: e.target.value })}
                           className={inputCls}
-                          placeholder="Acme Inc."
+                          placeholder="6POINT Solutions"
                         />
                       </div>
                     </div>
@@ -363,7 +363,6 @@ function ApplyPageInner() {
                         </>
                       ) : (
                         <>
-                          <Sparkles className="h-4 w-4" />
                           Get My Quote
                         </>
                       )}
