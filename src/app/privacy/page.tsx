@@ -33,7 +33,7 @@ const sections = [
   },
   {
     title: "Your Rights",
-    content: `You have the right to access, update, or delete your personal information at any time. You may also opt out of receiving marketing communications from us by following the unsubscribe link in any email we send. If you are a resident of the European Economic Area (EEA), you have certain data protection rights under GDPR, including the right to request access, correction, or deletion of your personal data.`,
+    content: `You have the right to access, update, or delete your personal information at any time. You may also opt out of receiving promotional communications from us by following the unsubscribe link in any email we send. If you are a resident of the European Economic Area (EEA), you have certain data protection rights under GDPR, including the right to request access, correction, or deletion of your personal data.`,
   },
   {
     title: "Children's Privacy",

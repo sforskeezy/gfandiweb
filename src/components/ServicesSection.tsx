@@ -15,7 +15,7 @@ import {
 const services = [
   { title: "Web Design & Development", href: "#contact", icon: Globe },
   { title: "Brand Strategy", href: "#contact", icon: Lightbulb },
-  { title: "Performance Marketing", href: "#contact", icon: BarChart3 },
+  { title: "Web Design", href: "#contact", icon: BarChart3 },
   { title: "Content & Social", href: "#contact", icon: Share2 },
   { title: "SEO & Growth", href: "#contact", icon: Search },
   { title: "Analytics & Reporting", href: "#contact", icon: PieChart },

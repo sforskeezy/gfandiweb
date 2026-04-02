@@ -80,7 +80,7 @@ export default function CaseStudiesPage() {
             transition={{ duration: 0.5, delay: 0.35 }}
             className="mt-5 max-w-[480px] text-[1.05rem] leading-relaxed text-[#999]"
           >
-            See how we help businesses grow with strategy, design, and performance marketing.
+            See how we help businesses grow with strategy, design, and web development.
           </motion.p>
         </div>
       </section>

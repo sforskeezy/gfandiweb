@@ -25,9 +25,9 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "6POINT Solutions | Marketing That Actually Grows Your Business",
+  title: "6POINT Solutions | Web Design That Actually Grows Your Business",
   description:
-    "We help businesses scale with powerful branding, modern websites, and performance-driven marketing strategies.",
+    "We help businesses scale with powerful branding, modern websites, and performance-driven web design strategies.",
   icons: {
     icon: "/d2b8263f-f484-4783-8fd0-daf49e85220b.png",
     apple: "/d2b8263f-f484-4783-8fd0-daf49e85220b.png",

@@ -247,7 +247,7 @@ export default function BookingModal({
                           </option>
                           <option>Brand Strategy</option>
                           <option>Web Design</option>
-                          <option>Performance Marketing</option>
+                          <option>Web Design</option>
                           <option>Content &amp; Social</option>
                           <option>Full Package</option>
                         </select>

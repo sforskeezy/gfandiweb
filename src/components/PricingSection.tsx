@@ -49,7 +49,7 @@ export default function PricingSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ delay: 0.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mx-auto mt-16 max-w-[850px] overflow-hidden rounded-[40px] bg-white p-8 sm:p-12"
+          className="relative mx-auto mt-12 sm:mt-16 max-w-[850px] overflow-hidden rounded-[32px] sm:rounded-[40px] bg-white p-6 sm:p-12"
           style={{ boxShadow: "0 40px 100px -20px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.03)" }}
         >
           {/* Card inner decorative gradient */}
@@ -104,8 +104,8 @@ export default function PricingSection() {
               </div>
             </div>
 
-            {/* Right Col: Services Grid */}
-            <div className="w-full md:w-[320px] shrink-0 rounded-[28px] bg-[#FAFAF9] p-8 border border-[#E8E6E3]">
+            {/* Right Col: Services Grid (Hidden on mobile) */}
+            <div className="hidden md:block w-full md:w-[320px] shrink-0 rounded-[28px] bg-[#FAFAF9] p-8 border border-[#E8E6E3]">
               <p className="text-[0.75rem] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]/40 mb-6">
                 Available Capabilities
               </p>

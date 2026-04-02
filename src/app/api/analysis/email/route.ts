@@ -7,7 +7,7 @@ const RAPIDAPI_KEY = "5c7ce818cfmsh7e1944115367b76p17808fjsn0956139896ed";
 
 /* ── Rewrite for client consumption ── */
 async function rewriteForClient(report: string, businessName: string): Promise<string> {
-  const prompt = `You are rewriting a business analysis report so it can be sent directly to the business owner as a professional email from 6POINT Solutions (a marketing agency).
+  const prompt = `You are rewriting a business analysis report so it can be sent directly to the business owner as a professional email from 6POINT Solutions (a web design agency).
 
 The business name is "${businessName}". Use this actual name — NEVER use placeholders like [Business Name] or [Your Name] or any bracketed fillers.
 

@@ -69,7 +69,7 @@ export default function Footer() {
               </span>
             </h2>
             <p className="mt-4 max-w-md text-[0.95rem] leading-[1.7] text-white/30">
-              Strategy, branding, and performance marketing — all under one roof.
+              Strategy, branding, and web design — all under one roof.
             </p>
           </motion.div>
 

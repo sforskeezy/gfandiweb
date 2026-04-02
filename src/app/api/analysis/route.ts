@@ -84,7 +84,7 @@ async function searchExa(query: string) {
 
 /* ─── GPT-4o Analysis ─── */
 async function generateReport(businessName: string, data: Record<string, any>) {
-  const prompt = `You are a senior business intelligence analyst working for 6POINT Solutions, a full-service marketing agency. You are analyzing "${businessName}" for a potential client acquisition pitch.
+  const prompt = `You are a senior business intelligence analyst working for 6POINT Solutions, a full-service web design agency. You are analyzing "${businessName}" for a potential client acquisition pitch.
 
 Produce an extremely thorough business report using the research data below. Format with markdown. Use ## for section headings. Use **bold** for emphasis. Use - for bullet points. Include [Source](url) links when you reference specific URLs from the research data.
 
@@ -106,11 +106,11 @@ Analyze Facebook page data (followers, engagement, content quality, posting freq
 Who are they competing against? What are competitors doing better? Where does this business have an edge? Reference competitor URLs if found.
 
 ## How 6POINT Can Increase Their Clientele
-This is the most important section. Provide 8-10 hyper-specific, actionable strategies we would implement as their marketing agency:
+This is the most important section. Provide 8-10 hyper-specific, actionable strategies we would implement as their web design agency:
 - Exact ad campaign ideas (platforms, targeting, budget ranges)
-- Content marketing strategies (blog topics, video ideas, social campaigns)
+- Content design strategies (blog layouts, interactive guides, visually engaging campaigns)
 - Local SEO tactics if applicable
-- Email marketing funnels
+- Conversion rate optimization (CRO) funnels
 - Partnership/referral program ideas
 - Conversion rate optimization tactics for their website
 - Reputation management strategies

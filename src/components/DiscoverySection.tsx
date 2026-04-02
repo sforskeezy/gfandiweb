@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { motion, useInView, useScroll, useTransform } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 
-const DESCRIPTION = "A full-service team of strategists, designers, and marketers engineering brand relevancy & category signals for both the internet and people";
+const DESCRIPTION = "A full-service team of strategists, designers, and developers engineering brand relevancy & category signals for both the internet and people";
 
 function ScrollText({ text }: { text: string }) {
   const container = useRef<HTMLParagraphElement>(null);

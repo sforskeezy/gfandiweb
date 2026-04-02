@@ -16,7 +16,7 @@ const navLinks = [
 const serviceItems = [
   { title: "Web Design & Development", href: "#contact" },
   { title: "Brand Strategy", href: "#contact" },
-  { title: "Performance Marketing", href: "#contact" },
+  { title: "Web Design", href: "#contact" },
   { title: "Content & Social", href: "#contact" },
   { title: "SEO & Growth", href: "#contact" },
   { title: "Analytics & Reporting", href: "#contact" },

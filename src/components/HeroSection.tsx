@@ -37,7 +37,7 @@ export default function HeroSection() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mb-10 text-[0.58rem] font-semibold uppercase tracking-[0.25em] text-white/50 sm:text-[0.65rem]"
         >
-          Trusted Performance Marketing Agency
+          Trusted Web Design Agency
         </motion.p>
 
         {/* Main headline */}

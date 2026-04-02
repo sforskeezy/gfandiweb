@@ -16,7 +16,7 @@ const serviceOptions = [
   "Social Media Management",
   "Brand Identity & Logo",
   "Content Creation",
-  "Email Marketing",
+  "Web Development",
   "Analytics & Reporting",
 ];
 
