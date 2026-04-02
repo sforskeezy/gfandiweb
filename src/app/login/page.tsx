@@ -45,7 +45,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="relative grid min-h-screen lg:grid-cols-[1.1fr_1fr]" style={{ fontFamily: "var(--font-dm), sans-serif" }}>
+    <div className="relative min-h-screen lg:grid lg:grid-cols-2" style={{ fontFamily: "var(--font-dm), sans-serif" }}>
       {/* Welcome overlay */}
       <AnimatePresence>
         {welcomeState?.show && (
@@ -84,69 +84,63 @@ export default function LoginPage() {
         )}
       </AnimatePresence>
 
-      <div className="relative hidden overflow-hidden lg:block">
+      {/* Left Column — Large logo (Desktop only) */}
+      <div className="relative hidden bg-[#0A0A0A] lg:flex flex-col items-center justify-center p-12">
+        {/* Subtle green glow behind logo */}
+        <div
+          className="pointer-events-none absolute h-[600px] w-[600px] rounded-full opacity-[0.25] blur-[100px]"
+          style={{ background: "radial-gradient(circle, #5D8B68, transparent 70%)" }}
+        />
+        
+        <div className="relative z-10 flex flex-col items-center gap-6">
+          <img
+            src="/d2b8263f-f484-4783-8fd0-daf49e85220b.png"
+            alt="6POINT"
+            className="h-32 w-32 brightness-0 invert"
+          />
+          <span className="text-[2.5rem] font-bold tracking-[-0.05em] text-white">6POINT</span>
+        </div>
+        
+        <div className="absolute bottom-10 flex gap-6 text-[0.72rem] text-white/25">
+          <a href="/" className="transition-colors hover:text-white/50">&larr; Back to site</a>
+          <a href="/privacy" className="transition-colors hover:text-white/50">Privacy</a>
+          <a href="#" className="transition-colors hover:text-white/50">Terms</a>
+        </div>
+      </div>
+
+      {/* Right Column — Login form with image background (Mobile & Desktop) */}
+      <div className="relative flex min-h-screen lg:min-h-0 items-center justify-center overflow-hidden p-4 sm:p-8">
+        {/* Background Image that was previously on the left */}
         <img
           src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=1920&q=80"
           alt=""
           className="absolute inset-0 h-full w-full object-cover"
-          style={{ filter: "blur(30px) saturate(1.4) brightness(1.05)", transform: "scale(1.15)" }}
+          style={{ filter: "brightness(0.9) saturate(1.2)" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/10 via-black/25 to-black/50" />
+        {/* Heavy dark overlay so the form is readable */}
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
 
-        <div className="relative z-10 flex h-full flex-col justify-between p-10">
-          <a href="/" className="flex items-center gap-2.5">
-            <img
-              src="/d2b8263f-f484-4783-8fd0-daf49e85220b.png"
-              alt="6POINT"
-              className="h-8 w-8 brightness-0 invert"
-            />
-            <span className="text-[1rem] font-bold tracking-[-0.04em] text-white">6POINT</span>
-          </a>
-
-          <div />
-
-          <div className="flex gap-6 text-[0.72rem] text-white/25">
-            <a href="/" className="transition-colors hover:text-white/50">&larr; Back to site</a>
-            <a href="/privacy" className="transition-colors hover:text-white/50">Privacy</a>
-            <a href="#" className="transition-colors hover:text-white/50">Terms</a>
-          </div>
-        </div>
-      </div>
-
-      {/* Right — login */}
-      <div className="relative flex items-center justify-center bg-[#0E0E0E] px-6 py-16 sm:px-12">
-        {/* Green glow */}
-        <div
-          className="pointer-events-none absolute top-1/2 left-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(93,139,104,0.07) 0%, transparent 65%)" }}
-        />
-
-        {/* Decorative corner lines */}
-        <div className="pointer-events-none absolute right-8 top-8 h-16 w-16 border-t border-r border-white/[0.04] rounded-tr-2xl" />
-        <div className="pointer-events-none absolute left-8 bottom-8 h-16 w-16 border-b border-l border-white/[0.04] rounded-bl-2xl" />
-
-        {/* Floating badge */}
-        <div className="pointer-events-none absolute right-8 bottom-8 hidden items-center gap-2 rounded-full border border-white/[0.04] bg-white/[0.02] px-4 py-2 backdrop-blur-sm lg:flex">
-          <div className="h-2 w-2 rounded-full bg-[#5D8B68] shadow-[0_0_8px_rgba(93,139,104,0.4)]" />
-          <span className="text-[0.68rem] font-medium text-white/20">Secure Portal</span>
-        </div>
-
-        <div className="relative z-10 w-full max-w-[380px]">
-          {/* Mobile logo */}
-          <div className="mb-14 flex items-center justify-center gap-2.5 lg:hidden">
-            <img src="/d2b8263f-f484-4783-8fd0-daf49e85220b.png" alt="6POINT" className="h-8 w-8" />
-            <span className="text-[1.1rem] font-bold tracking-[-0.04em] text-white">6POINT</span>
+        {/* Glassmorphism Card */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="relative w-full max-w-[420px] rounded-[32px] border border-white/10 bg-black/40 p-8 sm:p-10 shadow-[0_20px_40px_rgba(0,0,0,0.4)] backdrop-blur-xl"
+        >
+          {/* Mobile logo (hidden on lg since they see the big left logo) */}
+          <div className="mb-8 flex items-center justify-center gap-2.5 lg:hidden">
+            <img src="/d2b8263f-f484-4783-8fd0-daf49e85220b.png" alt="6POINT" className="h-8 w-8 brightness-0 invert" />
+            <span className="text-[1.2rem] font-bold tracking-[-0.04em] text-white">6POINT</span>
           </div>
 
           {/* Header */}
-          <div className="mb-10">
-            <div className="mb-4 flex items-center gap-3">
-              <div className="hidden h-px flex-1 bg-white/[0.06] lg:block" />
-              <span className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/15">Client Portal</span>
-              <div className="hidden h-px flex-1 bg-white/[0.06] lg:block" />
+          <div className="mb-8 text-center lg:text-left">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1">
+              <div className="h-1.5 w-1.5 rounded-full bg-[#5D8B68] shadow-[0_0_8px_rgba(93,139,104,0.6)]" />
+              <span className="text-[0.65rem] font-semibold uppercase tracking-[0.15em] text-white/50">Client Portal</span>
             </div>
-            <h1 className="text-[1.65rem] font-bold tracking-[-0.03em] text-white">Welcome back</h1>
-            <p className="mt-1.5 text-[0.85rem] text-white/25">Sign in to your portal</p>
+            <h1 className="text-[1.8rem] font-bold tracking-[-0.03em] text-white mt-2">Welcome back</h1>
+            <p className="mt-1.5 text-[0.85rem] text-white/50">Sign in to your portal</p>
           </div>
 
           {/* Error */}
@@ -154,19 +148,18 @@ export default function LoginPage() {
             <motion.div
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-6 rounded-xl px-4 py-3 text-[0.82rem] font-medium"
-              style={{ backgroundColor: "rgba(220,80,80,0.1)", color: "#E07070", border: "1px solid rgba(220,80,80,0.15)" }}
+              className="mb-6 rounded-xl px-4 py-3 border border-red-500/20 bg-red-500/10 text-[0.82rem] font-medium text-red-400"
             >
               {error}
             </motion.div>
           )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
-                className="mb-2 block text-[0.68rem] font-semibold uppercase tracking-[0.12em] transition-colors duration-200"
-                style={{ color: focused === "username" ? "#8AB695" : "rgba(255,255,255,0.2)" }}
+                className="mb-1.5 block text-[0.68rem] font-semibold uppercase tracking-[0.1em] transition-colors duration-200"
+                style={{ color: focused === "username" ? "#8AB695" : "rgba(255,255,255,0.4)" }}
               >
                 Username
               </label>
@@ -177,21 +170,20 @@ export default function LoginPage() {
                 onFocus={() => setFocused("username")}
                 onBlur={() => setFocused(null)}
                 required
-                autoFocus
                 placeholder="Enter your username"
-                className="w-full rounded-xl px-4 py-3.5 text-[0.88rem] text-white outline-none transition-all duration-200 placeholder:text-white/15"
+                className="w-full rounded-2xl px-4 py-3.5 text-[0.88rem] text-white outline-none transition-all duration-200 placeholder:text-white/20"
                 style={{
-                  backgroundColor: "rgba(255,255,255,0.04)",
-                  border: `1.5px solid ${focused === "username" ? "rgba(93,139,104,0.5)" : "rgba(255,255,255,0.06)"}`,
-                  boxShadow: focused === "username" ? "0 0 0 3px rgba(93,139,104,0.1)" : "none",
+                  backgroundColor: "rgba(255,255,255,0.06)",
+                  border: `1px solid ${focused === "username" ? "rgba(93,139,104,0.4)" : "rgba(255,255,255,0.08)"}`,
+                  boxShadow: focused === "username" ? "0 0 0 2px rgba(93,139,104,0.15)" : "inset 0 2px 4px rgba(0,0,0,0.1)",
                 }}
               />
             </div>
 
             <div>
               <label
-                className="mb-2 block text-[0.68rem] font-semibold uppercase tracking-[0.12em] transition-colors duration-200"
-                style={{ color: focused === "password" ? "#8AB695" : "rgba(255,255,255,0.2)" }}
+                className="mb-1.5 block text-[0.68rem] font-semibold uppercase tracking-[0.1em] transition-colors duration-200"
+                style={{ color: focused === "password" ? "#8AB695" : "rgba(255,255,255,0.4)" }}
               >
                 Password
               </label>
@@ -204,17 +196,17 @@ export default function LoginPage() {
                   onBlur={() => setFocused(null)}
                   required
                   placeholder="Enter your password"
-                  className="w-full rounded-xl px-4 py-3.5 pr-12 text-[0.88rem] text-white outline-none transition-all duration-200 placeholder:text-white/15"
+                  className="w-full rounded-2xl px-4 py-3.5 pr-12 text-[0.88rem] text-white outline-none transition-all duration-200 placeholder:text-white/20"
                   style={{
-                    backgroundColor: "rgba(255,255,255,0.04)",
-                    border: `1.5px solid ${focused === "password" ? "rgba(93,139,104,0.5)" : "rgba(255,255,255,0.06)"}`,
-                    boxShadow: focused === "password" ? "0 0 0 3px rgba(93,139,104,0.1)" : "none",
+                    backgroundColor: "rgba(255,255,255,0.06)",
+                    border: `1px solid ${focused === "password" ? "rgba(93,139,104,0.4)" : "rgba(255,255,255,0.08)"}`,
+                    boxShadow: focused === "password" ? "0 0 0 2px rgba(93,139,104,0.15)" : "inset 0 2px 4px rgba(0,0,0,0.1)",
                   }}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/20 transition-colors hover:text-white/50"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/30 transition-colors hover:text-white/70"
                 >
                   {showPassword ? <EyeOff className="h-[18px] w-[18px]" /> : <Eye className="h-[18px] w-[18px]" />}
                 </button>
@@ -224,10 +216,10 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading || !!welcomeState}
-              className="group mt-2 flex w-full items-center justify-center gap-2.5 rounded-xl py-4 text-[0.88rem] font-semibold text-white transition-all duration-200 hover:brightness-110 active:scale-[0.98] disabled:opacity-40"
+              className="group mt-4 flex w-full items-center justify-center gap-2.5 rounded-2xl py-4 text-[0.9rem] font-semibold text-white transition-all duration-200 hover:brightness-110 active:scale-[0.98] disabled:opacity-40"
               style={{
                 background: "linear-gradient(135deg, #5D8B68, #4a7254)",
-                boxShadow: "0 4px 20px rgba(93,139,104,0.3)",
+                boxShadow: "0 8px 24px rgba(93,139,104,0.25)",
               }}
             >
               {loading ? (
@@ -245,12 +237,12 @@ export default function LoginPage() {
           </form>
 
           {/* Back link — mobile only */}
-          <p className="mt-10 text-center text-[0.75rem] text-white/15 lg:hidden">
-            <a href="/" className="transition-colors hover:text-white/35">
+          <p className="mt-8 text-center text-[0.75rem] text-white/30 lg:hidden">
+            <a href="/" className="transition-colors hover:text-white/60">
               &larr; Back to 6POINT Solutions
             </a>
           </p>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
