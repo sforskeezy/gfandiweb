@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { ArrowRight, Sparkles, Globe, TrendingUp, Palette, BarChart3, Megaphone, Users } from "lucide-react";
+import { ArrowRight, Globe, TrendingUp, Palette, BarChart3, Megaphone, Users, CheckCircle2 } from "lucide-react";
 
 const services = [
   { icon: Globe, label: "Web Design" },
@@ -14,105 +14,124 @@ const services = [
 
 export default function PricingSection() {
   return (
-    <section id="pricing" className="relative overflow-hidden px-4 py-20 sm:px-6 sm:py-28">
-      {/* Background glows */}
-      <div className="pointer-events-none absolute top-1/2 left-1/2 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-[0.12]" style={{ background: "radial-gradient(circle, #5D8B68, transparent 65%)" }} />
+    <section id="pricing" className="relative overflow-hidden px-4 py-24 sm:px-6 sm:py-32 bg-[#F4F1EC]">
+      {/* Background accents */}
+      <div className="pointer-events-none absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-[#1A1A1A]/5 to-transparent" />
+      <div className="pointer-events-none absolute top-1/2 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-[0.15] blur-[80px]" style={{ background: "radial-gradient(circle, #5D8B68, transparent 70%)" }} />
 
-      <div className="relative mx-auto w-full max-w-[900px]">
+      <div className="relative mx-auto w-full max-w-[1000px]">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="text-center"
         >
-          <p className="text-[0.72rem] font-medium uppercase tracking-[0.14em] text-[#1A1A1A]/30">
-            Pricing
-          </p>
-          <h2 className="mt-4 text-[clamp(2rem,4.5vw,3.2rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-[#1A1A1A]">
-            Tailored to{" "}
-            <span className="italic" style={{ fontFamily: "var(--font-serif)" }}>
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#1A1A1A]/10 bg-white/50 px-4 py-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.15em] text-[#1A1A1A]/60 backdrop-blur-md">
+            Investment
+          </div>
+          <h2 className="mt-8 text-[clamp(2.5rem,5vw,4rem)] font-bold leading-[1.05] tracking-[-0.04em] text-[#1A1A1A]">
+            Built around{" "}
+            <span className="italic text-[#888]" style={{ fontFamily: "var(--font-serif)" }}>
               your
             </span>{" "}
-            business
+            goals
           </h2>
-          <p className="mx-auto mt-5 max-w-lg text-[0.92rem] leading-[1.7] text-[#1A1A1A]/40">
-            Every business is unique. We build custom packages based on your goals — no cookie-cutter plans.
+          <p className="mx-auto mt-6 max-w-xl text-[1rem] leading-[1.7] text-[#1A1A1A]/60">
+            No rigid tiers. No paying for things you don't need. We audit your business and construct a growth plan tailored specifically to you.
           </p>
         </motion.div>
 
-        {/* GET QUOTE Card */}
+        {/* Premium Card */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
-          transition={{ delay: 0.15, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="group relative mx-auto mt-16 max-w-[680px] overflow-hidden rounded-[32px] bg-[#1A1A1A] text-white"
-          style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.25), 0 0 100px rgba(93,139,104,0.08)" }}
+          transition={{ delay: 0.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="relative mx-auto mt-16 max-w-[850px] overflow-hidden rounded-[40px] bg-white p-8 sm:p-12"
+          style={{ boxShadow: "0 40px 100px -20px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.03)" }}
         >
-          {/* Inner glows */}
-          <div className="pointer-events-none absolute -top-24 -right-24 h-[280px] w-[280px] rounded-full opacity-25" style={{ background: "radial-gradient(circle, #5D8B68, transparent 70%)" }} />
-          <div className="pointer-events-none absolute -bottom-20 -left-20 h-[220px] w-[220px] rounded-full opacity-15" style={{ background: "radial-gradient(circle, #5D8B68, transparent 70%)" }} />
-          <div className="pointer-events-none absolute inset-0 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")" }} />
+          {/* Card inner decorative gradient */}
+          <div className="pointer-events-none absolute -right-40 -top-40 h-[400px] w-[400px] rounded-full bg-gradient-to-br from-[#7B8C6F]/20 to-transparent blur-[60px]" />
+          
+          <div className="relative flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
+            {/* Left Col */}
+            <div className="flex-1">
+              <div className="inline-flex items-center rounded-full bg-[#FAFAF9] px-3.5 py-1.5 border border-[#E8E6E3]">
+                <span className="text-[0.68rem] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]/80">
+                  Custom Strategy
+                </span>
+              </div>
 
-          <div className="relative px-8 pt-10 pb-10 sm:px-12 sm:pt-14 sm:pb-12">
-            {/* Badge */}
-            <div className="mb-8 flex">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#5D8B68] px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.08em] text-white">
-                <Sparkles className="h-3 w-3" />
-                Custom Package
-              </span>
-            </div>
-
-            {/* Title + description */}
-            <h3 className="text-[2rem] sm:text-[2.5rem] font-bold tracking-[-0.03em] leading-[1.1]">
-              Get a Free Quote
-            </h3>
-            <p className="mt-4 max-w-md text-[0.95rem] leading-[1.7] text-white/45">
-              Tell us about your business and goals. We&apos;ll craft a custom proposal with transparent pricing — no obligations, no surprises.
-            </p>
-
-            {/* Divider */}
-            <div className="my-8 h-px bg-white/[0.08]" />
-
-            {/* Service tags */}
-            <p className="mb-4 text-[0.72rem] font-semibold uppercase tracking-[0.1em] text-white/25">
-              Services we offer
-            </p>
-            <div className="flex flex-wrap gap-2.5">
-              {services.map((svc, i) => {
-                const Icon = svc.icon;
-                return (
-                  <motion.div
-                    key={svc.label}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
+              <h3 className="mt-6 text-[2.2rem] font-bold tracking-[-0.03em] text-[#1A1A1A] leading-[1.1]">
+                Request a Free Proposal
+              </h3>
+              
+              <ul className="mt-8 space-y-4">
+                {[
+                  "Complete brand & digital audit",
+                  "Customized milestone roadmap",
+                  "Transparent pricing outline",
+                  "No commitment until you're ready"
+                ].map((item, i) => (
+                  <motion.li 
+                    key={i}
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: 0.3 + i * 0.05, duration: 0.35 }}
-                    className="inline-flex items-center gap-2 rounded-xl bg-white/[0.06] px-4 py-2.5 text-[0.8rem] font-medium text-white/60 transition-colors hover:bg-white/[0.1] hover:text-white/80"
+                    transition={{ delay: 0.4 + i * 0.1, duration: 0.4 }}
+                    className="flex items-center gap-3 text-[0.95rem] font-medium text-[#1A1A1A]/70"
                   >
-                    <Icon className="h-3.5 w-3.5" />
-                    {svc.label}
-                  </motion.div>
-                );
-              })}
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#7B8C6F]/10 text-[#7B8C6F]">
+                      <CheckCircle2 className="h-4 w-4" />
+                    </div>
+                    {item}
+                  </motion.li>
+                ))}
+              </ul>
+
+              <div className="mt-12">
+                <a
+                  href="/apply"
+                  className="group relative inline-flex w-full sm:w-auto items-center justify-center gap-3 overflow-hidden rounded-[20px] bg-[#1A1A1A] px-8 py-5 text-[0.95rem] font-semibold text-white transition-all hover:bg-[#333] hover:shadow-[0_12px_30px_rgba(0,0,0,0.15)]"
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    Build My Quote
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </a>
+              </div>
             </div>
 
-            {/* CTA */}
-            <div className="mt-10">
-              <a
-                href="/apply"
-                className="group/btn flex w-full items-center justify-center gap-2.5 rounded-2xl bg-[#5D8B68] py-4.5 text-[0.92rem] font-semibold text-white transition-all duration-300 hover:bg-[#4E7A58] hover:shadow-[0_0_40px_rgba(93,139,104,0.35)]"
-              >
-                Get Your Free Quote
-                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
-              </a>
+            {/* Right Col: Services Grid */}
+            <div className="w-full md:w-[320px] shrink-0 rounded-[28px] bg-[#FAFAF9] p-8 border border-[#E8E6E3]">
+              <p className="text-[0.75rem] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]/40 mb-6">
+                Available Capabilities
+              </p>
+              <div className="grid grid-cols-1 gap-1">
+                {services.map((svc, i) => {
+                  const Icon = svc.icon;
+                  return (
+                    <motion.div
+                      key={svc.label}
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.5 + i * 0.05, duration: 0.4 }}
+                      className="group flex items-center gap-3 rounded-xl p-3 transition-colors hover:bg-white hover:shadow-[0_4px_12px_rgba(0,0,0,0.03)]"
+                    >
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px] bg-white border border-[#E8E6E3] text-[#1A1A1A]/50 transition-colors group-hover:border-[#7B8C6F]/30 group-hover:text-[#7B8C6F] group-hover:bg-[#7B8C6F]/5">
+                        <Icon className="h-4 w-4" />
+                      </div>
+                      <span className="text-[0.88rem] font-semibold text-[#1A1A1A]/80 transition-colors group-hover:text-[#1A1A1A]">
+                        {svc.label}
+                      </span>
+                    </motion.div>
+                  );
+                })}
+              </div>
             </div>
-
-            {/* Trust line */}
-            <p className="mt-5 text-center text-[0.75rem] text-white/20">
-              No contracts · No hidden fees · Cancel anytime
-            </p>
           </div>
         </motion.div>
       </div>
