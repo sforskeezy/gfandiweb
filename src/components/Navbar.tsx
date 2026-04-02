@@ -23,9 +23,7 @@ const serviceItems = [
 ];
 
 const pricingItems = [
-  { title: "Basic", desc: "Get online & start growing", href: "#pricing" },
-  { title: "Pro", desc: "Full marketing engine", href: "#pricing" },
-  { title: "Enterprise", desc: "Custom solution for scale", href: "#pricing" },
+  { title: "Get a Quote", desc: "Custom package tailored to you", href: "/apply" },
 ];
 
 export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
@@ -150,13 +148,13 @@ export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
               <LogIn className="h-3.5 w-3.5" />
               Login
             </a>
-            <button
-              onClick={onBookCall}
+            <a
+              href="/apply"
               className="group flex items-center gap-2 rounded-lg bg-[#5D8B68] px-5 py-2 text-[0.82rem] font-medium text-white transition-all duration-300 hover:bg-[#4E7A58] hover:shadow-[0_0_24px_rgba(93,139,104,0.45)]"
             >
               Get in Touch
               <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
-            </button>
+            </a>
           </div>
 
           {/* Mobile hamburger */}
@@ -295,7 +293,7 @@ export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
                         onClick={closeDropdown}
                         className="group inline-flex items-center gap-2 rounded-full border border-[#1A1A1A]/10 px-5 py-2.5 text-[0.8rem] font-medium text-[#1A1A1A]/50 transition-all hover:border-[#1A1A1A]/20 hover:text-[#1A1A1A]"
                       >
-                        Compare Plans
+                        Get a Quote
                         <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                       </a>
                     </div>
@@ -317,13 +315,14 @@ export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
                         <p className="text-[0.92rem] font-semibold text-[#1A1A1A]/80 group-hover:text-[#1A1A1A]">Email Us</p>
                         <p className="mt-1 text-[0.78rem] text-[#1A1A1A]/35">hello@6pointsolutions.com</p>
                       </a>
-                      <button
-                        onClick={() => { closeDropdown(); onBookCall?.(); }}
+                      <a
+                        href="/apply"
+                        onClick={closeDropdown}
                         className="group rounded-xl border border-[#5D8B68]/20 bg-[#5D8B68]/[0.04] px-5 py-5 text-left transition-all hover:border-[#5D8B68]/30 hover:bg-[#5D8B68]/[0.08]"
                       >
-                        <p className="text-[0.92rem] font-semibold text-[#5D8B68]">Book a Call</p>
-                        <p className="mt-1 text-[0.78rem] text-[#1A1A1A]/35">Free strategy session</p>
-                      </button>
+                        <p className="text-[0.92rem] font-semibold text-[#5D8B68]">Get a Quote</p>
+                        <p className="mt-1 text-[0.78rem] text-[#1A1A1A]/35">Free custom proposal</p>
+                      </a>
                     </div>
                   </div>
                 )}
@@ -372,13 +371,14 @@ export default function Navbar({ onBookCall }: { onBookCall?: () => void }) {
                 transition={{ delay: 0.3, duration: 0.4 }}
                 className="flex flex-col gap-3"
               >
-                <button
-                  onClick={() => { setMobileOpen(false); onBookCall?.(); }}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#5D8B68] py-4 text-[0.95rem] font-medium text-white"
-                >
-                  Get in Touch
-                  <ArrowRight className="h-4 w-4" />
-                </button>
+                  <a
+                    href="/apply"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#5D8B68] py-4 text-[0.95rem] font-medium text-white"
+                  >
+                    Get in Touch
+                    <ArrowRight className="h-4 w-4" />
+                  </a>
                 <a
                   href="/login"
                   onClick={() => setMobileOpen(false)}

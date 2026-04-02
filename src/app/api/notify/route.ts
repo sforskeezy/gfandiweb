@@ -13,7 +13,7 @@ function normalizeEmail(raw: string): string {
 
 const ADMIN_EMAIL = normalizeEmail(process.env.ADMIN_EMAIL || "hello@6pointsolutions.com");
 const FROM_EMAIL = (() => {
-  const raw = process.env.FROM_EMAIL || "6POINT Solutions <hello@6pointsolutions.com>";
+  const raw = process.env.FROM_EMAIL || "6POINT Solutions <onboarding@resend.dev>";
   const match = raw.match(/<([^>]+)>/);
   const addr = (match ? match[1] : raw).trim();
   const atIdx = addr.lastIndexOf("@");
